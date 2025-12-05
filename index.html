@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página Web</title>
+    <title>Geoportal de la ORE Durango</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
     <style>
         * {
             margin: 0;
@@ -15,104 +16,247 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
+            height: 100vh;
+            overflow: hidden;
         }
 
         header {
             background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
             color: white;
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             text-align: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
 
         header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            margin-bottom: 0.3rem;
         }
 
-        nav {
-            background: #4a5568;
+        header p {
+            font-size: 0.9rem;
+        }
+
+        .frames-container {
+            display: grid;
+            grid-template-columns: 20% 70% 10%;
+            grid-template-rows: 30% 70%;
+            gap: 1rem;
+            height: calc(100vh - 120px);
+            margin-top: 120px;
             padding: 1rem;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            background: #e2e8f0;
         }
 
-        nav a {
-            color: #e2e8f0;
-            text-decoration: none;
-            margin: 0 1.5rem;
-            font-weight: 500;
-            transition: color 0.3s;
+        #frame-info {
+            grid-column: 1;
+            grid-row: 1;
         }
 
-        nav a:hover {
-            color: #90cdf4;
+        #frame-servicios {
+            grid-column: 1;
+            grid-row: 2;
         }
 
-        main {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
+        #frame-mapa {
+            grid-column: 2;
+            grid-row: 1 / 3;
         }
 
-        section {
+        #frame-recursos {
+            grid-column: 3;
+            grid-row: 1 / 3;
+        }
+
+        .frame {
             background: white;
-            padding: 2rem;
-            margin-bottom: 2rem;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        section h2 {
-            color: #2c5282;
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .card {
-            background: linear-gradient(135deg, #cbd5e0 0%, #a0aec0 100%);
-            padding: 1.5rem;
-            border-radius: 8px;
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card h3 {
-            color: #1e3a5f;
-            margin-bottom: 0.5rem;
-        }
-
-        footer {
-            background: #2d3748;
+        .frame-header {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
             color: white;
-            text-align: center;
-            padding: 1.5rem 0;
-            margin-top: 3rem;
+            padding: 0.8rem;
+            font-weight: bold;
+            font-size: 0.95rem;
         }
 
-        button {
+        .frame-content {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .frame-content h3 {
+            color: #2c5282;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .frame-content p {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .frame-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .frame-content li {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        button, .btn {
             background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
             color: white;
             border: none;
-            padding: 0.8rem 2rem;
+            padding: 0.6rem 1.5rem;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.9rem;
             transition: opacity 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 0.5rem;
         }
 
-        button:hover {
+        button:hover, .btn:hover {
             opacity: 0.9;
+        }
+
+        #frame-mapa .frame-content {
+            padding: 0;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            color: #718096;
+            font-size: 1.5rem;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .close-btn:hover {
+            color: #2d3748;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c5282;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #cbd5e0;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2c5282;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+        }
+
+        label {
+            font-size: 0.9rem;
+        }
+
+        .layer-button {
+            display: block;
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 0.5rem;
+            background: #f7fafc;
+            border: 2px solid #cbd5e0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            font-size: 0.9rem;
+            color: #2d3748;
+        }
+
+        .layer-button:hover {
+            background: #edf2f7;
+            border-color: #4a5568;
+        }
+
+        .layer-button.active {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            color: white;
+            border-color: #1e3a5f;
         }
     </style>
 </head>
@@ -122,54 +266,258 @@
         <p>Unidad de Gestión Ambiental</p>
     </header>
 
-    <nav>
-        <a href="#inicio">Inicio</a>
-        <a href="#servicios">Servicios</a>
-		<a href="#semarnat">SEMARNAT</a>
-        <a href="#contacto">Contacto</a>
-    </nav>
+    <div class="frames-container">
+        <div class="frame" id="frame-info">
+            <div class="frame-header">
+                📋 Información
+            </div>
+            <div class="frame-content">
+                <h3>Bienvenido</h3>
+                <p>Portal geográfico de la ORE SEMARNAT en Durango.</p>
+            </div>
+        </div>
 
-    <main>
-        <section id="inicio">
-            <h2>Sobre Nosotros</h2>
-            <p>Esta es una página web sencilla creada con HTML y CSS. Cuenta con un diseño moderno y responsivo que se adapta a cualquier dispositivo.</p>
-            <p>Puedes personalizar todo el contenido, colores y estructura según tus necesidades.</p>
-        </section>
+        <div class="frame" id="frame-servicios">
+            <div class="frame-header">
+                🛠️ Consultas
+            </div>
+            <div class="frame-content">
+                <h3>Capas Base</h3>
+                <div style="margin-bottom: 1.5rem;">
+                    <button class="layer-button active" id="btn-osm" onclick="selectBaseLayer('osm')">
+                        🗺️ OpenStreetMap
+                    </button>
+                    <button class="layer-button" id="btn-satellite" onclick="selectBaseLayer('satellite')">
+                        🛰️ Satélite (ESRI)
+                    </button>
+                    <button class="layer-button" id="btn-topo" onclick="selectBaseLayer('topo')">
+                        ⛰️ Topográfico (ESRI)
+                    </button>
+                    <button class="layer-button" id="btn-streets" onclick="selectBaseLayer('streets')">
+                        🚗 Calles (ESRI)
+                    </button>
+                    <button class="layer-button" id="btn-terrain" onclick="selectBaseLayer('terrain')">
+                        🏔️ Terreno (ESRI)
+                    </button>
+                </div>
 
-        <section id="servicios">
-            <h2>Nuestros Servicios</h2>
-            <div class="cards">
-                <div class="card">
-                    <h3>Diseño Web</h3>
-                    <p>Creamos páginas web modernas y funcionales adaptadas a tus necesidades.</p>
-                </div>
-                <div class="card">
-                    <h3>Desarrollo</h3>
-                    <p>Desarrollamos soluciones personalizadas con las últimas tecnologías.</p>
-                </div>
-                <div class="card">
-                    <h3>Consultoría</h3>
-                    <p>Te asesoramos en la mejor estrategia digital para tu proyecto.</p>
+                <h3>Capas Locales</h3>
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" id="layerBoundaries" onchange="toggleLayer('boundaries')" checked>
+                        <span style="margin-left: 0.5rem;">Estado de Durango</span>
+                    </label>
+                    <label style="display: block; margin-bottom: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" id="layerCiudades" onchange="toggleLayer('ciudades')">
+                        <span style="margin-left: 0.5rem;">Ciudades Principales</span>
+                    </label>
                 </div>
             </div>
-        </section>
-		
-		<section id="semarnat">
-			<h3>Pagina Oficial</h3>
-			
-		</section
+        </div>
 
+        <div class="frame" id="frame-mapa">
+            <div class="frame-header">
+                🗺️ Visor de Mapas - Estado de Durango
+            </div>
+            <div class="frame-content">
+                <div id="map"></div>
+            </div>
+        </div>
 
-        <section id="contacto">
-            <h2>Contacto</h2>
-            <p>¿Tienes alguna pregunta? ¡Nos encantaría saber de ti!</p>
-            <button onclick="alert('¡Gracias por tu interés! Esta es una página de demostración.')">Contáctanos</button>
-        </section>
-		
-    </main>
+        <div class="frame" id="frame-recursos">
+            <div class="frame-header">
+                🔗 Enlaces
+            </div>
+            <div class="frame-content">
+                <h3>SEMARNAT</h3>
+                <a href="https://www.gob.mx/semarnat" target="_blank" class="btn">Visitar</a>
+                
+                <h3 style="margin-top: 1rem;">Recursos</h3>
+                <ul>
+                    <li><a href="#" style="color: #2c5282;">Normatividad</a></li>
+                    <li><a href="#" style="color: #2c5282;">Trámites</a></li>
+                    <li><a href="#" style="color: #2c5282;">Datos Abiertos</a></li>
+                </ul>
 
-    <footer>
-        <p>&copy; 2025 Mi Página Web. Todos los derechos reservados.</p>
-    </footer>
+                <h3 style="margin-top: 1rem;">Contacto</h3>
+                <p><strong>Email:</strong><br>ugadgo.semarnat@outlook.com</p>
+                
+                <button onclick="openModal()">Mensaje</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <h2 style="color: #2c5282; margin-bottom: 1.5rem;">Envíanos un mensaje</h2>
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" placeholder="tu@email.com" required>
+            </div>
+            <div class="form-group">
+                <label for="asunto">Asunto</label>
+                <input type="text" id="asunto" placeholder="Asunto del mensaje" required>
+            </div>
+            <div class="form-group">
+                <label for="mensaje">Mensaje</label>
+                <textarea id="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+            </div>
+            <button class="submit-btn" onclick="sendEmail()">Enviar Mensaje</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <script>
+        let map, currentBaseLayer, baseLayers = {}, overlayLayers = {};
+        
+        function initMap() {
+            // Crear mapa
+            map = L.map('map').setView([24.0277, -104.6532], 8);
+
+            // Capas base
+            baseLayers.osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap',
+                maxZoom: 19
+            });
+
+            baseLayers.satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: '© Esri',
+                maxZoom: 19
+            });
+
+            baseLayers.topo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+                attribution: '© Esri',
+                maxZoom: 19
+            });
+
+            baseLayers.streets = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+                attribution: '© Esri',
+                maxZoom: 19
+            });
+
+            baseLayers.terrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+                attribution: '© Esri',
+                maxZoom: 13
+            });
+
+            // Agregar capa base inicial
+            currentBaseLayer = baseLayers.osm;
+            currentBaseLayer.addTo(map);
+
+            // Marcador en Victoria de Durango
+            L.marker([24.0277, -104.6532])
+                .addTo(map)
+                .bindPopup('<b>Victoria de Durango</b><br>Capital del Estado')
+                .openPopup();
+
+            // Polígono Durango
+            overlayLayers.boundaries = L.polygon([
+                [26.8, -107.1],
+                [26.8, -102.5],
+                [22.3, -102.5],
+                [22.3, -107.1]
+            ], {
+                color: '#2c5282',
+                weight: 3,
+                fillOpacity: 0.1
+            }).bindPopup('Estado de Durango');
+
+            overlayLayers.boundaries.addTo(map);
+
+            // Ciudades
+            const ciudades = [
+                {name: 'Gómez Palacio', coords: [25.5697, -103.4950]},
+                {name: 'Lerdo', coords: [25.5397, -103.5264]},
+                {name: 'Santiago Papasquiaro', coords: [24.9981, -105.8197]},
+                {name: 'Guadalupe Victoria', coords: [24.4167, -104.1000]},
+                {name: 'El Salto', coords: [23.7833, -105.3667]}
+            ];
+
+            const markers = ciudades.map(c => 
+                L.circleMarker(c.coords, {
+                    radius: 6,
+                    fillColor: '#e53e3e',
+                    color: '#fff',
+                    weight: 2,
+                    fillOpacity: 0.8
+                }).bindPopup(`<b>${c.name}</b>`)
+            );
+
+            overlayLayers.ciudades = L.layerGroup(markers);
+
+            L.control.scale({imperial: false}).addTo(map);
+        }
+
+        function changeBaseLayer(name) {
+            if (currentBaseLayer) map.removeLayer(currentBaseLayer);
+            currentBaseLayer = baseLayers[name];
+            currentBaseLayer.addTo(map);
+        }
+
+        function selectBaseLayer(name) {
+            // Cambiar el mapa base
+            changeBaseLayer(name);
+            
+            // Actualizar estilos de los botones
+            document.querySelectorAll('.layer-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('btn-' + name).classList.add('active');
+        }
+
+        function toggleLayer(name) {
+            const checkbox = document.getElementById('layer' + name.charAt(0).toUpperCase() + name.slice(1));
+            if (checkbox.checked) {
+                overlayLayers[name].addTo(map);
+            } else {
+                map.removeLayer(overlayLayers[name]);
+            }
+        }
+
+        function openModal() {
+            document.getElementById('contactModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('contactModal').classList.remove('active');
+        }
+
+        function sendEmail() {
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const asunto = document.getElementById('asunto').value;
+            const mensaje = document.getElementById('mensaje').value;
+
+            if (!nombre || !email || !asunto || !mensaje) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
+
+            window.location.href = `mailto:ugadgo.semarnat@outlook.com?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(`Nombre: ${nombre}\nCorreo: ${email}\n\nMensaje:\n${mensaje}`)}`;
+
+            setTimeout(() => {
+                closeModal();
+                document.getElementById('nombre').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('asunto').value = '';
+                document.getElementById('mensaje').value = '';
+            }, 100);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initMap);
+        } else {
+            initMap();
+        }
+
+        document.getElementById('contactModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+    </script>
 </body>
 </html>
