@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página Web</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        nav {
+            background: #4a5568;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        nav a {
+            color: #e2e8f0;
+            text-decoration: none;
+            margin: 0 1.5rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #90cdf4;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        section h2 {
+            color: #2c5282;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #cbd5e0 0%, #a0aec0 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #1e3a5f;
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+        }
+
+        button {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: opacity 0.3s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Geoportal de la ORE Durango de la SEMARNAT</h1>
+        <p>Unidad de Gestión Ambiental</p>
+    </header>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+		<a href="#semarnat">SEMARNAT</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+
+    <main>
+        <section id="inicio">
+            <h2>Sobre Nosotros</h2>
+            <p>Esta es una página web sencilla creada con HTML y CSS. Cuenta con un diseño moderno y responsivo que se adapta a cualquier dispositivo.</p>
+            <p>Puedes personalizar todo el contenido, colores y estructura según tus necesidades.</p>
+        </section>
+
+        <section id="servicios">
+            <h2>Nuestros Servicios</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Diseño Web</h3>
+                    <p>Creamos páginas web modernas y funcionales adaptadas a tus necesidades.</p>
+                </div>
+                <div class="card">
+                    <h3>Desarrollo</h3>
+                    <p>Desarrollamos soluciones personalizadas con las últimas tecnologías.</p>
+                </div>
+                <div class="card">
+                    <h3>Consultoría</h3>
+                    <p>Te asesoramos en la mejor estrategia digital para tu proyecto.</p>
+                </div>
+            </div>
+        </section>
+		
+		<section id="semarnat">
+			<h3>Pagina Oficial</h3>
+			
+		</section
+
+
+        <section id="contacto">
+            <h2>Contacto</h2>
+            <p>¿Tienes alguna pregunta? ¡Nos encantaría saber de ti!</p>
+            <button onclick="alert('¡Gracias por tu interés! Esta es una página de demostración.')">Contáctanos</button>
+        </section>
+		
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mi Página Web. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
