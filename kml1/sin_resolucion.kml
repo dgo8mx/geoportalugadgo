@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+    <name>Sin resolución (Para trámites no gestionados)</name>
+    <description>Bitácoras generadas desde Excel con conversión UTM a WGS84</description>
+    
+    <Style id="defaultStyle">
+        <LineStyle>
+            <color>ffff0000</color>
+            <width>1</width>
+        </LineStyle>
+        <PolyStyle>
+            <color>99ff0000</color>
+            <fill>1</fill>
+            <outline>1</outline>
+        </PolyStyle>
+    </Style>
+    <Placemark>
+        <n>10/AS-6668/02/10@</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-6668/02/10@<br/>
+            <b>Año:</b> 2004 | <b>Mes:</b> 3<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> MIGUEL PEREZ GAVILAN LEON<br/>
+            <b>Predio:</b> P.P. LAS VEREDAS LOTE 6<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 23/03/04<br/>
+            <b>Vigencia:</b> 23/03/16<br/>
+            <b>Resolución:</b> Sin resolución (Para trámites no gestionados)<br/>
+            <b>Código:</b> P-10-026-VER-008<br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 5
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.91942767290519,24.358774543119313,0
+                        -105.89464238456509,24.3534043318791,0
+                        -105.88496617369974,24.34913608434558,0
+                        -105.88079997412049,24.328980621423757,0
+                        -105.91656092279935,24.339276218935137,0
+                        -105.91942767290519,24.358774543119313,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/C9-0679/03/11</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/C9-0679/03/11<br/>
+            <b>Año:</b> 2011 | <b>Mes:</b> 6<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> POR CONDUCTO DEL COMISARIADO EJIDAL<br/>
+            <b>Predio:</b> EJIDO ESFUERZOS UNIDOS<br/>
+            <b>Tipo de Propiedad:</b> Ejidal<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/01/01<br/>
+            <b>Vigencia:</b> 31/12/20<br/>
+            <b>Resolución:</b> Sin resolución (Para trámites no gestionados)<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 6
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.22601043960546,24.086574628117866,0
+                        -105.22881999952298,24.0697968484645,0
+                        -105.19590679465394,24.064323873561975,0
+                        -105.1988349695117,24.049516346333565,0
+                        -105.2317049410254,24.054862337746393,0
+                        -105.24835062015872,24.07704630152215,0
+                        -105.22601043960546,24.086574628117866,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0494/02/12</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0494/02/12<br/>
+            <b>Año:</b> 2012 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> Altagracia Melendez Meraz<br/>
+            <b>Predio:</b> P.P. FRACCION SEGREGADA DE LA FRACCION DEL LOTE 5 DEL FRACCTO. MIRAVALLES<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/01/01<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Sin resolución (Para trámites no gestionados)<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.53724266825132,24.35293852310285,0
+                        -105.5654985174094,24.35322415822977,0
+                        -105.56352700180358,24.366625317398892,0
+                        -105.53955668726725,24.36624288147298,0
+                        -105.53724266825132,24.35293852310285,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0030/07/11</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0030/07/11<br/>
+            <b>Año:</b> 2011 | <b>Mes:</b> 8<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Otáez<br/>
+            <b>Titular:</b> FRANCISCO JAVIER PEREZ GAVILÁN LEON<br/>
+            <b>Predio:</b> P.P. FRACCION DE TERRENO DEL PREDIO CUEVA DEL TIO JUSTO<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 09/08/11<br/>
+            <b>Vigencia:</b> 31/12/20<br/>
+            <b>Resolución:</b> Sin resolución (Para trámites no gestionados)<br/>
+            <b>Código:</b> P-10-019-JUS-001/11<br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 3
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.90820260673202,24.64303299561372,0
+                        -105.89532518359322,24.61350722509865,0
+                        -105.92024935063036,24.605554242980823,0
+                        -105.90820260673202,24.64303299561372,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0694/02/11</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0694/02/11<br/>
+            <b>Año:</b> 2012 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> LUIS ANDRES<br/>
+            <b>Predio:</b> P.P. LOTE 1 Y 2 DENOMINADO EXEDENTES DE STA ROSA<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/01/01<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Sin resolución (Para trámites no gestionados)<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.68998359037917,24.378316357651972,0
+                        -105.67211535089093,24.35028271185316,0
+                        -105.69904402930717,24.344678436717388,0
+                        -105.711808859671,24.373114599205564,0
+                        -105.68998359037917,24.378316357651972,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0261/07/11</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0261/07/11<br/>
+            <b>Año:</b> 2012 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> MANUEL DE JESUS, ROMELIA, SOLEDAD, ANA MARIA, EMELIDA, ALFREDO Y RAMONA LOS 7 DE APELLIDO LEON LEON<br/>
+            <b>Predio:</b> P.P. CEBOLLITAS LOTE  3<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/01/01<br/>
+            <b>Vigencia:</b> 31/12/18<br/>
+            <b>Resolución:</b> Sin resolución (Para trámites no gestionados)<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 6
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.45757001961731,25.106563968132512,0
+                        -106.45662095825054,25.108232027226073,0
+                        -106.42559999619986,25.112228005556812,0
+                        -106.42458504866174,25.104249030332046,0
+                        -106.45177100914589,25.09773595614612,0
+                        -106.45406303610191,25.101066999301622,0
+                        -106.45757001961731,25.106563968132512,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0626/07/11</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0626/07/11<br/>
+            <b>Año:</b> 2012 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> GABRIEL, MIGUEL Y VICENTE VIZCARRA LEON<br/>
+            <b>Predio:</b> LOTE 4 FRACCION 1 DE CEBOLLAS GRANDES<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/01/01<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Sin resolución (Para trámites no gestionados)<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 3
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.42673955044742,25.11640251523131,0
+                        -106.41448800584911,25.111374691154403,0
+                        -106.42596816904165,25.111577505887247,0
+                        -106.42673955044742,25.11640251523131,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0055/01/12</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0055/01/12<br/>
+            <b>Año:</b> 2012 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> MAURO PACHECO ONTIVEROS EN CALIDAD DE ALBACEA DE LA SUCESIÓN TESTAMENTARIA A BIENES DEL C. FRANCISCO DÍAZ GALINDO<br/>
+            <b>Predio:</b> FRACCIÓN DEL PRDIO RÚSTICO DENOMINADO GUAJOLOTES<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/01/01<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Sin resolución (Para trámites no gestionados)<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 8
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.46152557173588,24.498506105327607,0
+                        -105.45709208449362,24.49798673244789,0
+                        -105.45545942233196,24.499581211255993,0
+                        -105.45511592534638,24.500124137414293,0
+                        -105.45362223483458,24.501952996683865,0
+                        -105.45190171117491,24.50384574091087,0
+                        -105.46034377966927,24.507351550151075,0
+                        -105.45852165625044,24.50027640039635,0
+                        -105.46152557173588,24.498506105327607,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+</Document>
+</kml>

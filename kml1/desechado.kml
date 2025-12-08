@@ -1,0 +1,1431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+    <name>Desechado</name>
+    <description>Bitácoras generadas desde Excel con conversión UTM a WGS84</description>
+    
+    <Style id="defaultStyle">
+        <LineStyle>
+            <color>ffff0000</color>
+            <width>1</width>
+        </LineStyle>
+        <PolyStyle>
+            <color>99ff0000</color>
+            <fill>1</fill>
+            <outline>1</outline>
+        </PolyStyle>
+    </Style>
+    <Placemark>
+        <n>10/AQ-0442/04/12</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0442/04/12<br/>
+            <b>Año:</b> 2012 | <b>Mes:</b> 7<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b>  <br/>
+            <b>Predio:</b>  <br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/01/01<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.71033775336895,24.53431572184807,0
+                        -105.69760954473699,24.537418647106552,0
+                        -105.69625875273138,24.49654952323686,0
+                        -105.71037296624436,24.49317834889192,0
+                        -105.71033775336895,24.53431572184807,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0169/12/12</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0169/12/12<br/>
+            <b>Año:</b> 2013 | <b>Mes:</b> 6<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Guanacevi<br/>
+            <b>Titular:</b> María Guadalupe Alicia Duarte Barraza<br/>
+            <b>Predio:</b> P.P. Los Tanques<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/01/01<br/>
+            <b>Vigencia:</b> 10/01/13<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.07969605894408,25.90084258818155,0
+                        -106.09453369796984,25.899573837057115,0
+                        -106.12403495158091,25.91323189453928,0
+                        -106.11046349602589,25.922016889609672,0
+                        -106.07969605894408,25.90084258818155,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0134/11/12</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0134/11/12<br/>
+            <b>Año:</b> 2013 | <b>Mes:</b> 6<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> José Luis Mendoza Espinoza<br/>
+            <b>Predio:</b> P.P. Frac. Segregada del Predio NO TE BUIGAS<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/01/01<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 5
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.58401087136097,24.352792740039437,0
+                        -105.57314103697301,24.3537012373047,0
+                        -105.57146939042869,24.345877169484755,0
+                        -105.5861485553785,24.346019854742362,0
+                        -105.5837569184746,24.349009493583875,0
+                        -105.58401087136097,24.352792740039437,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/F5-0271/08/14</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/F5-0271/08/14<br/>
+            <b>Año:</b> 2014 | <b>Mes:</b> 12<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> EUGENIA MARTINEZ JAQUEZ<br/>
+            <b>Predio:</b> P.P. LA PEÑA<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 19/12/14<br/>
+            <b>Vigencia:</b> 31/12/23<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b> S-10-032-PEÑ-001/14<br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 20
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.29342053859072,24.968534019407073,0
+                        -106.2930859782208,24.97263276922562,0
+                        -106.29452245707022,24.97519824353838,0
+                        -106.29862254867201,24.966980786195275,0
+                        -106.29116707730681,24.96920642341165,0
+                        -106.2930859782208,24.97263276922562,0
+                        -106.295968130991,24.972301600583,0
+                        -106.29342053859072,24.968534019407073,0
+                        -106.29349377832816,24.972790856690384,0
+                        -106.29602483587625,24.971379181752127,0
+                        -106.29258341639616,24.970610883320834,0
+                        -106.29399494697734,24.972594169780784,0
+                        -106.29642926058975,24.96989209207288,0
+                        -106.29286629600124,24.971422900173366,0
+                        -106.29510284900053,24.972633294920143,0
+                        -106.29723091654618,24.96821823909478,0
+                        -106.2930859782208,24.97263276922562,0
+                        -106.2958400325095,24.972555545360994,0
+                        -106.29342053859072,24.968534019407073,0
+                        -106.29452245707022,24.97519824353838,0
+                        -106.29342053859072,24.968534019407073,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0505/06/13</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0505/06/13<br/>
+            <b>Año:</b> 2013 | <b>Mes:</b> 10<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Topia<br/>
+            <b>Titular:</b> VENICIA TORRES VIDAÑA<br/>
+            <b>Predio:</b> P.P. SAN ISIDRO DEL CAÑON<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/01/01<br/>
+            <b>Vigencia:</b> 31/12/27<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 5
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.67595777510249,25.21237338631905,0
+                        -106.66596011903663,25.218643763908887,0
+                        -106.65565019950145,25.2143898772015,0
+                        -106.647327640028,25.215430856417246,0
+                        -106.64690014156285,25.18587646334317,0
+                        -106.67595777510249,25.21237338631905,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0371/06/17</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0371/06/17<br/>
+            <b>Año:</b> 2017 | <b>Mes:</b> 11<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> JESUS CASTILLO HERNADEZ<br/>
+            <b>Predio:</b> P.P. LOTE 5 DE SAN ANTONIO Municipio de<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 29/11/17<br/>
+            <b>Vigencia:</b> 31/12/26<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -104.54320158894821,23.651652525312077,0
+                        -104.53393570372599,23.651606882525293,0
+                        -104.53080491244368,23.641417816985896,0
+                        -104.53933527710767,23.641307902161714,0
+                        -104.54320158894821,23.651652525312077,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0020/06/18</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0020/06/18<br/>
+            <b>Año:</b> 2018 | <b>Mes:</b> 10<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> VIRGINIA MORENO JAQUEZ, ALFREDO, OSCAR DAVID, MARIA DEL CARMEN, ERNESTO, BEATRIZ Y ROCIO GUADALUPE LOS 6 DE APELLIDOS ARRIETA MORENO<br/>
+            <b>Predio:</b> P.P. FRACCION DE VASCOGIL LOTE "A"<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 11/10/18<br/>
+            <b>Vigencia:</b> 31/12/27<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 5
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.3651457326855,25.15102527594812,0
+                        -106.36394284149759,25.14809244063177,0
+                        -106.37359786978767,25.143519517289853,0
+                        -106.37607200850398,25.145010141924942,0
+                        -106.37306996569544,25.147272696248756,0
+                        -106.3651457326855,25.15102527594812,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0350/09/18</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0350/09/18<br/>
+            <b>Año:</b> 2019 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> GONZALO DELGADO BANDERAS<br/>
+            <b>Predio:</b> LAS TINAJUELAS<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 22/01/19<br/>
+            <b>Vigencia:</b> 31/12/27<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 30
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.47096352657485,24.438851702200218,0
+                        -105.47096352657485,24.438851702200218,0
+                        -105.47006070682573,24.438253730520852,0
+                        -105.47006070682573,24.438253730520852,0
+                        -105.46940284156085,24.437946984019145,0
+                        -105.46940284156085,24.437946984019145,0
+                        -105.46730610714431,24.438380849545442,0
+                        -105.46730610714431,24.438380849545442,0
+                        -105.46223823303251,24.438545983112622,0
+                        -105.46223823303251,24.438545983112622,0
+                        -105.47171348421016,24.432884646508327,0
+                        -105.47171348421016,24.432884646508327,0
+                        -105.47172661000394,24.429146527244153,0
+                        -105.47172661000394,24.429146527244153,0
+                        -105.47545805398394,24.427142663606126,0
+                        -105.47545805398394,24.427142663606126,0
+                        -105.48166918141004,24.42701888674854,0
+                        -105.48166918141004,24.42701888674854,0
+                        -105.48192495614475,24.42727637529784,0
+                        -105.48192495614475,24.42727637529784,0
+                        -105.4825107780656,24.429215031237426,0
+                        -105.4825107780656,24.429215031237426,0
+                        -105.48194765959026,24.43109674644916,0
+                        -105.48194765959026,24.43109674644916,0
+                        -105.47627613654507,24.43022428293048,0
+                        -105.47627613654507,24.43022428293048,0
+                        -105.47572985322988,24.433832216976207,0
+                        -105.47572985322988,24.433832216976207,0
+                        -105.47269720018186,24.436852937812517,0
+                        -105.47269720018186,24.436852937812517,0
+                        -105.47096352657485,24.438851702200218,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0123/10/16</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0123/10/16<br/>
+            <b>Año:</b> 2020 | <b>Mes:</b> 10<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> ANSELMO NEVAREZ VILLA<br/>
+            <b>Predio:</b> P.P. LA CEBADILLA<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 22/10/20<br/>
+            <b>Vigencia:</b> 31/12/25<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.35012541892651,25.113912632026278,0
+                        -106.34324330544263,25.10741207055801,0
+                        -106.35038244803998,25.101145956876795,0
+                        -106.35726465306459,25.107646099923222,0
+                        -106.35012541892651,25.113912632026278,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0493/05/19</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0493/05/19<br/>
+            <b>Año:</b> 2020 | <b>Mes:</b> 2<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> JESÚS CASTILLO HERNANDEZ<br/>
+            <b>Predio:</b> P.P. LOTE NO. 8 DEL PREDIO SAN ANTONIO<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 14/02/20<br/>
+            <b>Vigencia:</b> 31/12/28<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -104.53724043183202,23.635735606977853,0
+                        -104.52180935721172,23.635280914031352,0
+                        -104.52053721019331,23.628752918586038,0
+                        -104.53490254482978,23.629487101645225,0
+                        -104.53724043183202,23.635735606977853,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0297/12/19</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0297/12/19<br/>
+            <b>Año:</b> 2020 | <b>Mes:</b> 7<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> LIZETH MELÉNDEZ RIVAS DE LA NUDA PROPIEDAD Y ROGELIO MELÉNDEZ BRECEDA Y MARÍA OTILIA RIVAS BARRAZA DEL USUFRUCTO VITALICIO<br/>
+            <b>Predio:</b> FRACCIÓN SEGREGADA DE LA FRACCIÓN QUE FORMÓ PARTE DEL LOTE 3 DEL FRACCIONAMIENTO MIRAVALLES<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 02/07/20<br/>
+            <b>Vigencia:</b> 31/12/31<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.4805569063205,24.353570531951014,0
+                        -105.47625588937196,24.34456841041334,0
+                        -105.49439727343267,24.332148937041172,0
+                        -105.4972240489683,24.342160547782953,0
+                        -105.4805569063205,24.353570531951014,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0158/10/20</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0158/10/20<br/>
+            <b>Año:</b> 2021 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> BENJAMIN AVILA GUZMAN<br/>
+            <b>Predio:</b> P.P. Lote Número 47 Fraccionamiento Laguna Colorada
+<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 13/05/21<br/>
+            <b>Vigencia:</b> 31/12/32<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 9
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.20002626962402,24.126360305990215,0
+                        -105.18504584572432,24.111376845242514,0
+                        -105.17395901570265,24.120954887818623,0
+                        -105.1728744246594,24.119402594646655,0
+                        -105.17094806418764,24.120820596859883,0
+                        -105.16765979884896,24.117383856427903,0
+                        -105.17344031931819,24.10848211281286,0
+                        -105.20664114077957,24.108892430772286,0
+                        -105.20569932305158,24.122974764681892,0
+                        -105.20002626962402,24.126360305990215,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0312/11/19</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0312/11/19<br/>
+            <b>Año:</b> 2020 | <b>Mes:</b> 8<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> JOAQUINA RENTERIA MATA<br/>
+            <b>Predio:</b> P.P. LA MADRE JUANA<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 18/08/20<br/>
+            <b>Vigencia:</b> 31/12/29<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 15
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.54831439032776,24.67241831776611,0
+                        -105.54620204940012,24.67259128507783,0
+                        -105.54448189056949,24.673859191683995,0
+                        -105.54405747522364,24.674448661948695,0
+                        -105.54380388558336,24.6761411273865,0
+                        -105.542331501306,24.683523146730607,0
+                        -105.53917398012074,24.68962335870058,0
+                        -105.5347825614515,24.69597806895449,0
+                        -105.53600852608191,24.703874186320327,0
+                        -105.52609391302153,24.69047173643721,0
+                        -105.52987581174786,24.6834375673964,0
+                        -105.53103963895983,24.678639682671655,0
+                        -105.53240893936834,24.671974303302083,0
+                        -105.53503337516821,24.670670802804825,0
+                        -105.54070000936771,24.666428413152452,0
+                        -105.54831439032776,24.67241831776611,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0793/01/20</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0793/01/20<br/>
+            <b>Año:</b> 2021 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> C. JOSÉ EFRÉN LEÓN ARAMBURO Y OTROS CON DOMICILIO PARA OIR RECIBIR NOTIFICACIONES EN CALLE LEONARDO DA VINCI NO. 135 FRACCTO. RENACIMINENTO<br/>
+            <b>Predio:</b> P.P. POTRERO DEL SALTO LOTE 2<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 19/01/21<br/>
+            <b>Vigencia:</b> 31/12/29<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 5
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.36476974559572,25.102083774649245,0
+                        -106.33730294160851,25.09308430422583,0
+                        -106.33241580424037,25.08541807080903,0
+                        -106.34270005624678,25.071007441633757,0
+                        -106.3436843567591,25.06290818481276,0
+                        -106.36476974559572,25.102083774649245,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0112/08/20</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0112/08/20<br/>
+            <b>Año:</b> 2021 | <b>Mes:</b> 2<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> MARIA DE JESUS ARRIETA CAZARES<br/>
+            <b>Predio:</b> CAÑADA DEL GALLO<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 18/02/21<br/>
+            <b>Vigencia:</b> 31/12/29<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 3
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.43255679256816,25.145989528310444,0
+                        -106.40739622708725,25.143266575672712,0
+                        -106.41402766396745,25.1402779711314,0
+                        -106.43255679256816,25.145989528310444,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0041/06/20</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0041/06/20<br/>
+            <b>Año:</b> 2021 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> ALFONSO LEON ALDERETE<br/>
+            <b>Predio:</b> P.P. CAÑADA DE CHUPADEROS<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 04/05/21<br/>
+            <b>Vigencia:</b> 31/12/29<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 3
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.43186508512368,25.14561437664992,0
+                        -106.41298356008348,25.14005317632583,0
+                        -106.40937164223173,25.143392258823145,0
+                        -106.43186508512368,25.14561437664992,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0340/06/21</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0340/06/21<br/>
+            <b>Año:</b> 2021 | <b>Mes:</b> 11<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> COMUNIDAD LAS FLECHAS<br/>
+            <b>Predio:</b> P.P. INNOMINADO CON DOMICILIO PARA OIR Y RECIBIR NOTIFICACIONES EN CALLE LERDO NO. 1419 BARRIO DE TIERRA BLANCA C.P. 34129<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 08/11/21<br/>
+            <b>Vigencia:</b> 31/12/30<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 19
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.57901354852002,24.18845708210826,0
+                        -105.58328848532345,24.187413060745374,0
+                        -105.58385005277673,24.18727588622132,0
+                        -105.58403899920243,24.18820723929794,0
+                        -105.57797585523839,24.190698367053777,0
+                        -105.57778578554327,24.190776489812464,0
+                        -105.57149300218781,24.193361259998944,0
+                        -105.562463060192,24.197070419794255,0
+                        -105.55507445454944,24.19800737172612,0
+                        -105.54871909770011,24.197024248457872,0
+                        -105.54322891928315,24.196174969906142,0
+                        -105.53933536002388,24.1955727406103,0
+                        -105.53248198407368,24.19451257293089,0
+                        -105.54144196841894,24.194235881978404,0
+                        -105.54841883059663,24.194020455919723,0
+                        -105.55735313386336,24.193744638846166,0
+                        -105.56709002024101,24.191368138514417,0
+                        -105.56871778175181,24.190970817554163,0
+                        -105.57215626597335,24.191093244837877,0
+                        -105.57901354852002,24.18845708210826,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0333/10/19</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0333/10/19<br/>
+            <b>Año:</b> 2020 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> LA SUCESIÓN INTESTAMENTARIA A BIENES DE EUGENIO ORTEGA MEDRANO<br/>
+            <b>Predio:</b> LOTE 3 A LA PALOMA DEL FRACCIONAMIENTO DEL PREDIO IBÁÑEZ<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 28/01/20<br/>
+            <b>Vigencia:</b> 31/12/31<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.80003149602192,24.328388912878605,0
+                        -105.75130251464338,24.333870732832455,0
+                        -105.75239092412527,24.32489356702959,0
+                        -105.75238527298276,24.32393626810756,0
+                        -105.80003149602192,24.328388912878605,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0020/09/20</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0020/09/20<br/>
+            <b>Año:</b> 2021 | <b>Mes:</b> 2<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> NICASIO DIAZ SANCHEZ<br/>
+            <b>Predio:</b> P.P. LLANO DE TABLAS<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 17/02/21<br/>
+            <b>Vigencia:</b> 31/12/35<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 13
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.47025240730136,25.11465382739094,0
+                        -106.45570728918534,25.125336195865916,0
+                        -106.45631322875272,25.124220119199624,0
+                        -106.45382120346022,25.114776609168988,0
+                        -106.45706119125794,25.10886280693457,0
+                        -106.45718720438897,25.108542751721902,0
+                        -106.45798715832493,25.106995158791158,0
+                        -106.45923729218804,25.1088307508427,0
+                        -106.46223053594574,25.10460752935646,0
+                        -106.464249316657,25.10411177618908,0
+                        -106.46423616604112,25.104323095881014,0
+                        -106.46448039207567,25.104214141060382,0
+                        -106.46829352484029,25.113592918119608,0
+                        -106.47025240730136,25.11465382739094,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0519/02/21</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0519/02/21<br/>
+            <b>Año:</b> 2021 | <b>Mes:</b> 9<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> JOSE CRUZ CORONEL LEAL Y NICOLASA PEÑA ALVARADO<br/>
+            <b>Predio:</b> P.P. EL PINO<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 08/09/21<br/>
+            <b>Vigencia:</b> 31/12/30<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.41977263506288,25.01771885634729,0
+                        -106.39057963326519,24.995033708678676,0
+                        -106.39105314976187,24.989173539875143,0
+                        -106.43527720621987,25.01629696393099,0
+                        -106.41977263506288,25.01771885634729,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0349/07/22</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0349/07/22<br/>
+            <b>Año:</b> 2023 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Guanacevi<br/>
+            <b>Titular:</b> JOSE REYES CANO CORRAL<br/>
+            <b>Predio:</b> FRACCIÓN 2 DEL LOTE DE TERRENO NUMERO 24 DEL PREDIO TALAYOTES UBICADO EN LA COLONIA SAN JAVIER DE LA VIRGEN<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 10/01/23<br/>
+            <b>Vigencia:</b> 31/12/33<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 5
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.07113460117691,25.83041633579038,0
+                        -106.06646912219256,25.835281221676517,0
+                        -106.06235020213353,25.834354317745355,0
+                        -106.05100726583925,25.819800609524165,0
+                        -106.04955908761936,25.812822518969128,0
+                        -106.07113460117691,25.83041633579038,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0478/06/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0478/06/23<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> REMEDIOS DAMAS VAZQUEZ<br/>
+            <b>Predio:</b> P.P. MESA DE QUIÑONEZ<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 25/01/24<br/>
+            <b>Vigencia:</b> 31/12/32<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 7
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.52799894662358,25.16970534010564,0
+                        -106.53918825189602,25.159095421181906,0
+                        -106.55638736739044,25.152660263281973,0
+                        -106.55858139598587,25.157704754528133,0
+                        -106.55514444998953,25.162730938542254,0
+                        -106.55947954917822,25.16628536160558,0
+                        -106.55956375676323,25.168733050117897,0
+                        -106.52799894662358,25.16970534010564,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0059/02/22</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0059/02/22<br/>
+            <b>Año:</b> 2022 | <b>Mes:</b> 6<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Topia<br/>
+            <b>Titular:</b> JOSÉ RAMÓN Y GUMARO AMBOS DE APELLIDOS RIVERA ESCAMILLA<br/>
+            <b>Predio:</b> PREDIO RÚSTICO DENOMINADO FRACCIÓN DEL POTRERO DE SAN SERAPIO<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 15/06/22<br/>
+            <b>Vigencia:</b> 31/12/33<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 29
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.30293028617008,25.28838466320981,0
+                        -106.28816373150909,25.281959098475582,0
+                        -106.28647899581254,25.280411731205945,0
+                        -106.2831923955778,25.272909911147174,0
+                        -106.28745155281143,25.27187959126217,0
+                        -106.29048084776055,25.27287344271427,0
+                        -106.2904890582083,25.272710843621706,0
+                        -106.2916733115457,25.261693768635116,0
+                        -106.29331464570863,25.261647795085093,0
+                        -106.29347552033958,25.261836994062648,0
+                        -106.29355600286861,25.262123239965792,0
+                        -106.29359887986902,25.262618121284348,0
+                        -106.29465032562192,25.263995893397418,0
+                        -106.29658155519803,25.26535419329585,0
+                        -106.29887753283178,25.26667377185969,0
+                        -106.30093739371486,25.267449935792715,0
+                        -106.30218198478074,25.268332858313908,0
+                        -106.30342651102079,25.26858516609643,0
+                        -106.30431701739252,25.269225509970617,0
+                        -106.30533622526596,25.269865793356544,0
+                        -106.3064412987985,25.269788205335942,0
+                        -106.30733179720629,25.269739688067897,0
+                        -106.30769659319034,25.269468016301012,0
+                        -106.30790582938388,25.26887619043144,0
+                        -106.30846373401265,25.26835224351726,0
+                        -106.30940789219007,25.268003015553962,0
+                        -106.3101481382271,25.26835228922161,0
+                        -106.31088840994646,25.268352307318555,0
+                        -106.31198814021079,25.27439176935827,0
+                        -106.30293028617008,25.28838466320981,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0249/12/21</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0249/12/21<br/>
+            <b>Año:</b> 2022 | <b>Mes:</b> 6<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> COMUNIDAD LAS FLECHAS Y ANEXOS<br/>
+            <b>Predio:</b> P.P. INNOMINADO CON DOMICILIO PARA OIR Y RECIBIR NOTIFICACIONES EN CALLE LERDO
+NO. 1419 BARRIO DE TIERRA BLANCA C.P. 34129<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 28/06/22<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 14
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.57778578554327,24.190776489812464,0
+                        -105.57149300218781,24.193361259998944,0
+                        -105.562463060192,24.197070419794255,0
+                        -105.55507445454944,24.19800737172612,0
+                        -105.54871909770011,24.197024248457872,0
+                        -105.54322891928315,24.196174969906142,0
+                        -105.53933536002388,24.1955727406103,0
+                        -105.53248198407368,24.19451257293089,0
+                        -105.54144196841894,24.194235881978404,0
+                        -105.54841883059663,24.194020455919723,0
+                        -105.55735313386336,24.193744638846166,0
+                        -105.56709002024101,24.191368138514417,0
+                        -105.56871778175181,24.190970817554163,0
+                        -105.57215626597335,24.191093244837877,0
+                        -105.57778578554327,24.190776489812464,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0151/04/22</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0151/04/22<br/>
+            <b>Año:</b> 2022 | <b>Mes:</b> 12<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Nuevo Ideal<br/>
+            <b>Titular:</b> EMILIANO LÓPEZ VELÁZQUEZ<br/>
+            <b>Predio:</b> RANCHO DENOMINADO LA ZETA<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/12/22<br/>
+            <b>Vigencia:</b> 31/12/26<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.01519857447016,25.054422729246756,0
+                        -105.0151471386099,25.039205413029915,0
+                        -105.02506039512869,25.04087478772746,0
+                        -105.02397299407232,25.056092293711853,0
+                        -105.01519857447016,25.054422729246756,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0076/08/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0076/08/23<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Tamazula<br/>
+            <b>Titular:</b> CRISOFORO MERAZ MERAZ<br/>
+            <b>Predio:</b> PREDIO RUSTICO No. 17 DEL FRACCIONAMIENTO SAN JOSÉ DE VIBORILLAS<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 26/01/24<br/>
+            <b>Vigencia:</b> 31/12/32<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 3
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.15895673544337,24.376039087637377,0
+                        -106.15142556985349,24.336966672254587,0
+                        -106.1835321635588,24.36292640022418,0
+                        -106.15895673544337,24.376039087637377,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0133/07/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0133/07/23<br/>
+            <b>Año:</b> 2023 | <b>Mes:</b> 11<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> ARTURO MEZA LÓPEZ, FEDERICO, ROSENDO, ROSA EMMA Y MARÍA DEL REFUGIO, LOS 4 DE APELLIDOS MEZA AVITIA Y OTRO<br/>
+            <b>Predio:</b> P.P. HIERBOSAS Y YAQUIS<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 23/11/23<br/>
+            <b>Vigencia:</b> 31/12/37<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 11
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.6013518583784,25.085887609436956,0
+                        -106.59599366942496,25.079426604981418,0
+                        -106.59511079933573,25.080149368730876,0
+                        -106.59503689307184,25.075211442280892,0
+                        -106.60403547523917,25.07195439935393,0
+                        -106.60294201105997,25.069438170095875,0
+                        -106.60812174151455,25.0675583402878,0
+                        -106.60786448050757,25.070630889801684,0
+                        -106.60652209081775,25.074112452152786,0
+                        -106.60274260616852,25.078487103508174,0
+                        -106.60493689625146,25.085587036495077,0
+                        -106.6013518583784,25.085887609436956,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0370/12/21</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0370/12/21<br/>
+            <b>Año:</b> 2022 | <b>Mes:</b> 6<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> JOSE SALVADOR VENEGAS GONZALEZ<br/>
+            <b>Predio:</b> FRACCION DEL LOTE NO. 1 FRACCION PRIMERA DE SANTIAGO PAPASQUIARO DEL PREDIO DENOMINADO PANALES<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 28/06/22<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 16
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.62354139604385,24.84403071836387,0
+                        -105.60760616030352,24.818775608083246,0
+                        -105.63779001208759,24.804786060561266,0
+                        -105.6777841625743,24.81700252903892,0
+                        -105.62706901245717,24.81623216396855,0
+                        -105.63302344218117,24.83276902186697,0
+                        -105.63183772286885,24.832482790384706,0
+                        -105.63172002407605,24.833470640114527,0
+                        -105.63166077134301,24.834236262306057,0
+                        -105.63246319273867,24.835937909687576,0
+                        -105.63107581934241,24.840114257599136,0
+                        -105.63118933485212,24.840543650449852,0
+                        -105.62753055794497,24.843476318995357,0
+                        -105.6267257312482,24.84398606058958,0
+                        -105.62580663701944,24.844643480628473,0
+                        -105.62444829883468,24.84425559478191,0
+                        -105.62354139604385,24.84403071836387,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0744/06/22</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0744/06/22<br/>
+            <b>Año:</b> 2022 | <b>Mes:</b> 11<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> SALVADOR OLAGUEZ OLAGUEZ<br/>
+            <b>Predio:</b> DEMASIAS DE VASCOGIL<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 11/11/22<br/>
+            <b>Vigencia:</b> 31/12/31<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.37306996569544,25.147272696248756,0
+                        -106.39841771123216,25.128164427731786,0
+                        -106.41332607105956,25.139436522224017,0
+                        -106.40143560025172,25.141328628317044,0
+                        -106.37306996569544,25.147272696248756,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0069/09/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0069/09/23<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 2<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> MANUEL PÉREZ VÁZQUEZ<br/>
+            <b>Predio:</b> P.P. FRACCIÓN DE TERRENO RÚSTICO NOMINADO "LA QUINTA"<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 07/02/24<br/>
+            <b>Vigencia:</b> 31/12/32<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 7
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.53054239018202,24.384201151228382,0
+                        -105.51273763958439,24.380427227777783,0
+                        -105.50416928058098,24.352547955605754,0
+                        -105.5178610367111,24.345744510204764,0
+                        -105.52156519946456,24.356980125315825,0
+                        -105.52056428820471,24.357692930301614,0
+                        -105.52665206950579,24.372406308119864,0
+                        -105.53054239018202,24.384201151228382,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0342/09/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0342/09/23<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> FRANCISCO JAVIER Y GUILLERMO OCTAVIO AMBOS DE APELLIDOS PÉREZ GAVILÁN LEÓN<br/>
+            <b>Predio:</b> P.P. FRACCIÓN DE TERRENO RÚSTICO SEGREGADA DE LA PARTE NORTE DEL LOTE NÚMERO CATORCE DEL PREDIO DENOMINADO MIRAVALLES<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 31/01/24<br/>
+            <b>Vigencia:</b> 31/12/37<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.4396671073326,24.287942592253195,0
+                        -105.42757448405469,24.274975401259464,0
+                        -105.44207191550859,24.2645924723117,0
+                        -105.45199152539338,24.277016720281075,0
+                        -105.4396671073326,24.287942592253195,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0479/02/25</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0479/02/25<br/>
+            <b>Año:</b> 2025 | <b>Mes:</b> 6<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Topia<br/>
+            <b>Titular:</b> ADRIAN AGUILERA CORRAL<br/>
+            <b>Predio:</b> FRACCIONAMIENTO EL TORO LOTE 1<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 12/06/25<br/>
+            <b>Vigencia:</b> 31/12/34<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 3
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.30032277584776,25.2589903091006,0
+                        -106.25911509995902,25.26750104317983,0
+                        -106.27586257618292,25.244287240630165,0
+                        -106.30032277584776,25.2589903091006,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/C8-0255/11/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/C8-0255/11/23<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 4<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> POR CONDUCTO DEL COMISARIADO EJIDAL<br/>
+            <b>Predio:</b> EJIDO LABOR DE GUADALUPE<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 17/04/24<br/>
+            <b>Vigencia:</b> 31/12/33<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.27828206243404,24.32910835351981,0
+                        -105.25927400949148,24.347191224854317,0
+                        -105.25777738390337,24.341422568158418,0
+                        -105.27964109491812,24.323342206587697,0
+                        -105.27828206243404,24.32910835351981,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0123/04/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0123/04/24<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 9<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Ocampo<br/>
+            <b>Titular:</b> JOSÉ NOÉ CHÁVEZ YAÑEZ<br/>
+            <b>Predio:</b> P.P. Fracciones 60, 61, 62 y 63 de la Colonia Melchor Sáenz<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 24/09/24<br/>
+            <b>Vigencia:</b> 18/07/24<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 10
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.06649493388693,26.476264722236486,0
+                        -106.06800560066804,26.474727646151628,0
+                        -106.0695461535464,26.473172274209425,0
+                        -106.07112637065599,26.471571447202255,0
+                        -106.07274633223041,26.46993419157305,0
+                        -106.05759783740206,26.45775057473807,0
+                        -106.05556354806262,26.4590566753002,0
+                        -106.05356900335208,26.46032634113155,0
+                        -106.05163434865838,26.461568453885334,0
+                        -106.0497395269868,26.46278316333712,0
+                        -106.06649493388693,26.476264722236486,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0215/11/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0215/11/24<br/>
+            <b>Año:</b> 2025 | <b>Mes:</b> 3<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> ANA MARIA DIAZ HERNANDEZ<br/>
+            <b>Predio:</b> P.P. LOTE 7 SEGREGADO DE LA FRACCIÓN NORESTE DEL LOTE 11 DEL FRACCIONAMIENTO MIRAVALLES<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 14/03/25<br/>
+            <b>Vigencia:</b> 31/12/39<br/>
+            <b>Resolución:</b> Desechado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 5
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.56298132108674,24.339108118615556,0
+                        -105.54922687429202,24.33606068718373,0
+                        -105.54908338634125,24.334787748701288,0
+                        -105.54902472160215,24.332611341160412,0
+                        -105.55929075698535,24.331490061038995,0
+                        -105.56298132108674,24.339108118615556,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+</Document>
+</kml>

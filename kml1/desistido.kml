@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+    <name>Desistido</name>
+    <description>Bitácoras generadas desde Excel con conversión UTM a WGS84</description>
+    
+    <Style id="defaultStyle">
+        <LineStyle>
+            <color>ffff0000</color>
+            <width>1</width>
+        </LineStyle>
+        <PolyStyle>
+            <color>99ff0000</color>
+            <fill>1</fill>
+            <outline>1</outline>
+        </PolyStyle>
+    </Style>
+    <Placemark>
+        <n>10/AQ-0513/11/15</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0513/11/15<br/>
+            <b>Año:</b> 2017 | <b>Mes:</b> 3<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> N/A<br/>
+            <b>Predio:</b> P.P. LOTE 1 EL RESPALDO<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 24/03/17<br/>
+            <b>Vigencia:</b> 31/12/25<br/>
+            <b>Resolución:</b> Desistido<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 13
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.67413142354502,24.87419953979303,0
+                        -105.66473076861753,24.872176603582094,0
+                        -105.66183160181765,24.87080333588331,0
+                        -105.66126708628394,24.870436836022822,0
+                        -105.65803093661458,24.86515534241341,0
+                        -105.65635858875747,24.863379736583976,0
+                        -105.65475009460637,24.861784719387092,0
+                        -105.66382408554469,24.860218089292662,0
+                        -105.66389068873549,24.85906644797024,0
+                        -105.6599682831056,24.855678918655318,0
+                        -105.66457954387475,24.85675933922171,0
+                        -105.67221916182645,24.863821243099824,0
+                        -105.6776641462473,24.870358898270208,0
+                        -105.67413142354502,24.87419953979303,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0461/12/20</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0461/12/20<br/>
+            <b>Año:</b> 2021 | <b>Mes:</b> 10<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> SALVADOR OLAGUEZ OLAGUEZ<br/>
+            <b>Predio:</b> P.P. LOTE 5 DE BAJIOS DE DON VICTOR<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 05/10/21<br/>
+            <b>Vigencia:</b> 31/12/30<br/>
+            <b>Resolución:</b> Desistido<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -104.60249999990796,23.54722212507576,0
+                        -104.58055555582209,23.52499990321258,0
+                        -104.5925000002002,23.505555458690143,0
+                        -104.62102467517957,23.533660758428532,0
+                        -104.60249999990796,23.54722212507576,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0706/06/22</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0706/06/22<br/>
+            <b>Año:</b> 2022 | <b>Mes:</b> 11<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> MIRIAM E ISIDORO AMBOS DE APELLIDOS ROJO LÓPEZ<br/>
+            <b>Predio:</b>  LAS CUEVAS<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 16/11/22<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Desistido<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.23415462531015,24.970647126171407,0
+                        -106.22819260389679,24.97677347474335,0
+                        -106.2259044564161,24.969803284276843,0
+                        -106.22919955576124,24.96445757073331,0
+                        -106.23415462531015,24.970647126171407,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/L7-0766/02/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/L7-0766/02/24<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 10<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Pueblo Nuevo<br/>
+            <b>Titular:</b> L-17 GILBERTO CARLOS ROSAS BONILLA<br/>
+            <b>Predio:</b> EL COAREAL S.P.R. DE R.L.<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 07/10/24<br/>
+            <b>Vigencia:</b> 31/12/35<br/>
+            <b>Resolución:</b> Desistido<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 11
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -104.90897526849515,23.48065773025924,0
+                        -104.91039302391424,23.469430664658567,0
+                        -104.91147575614097,23.461021648162895,0
+                        -104.90638457227537,23.460521865971636,0
+                        -104.90842216221982,23.444896125077484,0
+                        -104.93120460173594,23.462684619045607,0
+                        -104.92780636277094,23.463739933809524,0
+                        -104.92019355181057,23.471594851006977,0
+                        -104.91115392375087,23.473730759387806,0
+                        -104.90948597657352,23.478490134404158,0
+                        -104.90953341844781,23.480721285356726,0
+                        -104.90897526849515,23.48065773025924,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0321/08/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0321/08/24<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 10<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> LA S A DE C V CONSTRUCTORA MUNDO TOTAL<br/>
+            <b>Predio:</b> FRACCIÓN NORTE DEL LOTE 6 DE CIÉNEGA DE IBARRA O CIÉNEGA DE LOS CABALLOS CON DOMICILIO PARA OÍR Y RECIBIR NOTIFICACIONES CALLE AGUSTÍN MELGAR 103 COLONIA NIÑOS HÉROES<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 15/10/24<br/>
+            <b>Vigencia:</b> 31/12/34<br/>
+            <b>Resolución:</b> Desistido<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 8
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.00188099418658,23.835733258964733,0
+                        -104.99845531648977,23.81101592862139,0
+                        -105.02058403136226,23.811014562952913,0
+                        -105.01548131505261,23.81698591720174,0
+                        -105.01049317547117,23.82383053275751,0
+                        -105.00474544837338,23.831774711498166,0
+                        -105.00435476642605,23.83231468501329,0
+                        -105.00411371827212,23.832647809681067,0
+                        -105.00188099418658,23.835733258964733,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/L7-0202/07/25</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/L7-0202/07/25<br/>
+            <b>Año:</b> 2025 | <b>Mes:</b> 11<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Pueblo Nuevo<br/>
+            <b>Titular:</b> LA SUCESIÓN INTESTAMENTARIA A BIENES DE JOSE SILVIO MIJARES CARRASCO<br/>
+            <b>Predio:</b> LOTE 6 DE LA COLONIA AGRICOLA Y GANADERA VENUSTIANO CARRANZA<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 13/11/25<br/>
+            <b>Vigencia:</b> 31/12/34<br/>
+            <b>Resolución:</b> Desistido<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -104.76491534702336,23.412787542422663,0
+                        -104.76417227288128,23.40128750617948,0
+                        -104.80873820336657,23.369967855751064,0
+                        -104.81007274989256,23.408467984131885,0
+                        -104.76491534702336,23.412787542422663,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/L7-0757/01/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/L7-0757/01/24<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Mezquital<br/>
+            <b>Titular:</b> POR CONDUCTO DEL COMISARIADO DE BIENES COMUNALES<br/>
+            <b>Predio:</b> COMUNIDAD SANTA MARÍA MAGDALENA TAXICARINGA<br/>
+            <b>Tipo de Propiedad:</b> Comunal<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 27/05/24<br/>
+            <b>Vigencia:</b> 31/12/33<br/>
+            <b>Resolución:</b> Desistido<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 27
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -104.6853934301794,23.353102687399748,0
+                        -104.67465417386168,23.32380491817717,0
+                        -104.67841677894887,23.325122466771617,0
+                        -104.64819584954203,23.193455280851072,0
+                        -104.64846962109091,23.193392660863047,0
+                        -104.648459849443,23.193392639035658,0
+                        -104.6752093654222,23.187551485236114,0
+                        -104.71088161697246,23.1797622024469,0
+                        -104.81020242096893,23.123708443448436,0
+                        -104.907384418628,23.162349458548043,0
+                        -104.95203482249703,23.180083582354552,0
+                        -104.95203481927733,23.18009261559266,0
+                        -104.95622187534491,23.194366340883136,0
+                        -104.93077414542955,23.197672395412013,0
+                        -104.89504976900504,23.20692069232187,0
+                        -104.89101555842123,23.216556366679022,0
+                        -104.86682997327908,23.25210130449951,0
+                        -104.8432798191357,23.293523487441924,0
+                        -104.80872843165214,23.369958810817593,0
+                        -104.80784627531715,23.37102362240392,0
+                        -104.78100336003573,23.402811462711014,0
+                        -104.76320231661093,23.423877373775248,0
+                        -104.74839816087382,23.441378034860797,0
+                        -104.74457139109477,23.445906323586765,0
+                        -104.73728067673001,23.434476665760116,0
+                        -104.72881055565112,23.421201906501963,0
+                        -104.7062187985839,23.385770138454244,0
+                        -104.6853934301794,23.353102687399748,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+</Document>
+</kml>

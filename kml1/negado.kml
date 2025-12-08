@@ -1,0 +1,2256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+    <name>Negado</name>
+    <description>Bitácoras generadas desde Excel con conversión UTM a WGS84</description>
+    
+    <Style id="defaultStyle">
+        <LineStyle>
+            <color>ffff0000</color>
+            <width>1</width>
+        </LineStyle>
+        <PolyStyle>
+            <color>99ff0000</color>
+            <fill>1</fill>
+            <outline>1</outline>
+        </PolyStyle>
+    </Style>
+    <Placemark>
+        <n>10/AQ-0842/04/13</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0842/04/13<br/>
+            <b>Año:</b> 2013 | <b>Mes:</b> 7<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Topia<br/>
+            <b>Titular:</b> MARTÍN CORRAL MADRID<br/>
+            <b>Predio:</b> EL HUIZQUELITE<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/01/01<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 6
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.40566203504474,25.212608701397773,0
+                        -106.406504162172,25.213341076211982,0
+                        -106.40861507396609,25.213068161307863,0
+                        -106.4048535992185,25.217401804030672,0
+                        -106.40785845597695,25.22149047115456,0
+                        -106.40173137221457,25.220374932077814,0
+                        -106.40566203504474,25.212608701397773,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/C8-0218/07/15</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/C8-0218/07/15<br/>
+            <b>Año:</b> 2015 | <b>Mes:</b> 10<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Tlahualilo<br/>
+            <b>Titular:</b> POR CONDUCTO D4EL COMISARIADO EJIDAL EN TURNO<br/>
+            <b>Predio:</b> NCPE ALMA CAMPESINA<br/>
+            <b>Tipo de Propiedad:</b> Ejidal<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 15/10/15<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 12
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -103.43576234925398,26.486186147855495,0
+                        -103.44195975957953,26.446877076193577,0
+                        -103.34515537217952,26.44218687499618,0
+                        -103.34918161849795,26.417192430932527,0
+                        -103.37336394206436,26.437834743769344,0
+                        -103.37291677127814,26.408265850377,0
+                        -103.44975684550741,26.40827082001315,0
+                        -103.46725766821972,26.384193802138,0
+                        -103.46288357367911,26.326912967520215,0
+                        -103.47897574422915,26.309020576435902,0
+                        -103.49112416207188,26.323827714566796,0
+                        -103.53560135240761,26.409058175667763,0
+                        -103.43576234925398,26.486186147855495,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0118/12/16</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0118/12/16<br/>
+            <b>Año:</b> 2017 | <b>Mes:</b> 3<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> EMILIO VALENZUELA RODRÍGUEZ<br/>
+            <b>Predio:</b> LOTE DE TERRENO RÚSTICO MARCADO CON EL NÚMERO TREINTA DEL FRACCIONAMIENTO DEL PREDIO LAGUNA COLORADA<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 17/03/17<br/>
+            <b>Vigencia:</b> 31/12/26<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 7
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.11886699295765,24.17170488279964,0
+                        -105.11451800760094,24.16340773027639,0
+                        -105.11960139715907,24.156882663605284,0
+                        -105.12014291154568,24.156999655359236,0
+                        -105.12061482536593,24.15637606885691,0
+                        -105.12986481510394,24.163070283254957,0
+                        -105.12063791268046,24.17047513042031,0
+                        -105.11886699295765,24.17170488279964,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0462/12/15</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0462/12/15<br/>
+            <b>Año:</b> 2016 | <b>Mes:</b> 2<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> CRESCENCIO PEREZ CARRASCO<br/>
+            <b>Predio:</b> P.P. UNA FRACCION DEL TERRENO RUSTICO DENOMINADO LOS ANCONES, SEGREGADO DEL LOTE NUMERO UNO ZONA PRIMERA<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 29/02/16<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.7293799364059,24.844800501923114,0
+                        -105.70889484739021,24.836392036465334,0
+                        -105.67605199340639,24.85698104382735,0
+                        -105.69045272085587,24.865747332782192,0
+                        -105.7293799364059,24.844800501923114,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-1053/02/16</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-1053/02/16<br/>
+            <b>Año:</b> 2016 | <b>Mes:</b> 8<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Tepehuanes<br/>
+            <b>Titular:</b> CLEMENTE MORGA VÁZQUEZ Y ADALBERTO OJEDA CORRAL<br/>
+            <b>Predio:</b> P.P. LA VENADITA O SAUCILLO<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 18/08/16<br/>
+            <b>Vigencia:</b> 31/12/25<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b> N/A<br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 6
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.54519103752503,25.41359713676857,0
+                        -105.55203241932422,25.350304908729992,0
+                        -105.54467618630754,25.33428525401142,0
+                        -105.55242228413319,25.331113828044632,0
+                        -105.58206082919004,25.347407930113445,0
+                        -105.57890037188768,25.39948934323782,0
+                        -105.54519103752503,25.41359713676857,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0130/12/18</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0130/12/18<br/>
+            <b>Año:</b> 2019 | <b>Mes:</b> 4<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> ELEAZAR MELENDEZ AVENDAÑO<br/>
+            <b>Predio:</b> P.P. SAN ANTONIO DE LA CRUZ<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 24/04/19<br/>
+            <b>Vigencia:</b> 31/12/30<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 6
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.52455032936383,24.249040056443903,0
+                        -105.51174886904079,24.262410895855044,0
+                        -105.50416556734062,24.25678054277789,0
+                        -105.51035319440135,24.251378792717126,0
+                        -105.50082896460276,24.24394749629919,0
+                        -105.51011530723757,24.2376702816401,0
+                        -105.52455032936383,24.249040056443903,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/F5-0451/11/17</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/F5-0451/11/17<br/>
+            <b>Año:</b> 2018 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> LA SUCESION INTESTAMENTARIA A BIENES DE ALFREDO LEON LEON<br/>
+            <b>Predio:</b> P.P. LAS FLORES<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 14/05/18<br/>
+            <b>Vigencia:</b> 31/12/27<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 8
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.46636819085991,25.08868183844332,0
+                        -106.46397367969197,25.085419966271573,0
+                        -106.46716549887549,25.082377734803668,0
+                        -106.46951213170054,25.08291909143816,0
+                        -106.47032044839995,25.08440890738936,0
+                        -106.4699985450271,25.087934292435307,0
+                        -106.46901794702286,25.08786346649491,0
+                        -106.46801583237561,25.087844791207583,0
+                        -106.46636819085991,25.08868183844332,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0703/05/18</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0703/05/18<br/>
+            <b>Año:</b> 2018 | <b>Mes:</b> 8<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> VALENTÍN ALVARADO TRUJILLO<br/>
+            <b>Predio:</b> FRACCIÓN O ZONA NORTE DEL PREDIO LA CIUDAD NÚMERO UNO<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 13/08/18<br/>
+            <b>Vigencia:</b> 31/12/27<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 7
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.04903462765334,24.415509828825442,0
+                        -106.02363557088566,24.407826893216427,0
+                        -106.01385548895685,24.394626346818907,0
+                        -106.03309803721156,24.389014591728536,0
+                        -106.03343988845032,24.38982503667507,0
+                        -106.04415014589623,24.414008365895196,0
+                        -106.04804255097937,24.413611203445196,0
+                        -106.04903462765334,24.415509828825442,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/C9-0546/04/19</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/C9-0546/04/19<br/>
+            <b>Año:</b> 2019 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> POR CONDUCTO DEL COMISARIADO EJIDAL<br/>
+            <b>Predio:</b> EJIDO J. REFUGIO SALCIDO<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 16/05/19<br/>
+            <b>Vigencia:</b> 31/12/30<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 3
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -104.6037653637239,23.766667147844956,0
+                        -104.56419455823188,23.761023720369604,0
+                        -104.59037975459698,23.741359521039797,0
+                        -104.6037653637239,23.766667147844956,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0145/01/21</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0145/01/21<br/>
+            <b>Año:</b> 2021 | <b>Mes:</b> 3<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> BLAS LARA PREDA<br/>
+            <b>Predio:</b> P.P. CEBOLLAS<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 29/03/21<br/>
+            <b>Vigencia:</b> 31/12/31<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 8
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.84249278606184,24.46154144105688,0
+                        -105.84497167568507,24.435118843175694,0
+                        -105.84524242467648,24.432228274395616,0
+                        -105.84846750228223,24.432147004255015,0
+                        -105.85368726580158,24.441023215333175,0
+                        -105.8547131519982,24.44276855164845,0
+                        -105.85640881160123,24.44829411579432,0
+                        -105.85726233168823,24.450066597344165,0
+                        -105.84249278606184,24.46154144105688,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0228/11/20</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0228/11/20<br/>
+            <b>Año:</b> 2021 | <b>Mes:</b> 3<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> RUBÉN GARCÍA ARZOLA<br/>
+            <b>Predio:</b> Fracción Terreno Rustico segregada del Lote Número Quince del Fraccionamiento Miravalles<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 25/03/21<br/>
+            <b>Vigencia:</b> 31/12/30<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 6
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.49070801167292,24.3188311506641,0
+                        -105.5111566215294,24.28650139866462,0
+                        -105.5073961916015,24.2820975813327,0
+                        -105.49053056068074,24.31910159100711,0
+                        -105.51013244787183,24.307084920091892,0
+                        -105.50744497389255,24.28232312111961,0
+                        -105.49070801167292,24.3188311506641,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0267/01/20</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0267/01/20<br/>
+            <b>Año:</b> 2020 | <b>Mes:</b> 7<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Pueblo Nuevo<br/>
+            <b>Titular:</b> MANUEL MADRIGAL GÜERECA<br/>
+            <b>Predio:</b> LOTE 8 DE LA COLONIA VENUSTIANO CARRANZA<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 14/07/20<br/>
+            <b>Vigencia:</b> 31/12/33<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 14
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -104.75991309562556,23.488407339316783,0
+                        -104.75991309562556,23.488407339316783,0
+                        -104.72727520078583,23.487256502278484,0
+                        -104.72727520078583,23.487256502278484,0
+                        -104.69865526824758,23.466983501379485,0
+                        -104.69865526824758,23.466983501379485,0
+                        -104.71472070475333,23.463761893305456,0
+                        -104.71472070475333,23.463761893305456,0
+                        -104.73351714695679,23.465421050072024,0
+                        -104.73351714695679,23.465421050072024,0
+                        -104.7636719089003,23.467456883276725,0
+                        -104.7636719089003,23.467456883276725,0
+                        -104.75991309562556,23.488407339316783,0
+                        -104.75991309562556,23.488407339316783,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/F5-0499/07/21</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/F5-0499/07/21<br/>
+            <b>Año:</b> 2022 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> ABEL HERRERA RODRÍGUEZ<br/>
+            <b>Predio:</b> PREDIO RÚSTICO DENOMINADO EL CUATERO<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 27/01/22<br/>
+            <b>Vigencia:</b> 31/12/26<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 17
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.52311717451934,25.12859283324523,0
+                        -105.52290428412527,25.127518931889167,0
+                        -105.52252199597062,25.1262650133863,0
+                        -105.52462545142309,25.12637498194993,0
+                        -105.52819447027544,25.128195536183977,0
+                        -105.531276347493,25.129746829279995,0
+                        -105.52964729253705,25.133843559900477,0
+                        -105.52942037388546,25.134133352592876,0
+                        -105.52531934184722,25.133217787291667,0
+                        -105.5249608265339,25.132893953081574,0
+                        -105.51878836893496,25.141801886714827,0
+                        -105.51625504748479,25.14333692164377,0
+                        -105.51141562407655,25.14145726285024,0
+                        -105.51207204755718,25.1370931717836,0
+                        -105.51288643239464,25.134932019182305,0
+                        -105.51651563820306,25.132174082226335,0
+                        -105.51929123696902,25.13168575520654,0
+                        -105.52311717451934,25.12859283324523,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0230/10/19</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0230/10/19<br/>
+            <b>Año:</b> 2020 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Guanacevi<br/>
+            <b>Titular:</b> GUILLERMO OCTAVIO PÉREZ GAVILÁN LEÓN Y LORENA AVILÉS DE PÉREZ GAVILÁN<br/>
+            <b>Predio:</b> PP FRACCIÓN 1 MITAD NOROESTE Y FRACCIÓN 2 MITAD SURESTE DEL LOTE 49 DEL FRACCIONAMIENTO DE LA COLONIA SAN JAVIER DE LA VIRGEN LA BARROSA<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 20/01/20<br/>
+            <b>Vigencia:</b> 31/12/29<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 5
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.03930203190167,25.881057077057026,0
+                        -106.01662176432026,25.8725498084303,0
+                        -106.00596081914456,25.859378323367704,0
+                        -106.01684194140412,25.8457948968689,0
+                        -106.02911363783313,25.858295070921326,0
+                        -106.03930203190167,25.881057077057026,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0523/02/21</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0523/02/21<br/>
+            <b>Año:</b> 2021 | <b>Mes:</b> 11<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> TIMOTEO HERNANDEZ IBARRA<br/>
+            <b>Predio:</b> P.P. EL PINO<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 18/11/21<br/>
+            <b>Vigencia:</b> 31/12/30<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 13
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.63736517067727,25.098920039306137,0
+                        -106.63821161809398,25.098450232894972,0
+                        -106.638461897696,25.0963979771567,0
+                        -106.63758409084045,25.09451166667819,0
+                        -106.64144679298495,25.091977076698846,0
+                        -106.64003138779827,25.08992518491412,0
+                        -106.63947166302498,25.08809856649367,0
+                        -106.64398766154395,25.0847621807002,0
+                        -106.64444096586003,25.08529887222138,0
+                        -106.64561684511864,25.091678070146088,0
+                        -106.64410356505205,25.094918055219765,0
+                        -106.64404535975078,25.097239045213822,0
+                        -106.63892403305174,25.099083391289685,0
+                        -106.63736517067727,25.098920039306137,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0112/10/21</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0112/10/21<br/>
+            <b>Año:</b> 2022 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> SUCESION INTESTAMENTARIA DE BENJAMIN AVILA GUZMAN, VICTOR AVILA HUERTA Y PRAXEDIS AVILA ALANIS<br/>
+            <b>Predio:</b> P.P. LOTE 47 DEL FRACCIONAMIENTO LAGUNA COLORADA<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 05/01/22<br/>
+            <b>Vigencia:</b> 31/12/33<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 9
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.20002626962402,24.126360305990215,0
+                        -105.18504584572432,24.111376845242514,0
+                        -105.17395901570265,24.120954887818623,0
+                        -105.1728744246594,24.119402594646655,0
+                        -105.17094806418764,24.120820596859883,0
+                        -105.16765979884896,24.117383856427903,0
+                        -105.17344031931819,24.10848211281286,0
+                        -105.20664114077957,24.108892430772286,0
+                        -105.20569932305158,24.122974764681892,0
+                        -105.20002626962402,24.126360305990215,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0165/10/20</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0165/10/20<br/>
+            <b>Año:</b> 2020 | <b>Mes:</b> 11<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> GUADALUPE RAMOS PEREDA<br/>
+            <b>Predio:</b> LOTE DE TERRENO RUSTICO ZONA PRIMERA
+<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 12/11/20<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 14
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.63908603882274,24.87875467503626,0
+                        -105.62993119559685,24.8714243800384,0
+                        -105.63116627354485,24.870967620002016,0
+                        -105.63583354313118,24.86803084223454,0
+                        -105.63631622106391,24.867568210949315,0
+                        -105.63713822567318,24.8676459842011,0
+                        -105.63914371363416,24.864946209678894,0
+                        -105.64024099820283,24.86466155223931,0
+                        -105.64307099990316,24.860639679246912,0
+                        -105.64574643729752,24.861197082716306,0
+                        -105.6447552118196,24.874287110398548,0
+                        -105.64467669631507,24.878233939746842,0
+                        -105.64424425659564,24.878840874667162,0
+                        -105.64547072039908,24.88053337957476,0
+                        -105.63908603882274,24.87875467503626,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0123/11/20</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0123/11/20<br/>
+            <b>Año:</b> 2021 | <b>Mes:</b> 3<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Guanacevi<br/>
+            <b>Titular:</b> GAUDENCIO CORRAL RODRIGUEZ Y LA SUCESION INTESTAMENTARIA DE JOSE ISABEL CORRAL ANAYA<br/>
+            <b>Predio:</b> P.P. CIENEGA AMARILLA DE LA COLONIA SAN JAVIER DE LA VIRGEN<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 30/03/21<br/>
+            <b>Vigencia:</b> 31/12/35<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.11419272572394,25.827022643550936,0
+                        -106.1279432649396,25.80205971795429,0
+                        -106.13520192377887,25.803872229396717,0
+                        -106.12994982181876,25.822214917346564,0
+                        -106.11419272572394,25.827022643550936,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0406/02/20</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0406/02/20<br/>
+            <b>Año:</b> 2020 | <b>Mes:</b> 9<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Guanacevi<br/>
+            <b>Titular:</b> ANGEL CORRUJEDO MARTÍNEZ<br/>
+            <b>Predio:</b> P. P. LOTE 33 DEL FRACCIONAMIENTO SAN JAVIER DE LA VIRGEN EL OCOTE<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 17/09/20<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 13
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.14436933845008,25.96134537084931,0
+                        -106.14615741216677,25.93971627784945,0
+                        -106.1438272106142,25.939355487064013,0
+                        -106.12961478984047,25.918149885223944,0
+                        -106.13511708480866,25.89427066748161,0
+                        -106.15782455303035,25.89409116347462,0
+                        -106.15787384261677,25.8940275680595,0
+                        -106.14155475460453,25.908711470990255,0
+                        -106.15412494554892,25.913966041593774,0
+                        -106.1529238197038,25.91980822235145,0
+                        -106.14056201619726,25.917594649777445,0
+                        -106.13837982269432,25.928437394635882,0
+                        -106.15079781533724,25.930154091118528,0
+                        -106.14436933845008,25.96134537084931,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0003/06/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0003/06/23<br/>
+            <b>Año:</b> 2023 | <b>Mes:</b> 10<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canatlan<br/>
+            <b>Titular:</b> SUCESIÓN INTESTAMENTARIA DE ALICIA MERAZ RODRÍGUEZ Y JOSÉ LUIS GALINDO QUIÑONES<br/>
+            <b>Predio:</b> P.P. LOTE 7 DEL FRACCIONAMIENTO LOS PAVOS<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 26/10/23<br/>
+            <b>Vigencia:</b> 31/12/34<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 8
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.49134416755274,24.43069189522337,0
+                        -105.66080360092664,24.78853948673672,0
+                        -105.49173237111374,24.43273501712086,0
+                        -105.65487331513756,24.788295703773905,0
+                        -105.51210632947182,24.434888282211503,0
+                        -105.65487235228404,24.793218755410813,0
+                        -105.51109343806802,24.430321207697858,0
+                        -105.6603487693436,24.79301091300638,0
+                        -105.49134416755274,24.43069189522337,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0190/07/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0190/07/23<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> SABINO LARRETA HERNÁNDEZ<br/>
+            <b>Predio:</b> LA CABRA<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 23/01/24<br/>
+            <b>Vigencia:</b> 31/12/34<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b> N/A<br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 8
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.61694912400502,24.255202549839172,0
+                        -105.62531530551576,24.24770826097478,0
+                        -105.60565426557149,24.243597102013766,0
+                        -105.59925437291655,24.233642436747168,0
+                        -105.59583163772203,24.234676453180594,0
+                        -105.59268144823035,24.23076899798079,0
+                        -105.64669890548211,24.25132183687898,0
+                        -105.65359612221559,24.253604451002904,0
+                        -105.61694912400502,24.255202549839172,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0584/03/22</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0584/03/22<br/>
+            <b>Año:</b> 2022 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> JUAN LÓPEZ CONTRERAS<br/>
+            <b>Predio:</b> MITAD NORTE DEL LOTE 48 DEL FRACCIONAMIENTO LAGUNA COLORADA<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 13/05/22<br/>
+            <b>Vigencia:</b> 31/12/31<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 5
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.22171975253939,24.14529772782587,0
+                        -105.2288949407661,24.123059184094423,0
+                        -105.21610537358218,24.119501101694354,0
+                        -105.2102677972429,24.136363140246477,0
+                        -105.21446360243408,24.144097797220116,0
+                        -105.22171975253939,24.14529772782587,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0054/04/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0054/04/23<br/>
+            <b>Año:</b> 2023 | <b>Mes:</b> 8<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> ANGELICA MARÍA FLORES AMAYA<br/>
+            <b>Predio:</b> FRACCIÓN DEL PREDIO GUAJOLOTES Y FRACCIÓN SEGREGADA DE LA PARTE ORIENTE DEL PREDIO RUSTICO OJO DE AGUA, Y LA FRACCIÓN ORIENTE SEGREGADA DEL PREDIO RUSTICO JOYA DEL METATE, AMBAS FRACCIONES DEL PREDIO RUSTICO "GUAJOLOTE"<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 24/08/23<br/>
+            <b>Vigencia:</b> 31/12/32<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 50
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.48756044363131,24.491226795921623,0
+                        -105.48649137257604,24.490451349560924,0
+                        -105.48537124241936,24.48987422849924,0
+                        -105.48645462942572,24.489229958643136,0
+                        -105.48697739615864,24.48919276221673,0
+                        -105.48681539062463,24.488768984949466,0
+                        -105.4871691782538,24.48822514184815,0
+                        -105.48696214120167,24.486640150038422,0
+                        -105.48695694544502,24.486444093026204,0
+                        -105.48703040079208,24.486323737314763,0
+                        -105.48724882238392,24.486201107720145,0
+                        -105.48803947838681,24.48585671314814,0
+                        -105.48860627628716,24.485556480228038,0
+                        -105.48906439658039,24.485583356579,0
+                        -105.48977565356402,24.485456959368534,0
+                        -105.49090996875874,24.485478023545923,0
+                        -105.49136302262147,24.48514057896811,0
+                        -105.49151904811438,24.48460676168909,0
+                        -105.49184661769995,24.483978006678278,0
+                        -105.49197266304732,24.48365345591058,0
+                        -105.49193783362405,24.483147715325504,0
+                        -105.49178709930548,24.482756871419486,0
+                        -105.49170476537807,24.48196218714836,0
+                        -105.49137713939437,24.481330145194427,0
+                        -105.49139149014708,24.480629254277687,0
+                        -105.49646806301034,24.48440317403917,0
+                        -105.49681929849763,24.48418561576403,0
+                        -105.49768349623497,24.483532503867195,0
+                        -105.49794379294786,24.483100853084334,0
+                        -105.50349499282693,24.479058248472256,0
+                        -105.50568657871626,24.47780944263004,0
+                        -105.50617126486772,24.47767742301864,0
+                        -105.50648555110153,24.477448387938548,0
+                        -105.50951606173898,24.476682687854254,0
+                        -105.50968570249884,24.476365715636287,0
+                        -105.51201518056487,24.47748190730968,0
+                        -105.51185480339919,24.477762950512876,0
+                        -105.51084645762252,24.47928242404268,0
+                        -105.51013273327459,24.478346834780304,0
+                        -105.50670739590599,24.478457969539473,0
+                        -105.50568811600189,24.479949972264073,0
+                        -105.50511479258185,24.481219350850054,0
+                        -105.50529106594152,24.48253923663233,0
+                        -105.5033753877398,24.48267007684198,0
+                        -105.50289114505885,24.482747906322473,0
+                        -105.50257294263162,24.484857979447167,0
+                        -105.49726486329172,24.489048228069457,0
+                        -105.49604389589834,24.48905282996765,0
+                        -105.4946708357175,24.489580165820602,0
+                        -105.49062684549688,24.49043611168263,0
+                        -105.48756044363131,24.491226795921623,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0385/02/22</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0385/02/22<br/>
+            <b>Año:</b> 2022 | <b>Mes:</b> 6<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> FLORENTINO NAVA CORRAL<br/>
+            <b>Predio:</b> MESA DEL RIO<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 14/06/22<br/>
+            <b>Vigencia:</b> 31/12/31<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 5
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.28089226175989,25.27374451871813,0
+                        -106.28743921687418,25.284579311545794,0
+                        -106.30296910849853,25.28914575668505,0
+                        -106.30606221808851,25.275822202296958,0
+                        -106.28528385621493,25.271735326874282,0
+                        -106.28089226175989,25.27374451871813,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0532/06/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0532/06/23<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Guanacevi<br/>
+            <b>Titular:</b> SUCESION IN-TESTAMENTARIA DE PRAXEDIS SILVA BARRAZA  Y AMADA FRANCO ARZOLA<br/>
+            <b>Predio:</b> LOTE DE TERRENO RUSTICO DE AGOSTADERO DENOMINADO RANCHO DEL BAJÍO LARGO<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 12/01/24<br/>
+            <b>Vigencia:</b> 31/12/37<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.17043598187284,25.96430578143823,0
+                        -106.17254637216222,25.96824924400364,0
+                        -106.19032092392742,25.95773659340161,0
+                        -106.1875102264907,25.954028379589666,0
+                        -106.17043598187284,25.96430578143823,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0017/11/22</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0017/11/22<br/>
+            <b>Año:</b> 2023 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> JESUS CASTILLO HERNANDEZ<br/>
+            <b>Predio:</b> LOTE 8 DE SAN ANTONIO<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 03/01/23<br/>
+            <b>Vigencia:</b> 31/12/32<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -104.53724043183202,23.635735606977853,0
+                        -104.52180935721172,23.635280914031352,0
+                        -104.52053721019331,23.628752918586038,0
+                        -104.53490254482978,23.629487101645225,0
+                        -104.53724043183202,23.635735606977853,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0094/08/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0094/08/23<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> MAYRA ESTELA Y ERICK FLORENTINO AMBOS DE APELLIDOS QUINTANA BARRAZA Y FLORENTINO QUINTANA GARCÍA<br/>
+            <b>Predio:</b> P.P. FRACCIÓN SEGREGADA DEL TERRENO QUE FORMÓ PARTE DEL LOTE (11) ONCE DEL PREDIO RÚSTICO "MIRAVALLES"<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 18/01/24<br/>
+            <b>Vigencia:</b> 31/12/34<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 6
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.56703745295201,24.341448849838834,0
+                        -105.56557973900605,24.32609504917149,0
+                        -105.55697001032479,24.326726137057538,0
+                        -105.55087690790316,24.314153013687196,0
+                        -105.57260673095723,24.313792645342037,0
+                        -105.56866407814657,24.322987215486144,0
+                        -105.56703745295201,24.341448849838834,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0206/11/21</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0206/11/21<br/>
+            <b>Año:</b> 2022 | <b>Mes:</b> 8<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Guanacevi<br/>
+            <b>Titular:</b> GAUDENCIO CORRAL RODRIGUEZ<br/>
+            <b>Predio:</b> CIENEGA AMARILLA DE LA COLONIA SAN JAVIER DE LA VIRGEN<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 29/08/22<br/>
+            <b>Vigencia:</b> 31/12/30<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.11419272572394,25.827022643550936,0
+                        -106.1279432649396,25.80205971795429,0
+                        -106.13520192377887,25.803872229396717,0
+                        -106.12994982181876,25.822214917346564,0
+                        -106.11419272572394,25.827022643550936,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0431/07/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0431/07/24<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 12<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> FRANCISCO JAVIER Y GUILLERMO OCTAVIO AMBOS DE APELLIDOS PEREZ GAVILAN LEON<br/>
+            <b>Predio:</b> LOTE No 5 DEL FRACCIONAMIENTO ARENALES Y CERRO PRIETO<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 02/12/24<br/>
+            <b>Vigencia:</b> 31/12/33<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.29629237364855,24.277781280273977,0
+                        -105.26568730254186,24.26396196041779,0
+                        -105.27831837689621,24.24647597314919,0
+                        -105.31904255679453,24.264446632508356,0
+                        -105.29629237364855,24.277781280273977,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0416/06/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0416/06/24<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 8<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canelas<br/>
+            <b>Titular:</b> JOEL AVITIA JIMENEZ<br/>
+            <b>Predio:</b> ALTO DEL CAMINO<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 28/08/24<br/>
+            <b>Vigencia:</b> 31/12/33<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 345
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.59003332448285,25.094317236744807,0
+                        -106.5894377262194,25.091508640342912,0
+                        -106.5931984649503,25.093053197619874,0
+                        -106.59640775765874,25.080740435905863,0
+                        -106.58944971595895,25.09165387458803,0
+                        -106.58799624279271,25.08502004014115,0
+                        -106.59320596384941,25.092904955640098,0
+                        -106.59781199865802,25.08002595545335,0
+                        -106.58978794671366,25.091227253397758,0
+                        -106.59590024460053,25.080998609714793,0
+                        -106.59320203019595,25.092601271463913,0
+                        -106.59801041142032,25.08028845078494,0
+                        -106.589797837813,25.091210083068553,0
+                        -106.59595198349757,25.081097098423697,0
+                        -106.59315614648689,25.0924728340547,0
+                        -106.59780049537726,25.08066711911725,0
+                        -106.58998036726209,25.090895551673544,0
+                        -106.59600486476839,25.081253087854986,0
+                        -106.59306439738752,25.092339833148234,0
+                        -106.59779816912977,25.080671207095556,0
+                        -106.59012863891606,25.09042365523634,0
+                        -106.59602540324175,25.081407258270854,0
+                        -106.59297475111026,25.092200760342767,0
+                        -106.59771286025698,25.08078191506747,0
+                        -106.59021377366376,25.090076038974658,0
+                        -106.59598324339609,25.0815658048895,0
+                        -106.59296028115843,25.0920940155807,0
+                        -106.59767123621074,25.080821186803593,0
+                        -106.5904052549422,25.089625889766136,0
+                        -106.59592667393295,25.081813439512615,0
+                        -106.59299447431715,25.09198584532603,0
+                        -106.59758002748784,25.080859276960908,0
+                        -106.59059512350441,25.089741227593848,0
+                        -106.59592457155455,25.082163506102553,0
+                        -106.59311402668871,25.091815904657558,0
+                        -106.5974902066597,25.08088209356811,0
+                        -106.59075548618927,25.089874939060337,0
+                        -106.59593221439583,25.082248293980648,0
+                        -106.59340169379136,25.09159702809642,0
+                        -106.59733022602535,25.080861424659993,0
+                        -106.59082289419992,25.089720727614072,0
+                        -106.595933830082,25.082395806091448,0
+                        -106.5934503509444,25.091564543699587,0
+                        -106.59715922295071,25.080785889255324,0
+                        -106.59090884424069,25.089467001156752,0
+                        -106.59593682574562,25.082550345766787,0
+                        -106.59351945593487,25.091518567385638,0
+                        -106.5969110552785,25.080745854479822,0
+                        -106.59097450058628,25.089177377353945,0
+                        -106.59590193292493,25.0826347785864,0
+                        -106.59357815486618,25.091427017469513,0
+                        -106.59663767228018,25.08071845998194,0
+                        -106.59131515594609,25.08868617152771,0
+                        -106.59581849663041,25.082729574848255,0
+                        -106.59358881990482,25.091347179213336,0
+                        -106.59648291134876,25.080733307184712,0
+                        -106.59119176126579,25.08834440308318,0
+                        -106.59568222581586,25.082824939306366,0
+                        -106.5935630822851,25.091243173899645,0
+                        -106.5913319798902,25.08830822862772,0
+                        -106.59564737657415,25.082851587714764,0
+                        -106.59347006400596,25.091119305857628,0
+                        -106.59156008616526,25.088298558503958,0
+                        -106.59559279789502,25.082931717817175,0
+                        -106.5933351667779,25.09097710784298,0
+                        -106.59170193014272,25.08831139231266,0
+                        -106.595574327352,25.08302112033468,0
+                        -106.5931260854985,25.090756614774744,0
+                        -106.59186829482437,25.088395651031277,0
+                        -106.595630196883,25.083224027120874,0
+                        -106.59295736651868,25.09055212022603,0
+                        -106.59202626427029,25.08844406527936,0
+                        -106.59564424391037,25.083275159248608,0
+                        -106.59293504456858,25.09048979082673,0
+                        -106.5921755694309,25.08842819745848,0
+                        -106.59566640822034,25.08345531494257,0
+                        -106.59293185805909,25.0904427853527,0
+                        -106.59239576946287,25.08835920181881,0
+                        -106.59569689784908,25.08353588446159,0
+                        -106.59295675555458,25.09036712807191,0
+                        -106.59269448880649,25.088021931727226,0
+                        -106.59575165689817,25.083584321518792,0
+                        -106.59299452506058,25.090290158818984,0
+                        -106.59281914356467,25.08784047007066,0
+                        -106.59594244491797,25.08367156350565,0
+                        -106.59307927938593,25.090235347081165,0
+                        -106.59303266787997,25.08781497342535,0
+                        -106.5959824021636,25.08371004751347,0
+                        -106.59327854324631,25.090141926449252,0
+                        -106.59321413461811,25.087832797545477,0
+                        -106.59601382590014,25.08374031687593,0
+                        -106.59348504579386,25.090048608374346,0
+                        -106.59349938255608,25.08787180765737,0
+                        -106.59610038788028,25.083993454138714,0
+                        -106.59374367372901,25.089976308659114,0
+                        -106.59365426477297,25.087919169888746,0
+                        -106.5961251211162,25.084065869331603,0
+                        -106.59406441369427,25.089922933391048,0
+                        -106.59382795998775,25.08797228879098,0
+                        -106.59614892242087,25.084135224776578,0
+                        -106.59417867245602,25.089895612472333,0
+                        -106.59411105654242,25.088128333176364,0
+                        -106.5961932658175,25.084213749088605,0
+                        -106.59441049005339,25.08975136991895,0
+                        -106.5943481992603,25.08831872862984,0
+                        -106.59625712051181,25.08426019204416,0
+                        -106.59474399639788,25.090093946264208,0
+                        -106.59449697746035,25.08851467815146,0
+                        -106.59630069307195,25.084294574125927,0
+                        -106.59491298955352,25.090128244256228,0
+                        -106.59457390607191,25.088690001759865,0
+                        -106.59634191320718,25.084346316665407,0
+                        -106.59508237484299,25.089971038551056,0
+                        -106.5945825558722,25.088737761045437,0
+                        -106.59639717206856,25.084563133869977,0
+                        -106.59530233397984,25.089470558333673,0
+                        -106.59460844210751,25.08898324478574,0
+                        -106.59648900211751,25.08467202535058,0
+                        -106.59539018947952,25.088959309860183,0
+                        -106.59457450865665,25.08914188316853,0
+                        -106.59650245359315,25.084761265009398,0
+                        -106.59535720135982,25.088449180413242,0
+                        -106.59449387345995,25.089407291680946,0
+                        -106.59649732246771,25.084847183430377,0
+                        -106.5950619143664,25.08797247885795,0
+                        -106.59445895358502,25.08946689548894,0
+                        -106.59648097476875,25.084954981786495,0
+                        -106.59450724343574,25.087616209156874,0
+                        -106.59436981353842,25.08961926538685,0
+                        -106.5964842341158,25.08499223535946,0
+                        -106.59451601092856,25.08758126401922,0
+                        -106.594264264288,25.08972188272465,0
+                        -106.59650090401955,25.085054444483788,0
+                        -106.59453192386815,25.08751626669179,0
+                        -106.5941317590501,25.089794814300063,0
+                        -106.5965426782804,25.085164145418045,0
+                        -106.59452135647446,25.08745823525017,0
+                        -106.59403855351876,25.089817123716635,0
+                        -106.59656606348692,25.085209037395575,0
+                        -106.59450162252432,25.087373757863897,0
+                        -106.59371543931736,25.08987088557688,0
+                        -106.5965789982407,25.085334848943646,0
+                        -106.5943448039562,25.08716164296135,0
+                        -106.59344090741237,25.089947689868143,0
+                        -106.5965457395777,25.085468832025576,0
+                        -106.59437182357497,25.086966783405828,0
+                        -106.59322449217335,25.09001818136766,0
+                        -106.59650227397078,25.085580262835485,0
+                        -106.59448091506934,25.086732218209452,0
+                        -106.59301730115662,25.09014256531728,0
+                        -106.5964399025166,25.0857093225231,0
+                        -106.59455012956606,25.086671974933786,0
+                        -106.59289921565058,25.090218952468025,0
+                        -106.59636002015249,25.085818346263697,0
+                        -106.59463479312575,25.086640999230845,0
+                        -106.592845022564,25.09032923350526,0
+                        -106.59622668683268,25.085918735780343,0
+                        -106.59469738567542,25.08663590233035,0
+                        -106.59281182659161,25.09043017004155,0
+                        -106.59616276876454,25.085966824316554,0
+                        -106.59476965112282,25.086635125499107,0
+                        -106.59281722527412,25.090510196925603,0
+                        -106.59602584732679,25.086058133252784,0
+                        -106.59482169413864,25.08663456603096,0
+                        -106.59285035005672,25.090602837168667,0
+                        -106.59592781978417,25.086136473737383,0
+                        -106.59492104583585,25.08662004513002,0
+                        -106.59303337146474,25.09082460369277,0
+                        -106.59590362888753,25.086205262019035,0
+                        -106.59496590318618,25.086608186663664,0
+                        -106.5932451667213,25.091047956934755,0
+                        -106.59592230939015,25.08626961646984,0
+                        -106.59502233176212,25.08659412716703,0
+                        -106.59337564126004,25.09118550759996,0
+                        -106.59598501495813,25.086311467204144,0
+                        -106.59508231845234,25.08657921680677,0
+                        -106.59345201364076,25.091287253559702,0
+                        -106.59607215672486,25.086356937364908,0
+                        -106.59519631736816,25.086577991043665,0
+                        -106.59346822950681,25.091352718222787,0
+                        -106.59609846704733,25.086382747322062,0
+                        -106.5952751014599,25.08659059668075,0
+                        -106.59346873354359,25.091391626631648,0
+                        -106.59610737077867,25.086396555768506,0
+                        -106.59534012683417,25.086612559538064,0
+                        -106.59342916363299,25.091444418342448,0
+                        -106.59612972188398,25.086445792720024,0
+                        -106.5954036164948,25.08663842123484,0
+                        -106.59338013688172,25.091478983309226,0
+                        -106.59609782738329,25.086608562676297,0
+                        -106.5954617332459,25.08668573877468,0
+                        -106.59332840893985,25.091511681242974,0
+                        -106.59613634017265,25.086764887018663,0
+                        -106.59555668638811,25.08679838925325,0
+                        -106.59302375660157,25.091743470589222,0
+                        -106.59612462900017,25.086809795506845,0
+                        -106.59561041502697,25.086851351735692,0
+                        -106.59288492637151,25.091940704403267,0
+                        -106.59602727750043,25.086825650004776,0
+                        -106.59570530478595,25.086882653948738,0
+                        -106.59283930699556,25.09208529283458,0
+                        -106.59588431578624,25.086841182513865,0
+                        -106.59588551754308,25.08689561281325,0
+                        -106.59285970292211,25.092236214752663,0
+                        -106.59569817055038,25.086829461190767,0
+                        -106.59603600380765,25.086879277049423,0
+                        -106.59296270606573,25.09239609083798,0
+                        -106.59564431504326,25.086804940599976,0
+                        -106.5961366207713,25.086862935974107,0
+                        -106.59304748504928,25.09251914477992,0
+                        -106.59560235238438,25.08677243708073,0
+                        -106.59617796008932,25.086839738797853,0
+                        -106.593083284007,25.09261915975695,0
+                        -106.59550547206608,25.086648792309248,0
+                        -106.59619741688472,25.086765223029925,0
+                        -106.59308696130242,25.092903073784434,0
+                        -106.59543656579659,25.086610438976304,0
+                        -106.59615848524828,25.08660718775479,0
+                        -106.59307684442814,25.09310181447478,0
+                        -106.59536267580047,25.08656238817639,0
+                        -106.59619159573491,25.086438806894325,0
+                        -106.5952906797835,25.08653806252937,0
+                        -106.59614873563007,25.08635241168262,0
+                        -106.59522099222386,25.086523553339063,0
+                        -106.59610957163243,25.086314009520226,0
+                        -106.59507388412315,25.086525135111266,0
+                        -106.59601753859307,25.086265973671043,0
+                        -106.59500668441322,25.08654192876431,0
+                        -106.59597443566715,25.086237274584715,0
+                        -106.5949497613816,25.08655608385748,0
+                        -106.5959656103702,25.086206581563673,0
+                        -106.59490796653013,25.086567096808164,0
+                        -106.59597937791398,25.086167339061053,0
+                        -106.59481663032125,25.086580448082966,0
+                        -106.5960630789887,25.08610043858472,0
+                        -106.59476894902672,25.086580960660402,0
+                        -106.59619931239502,25.086009588453,0
+                        -106.59469440363223,25.08658176199818,0
+                        -106.59626450626195,25.085960493013598,0
+                        -106.59460089205854,25.08658791353998,0
+                        -106.5964046150603,25.08585506475405,0
+                        -106.59451730756868,25.086625649173396,0
+                        -106.59649229065461,25.085735393514884,0
+                        -106.59443093609389,25.086700793665138,0
+                        -106.59655765656692,25.085600252334757,0
+                        -106.59432049531385,25.086938352810552,0
+                        -106.59660304027004,25.08548383506821,0
+                        -106.59431121577272,25.086972039420296,0
+                        -106.59663516439049,25.085354107687767,0
+                        -106.59437368204858,25.08652110522077,0
+                        -106.59663674587308,25.085315538002625,0
+                        -106.59425483749249,25.08652328529604,0
+                        -106.59662436762044,25.085194415410673,0
+                        -106.59407203156393,25.08663151788194,0
+                        -106.59659773297767,25.085143599452657,0
+                        -106.59362415190326,25.086826745778,0
+                        -106.59655801035223,25.085039203405955,0
+                        -106.59350211031236,25.08707201313027,0
+                        -106.5965390424664,25.084967990290526,0
+                        -106.5932450207122,25.087553568234217,0
+                        -106.59655657804113,25.08485241444081,0
+                        -106.59302432254833,25.087629883693232,0
+                        -106.59656220666852,25.084758996821332,0
+                        -106.59274804077302,25.087739660221906,0
+                        -106.59654691067108,25.084657497948715,0
+                        -106.59259740425712,25.0879589602957,0
+                        -106.59645105876213,25.084452584110444,0
+                        -106.59232467972174,25.088267059218172,0
+                        -106.59639448896704,25.08431812303949,0
+                        -106.59214901149284,25.088321943412257,0
+                        -106.59634452643176,25.084257355565313,0
+                        -106.59203891445688,25.08833368864138,0
+                        -106.59629514591907,25.084218521622148,0
+                        -106.59191657890891,25.08829608764454,0
+                        -106.59624029937112,25.08417866302323,0
+                        -106.59173814006309,25.088205818989508,0
+                        -106.59620417499717,25.084114676841093,0
+                        -106.59156300880473,25.088171944237025,0
+                        -106.59618191913059,25.084049819144,0
+                        -106.59131274088134,25.08820054157809,0
+                        -106.59615718469452,25.083977313687225,0
+                        -106.59115364906118,25.088241613391798,0
+                        -106.59606650178945,25.0837122125815,0
+                        -106.59096298832687,25.088310200118496,0
+                        -106.59602564066488,25.083672835447793,0
+                        -106.59074773395179,25.088416700183206,0
+                        -106.59597855523809,25.08362747600777,0
+                        -106.59060544222795,25.088530272633005,0
+                        -106.59578666867331,25.083539613869828,0
+                        -106.59058889913624,25.088546701747596,0
+                        -106.59574855553642,25.083505714622707,0
+                        -106.59056202436493,25.08857687503721,0
+                        -106.59572474561301,25.083443311310866,0
+                        -106.59045648968646,25.088757497928647,0
+                        -106.59570291020975,25.083265589848793,0
+                        -106.59035940538335,25.089200676224998,0
+                        -106.59568782506592,25.08321085739957,0
+                        -106.59016749366629,25.089740214524898,0
+                        -106.59563517821012,25.08301947275727,0
+                        -106.59009738138083,25.09005345081223,0
+                        -106.59564917041085,25.082951697068268,0
+                        -106.5899934565336,25.090397115209814,0
+                        -106.59569285175634,25.082887484429495,0
+                        -106.58986929232786,25.090854848885723,0
+                        -106.59571945514925,25.082867154521647,0
+                        -106.5896926826136,25.091159475384917,0
+                        -106.59585110918434,25.08277509003099,0
+                        -106.58968657137392,25.091169923930874,0
+                        -106.59588095989209,25.082745244998765,0
+                        -106.5959543336618,25.082661933145545,0
+                        -106.59599518143084,25.082562719424807,0
+                        -106.59601352393965,25.082394677984077,0
+                        -106.59599132585947,25.08224251176448,0
+                        -106.5959840295301,25.08216151223129,0
+                        -106.59598612979018,25.081818939518087,0
+                        -106.5960414819241,25.081576825498892,0
+                        -106.59607947803792,25.081410649233362,0
+                        -106.59606361866393,25.08124270482005,0
+                        -106.59600754268871,25.081077359893168,0
+                        -106.59595244482982,25.08097213578383,0
+                        -106.59630296576746,25.080793749417786,0
+                        -106.59635568767813,25.08079986346477,0
+                        -106.596489161486,25.08078714146968,0
+                        -106.5966375866986,25.08077299444607,0
+                        -106.59690263045403,25.080799485530097,0
+                        -106.5971406652465,25.080837913928338,0
+                        -106.59731266549207,25.08091389005325,0
+                        -106.59749419495334,25.080937306453965,0
+                        -106.59760051692676,25.080910249243914,0
+                        -106.59770622084032,25.080866134316437,0
+                        -106.59775881324609,25.080816451709484,0
+                        -106.59784929013982,25.08069909708659,0
+                        -106.59804884360021,25.08033932005241,0
+                        -106.60182309327189,25.085332492990815,0
+                        -106.60136162869588,25.08580037689253,0
+                        -106.60114886229722,25.08654645878115,0
+                        -106.60106293662913,25.087341190576705,0
+                        -106.59997653896433,25.088326116832143,0
+                        -106.59917614622186,25.088829611315536,0
+                        -106.59907292977022,25.08957658621087,0
+                        -106.59817819179621,25.090442873399617,0
+                        -106.59713716529328,25.090794920057146,0
+                        -106.59582801471299,25.091771742877878,0
+                        -106.59495460375969,25.091556050941858,0
+                        -106.59470052217694,25.0924533488811,0
+                        -106.59003332448285,25.094317236744807,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0083/10/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0083/10/24<br/>
+            <b>Año:</b> 2025 | <b>Mes:</b> 2<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> ELVA LECHUGA RIVERA<br/>
+            <b>Predio:</b> P.P. FRACCIÓN SEGREGADA DEL LOTE NUMERO 7 EN LOS PARAJES DENOMINADOS MESA DEL AGUILA, MESA DE SANTA LUCIA Y MESA DEL PORVENIR, DE LA PRIMERA ZONA DE LA SIERRA DE SANTIAGO PAPASQUIARO<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 27/02/25<br/>
+            <b>Vigencia:</b> 31/12/33<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 8
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.67619858313101,24.945680928459474,0
+                        -105.68046658166458,24.956299707549885,0
+                        -105.68190189890458,24.957909644019388,0
+                        -105.68357786911398,24.958245129049956,0
+                        -105.68718738043596,24.962481987765962,0
+                        -105.68598834371839,24.964203352075838,0
+                        -105.65236008368946,24.978198603894427,0
+                        -105.64319412686264,24.977940477351428,0
+                        -105.67619858313101,24.945680928459474,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0408/11/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0408/11/23<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 4<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> MARTÍN JAIME MELENDEZ BRECEDA<br/>
+            <b>Predio:</b> P.P. FRACCIÓN "F" SEGREGADA DEL PREDIO RUSTICO DEL FRACCIONAMIENTO MIRAVALLES<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 15/04/24<br/>
+            <b>Vigencia:</b> 31/12/35<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.45865208270553,24.25210431516339,0
+                        -105.45393482644327,24.24414337890541,0
+                        -105.45964756272252,24.24129024304041,0
+                        -105.4643650957777,24.249260033106484,0
+                        -105.45865208270553,24.25210431516339,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/L7-0628/06/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/L7-0628/06/24<br/>
+            <b>Año:</b> 2025 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Suchil<br/>
+            <b>Titular:</b> JESÚS GUTIÉRREZ MARTÍNEZ, CARLOS Y 2 MAS DE APELLIDOS GUTIÉRREZ GUTIÉRREZ, HUGO Y 2 MÁS DE APELLIDOS GARZA GUTIÉRREZ Y 12 MÁS<br/>
+            <b>Predio:</b> PREDIO LAS MARGARITAS<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 14/05/25<br/>
+            <b>Vigencia:</b> 31/12/39<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 184
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -104.28733318449065,23.344173161542354,0
+                        -104.28737130030363,23.344363018979102,0
+                        -104.2872286605794,23.345428212895253,0
+                        -104.28659685790547,23.346500211056714,0
+                        -104.28594596344324,23.347481793609123,0
+                        -104.285450513654,23.34866279902639,0
+                        -104.2854064032234,23.349592951556865,0
+                        -104.28551929609422,23.35043349495705,0
+                        -104.28498905558608,23.35080140910512,0
+                        -104.28432059670523,23.35140353607485,0
+                        -104.28401471947028,23.351889895513438,0
+                        -104.28390565653127,23.352160373356988,0
+                        -104.28349396074994,23.35231204302869,0
+                        -104.28270838637623,23.352859431298548,0
+                        -104.28178283322016,23.353966191485007,0
+                        -104.28126405788824,23.355833548145924,0
+                        -104.28120273497636,23.358136566049883,0
+                        -104.28091848753198,23.360050159769997,0
+                        -104.28086197543504,23.361458976707656,0
+                        -104.28103914429039,23.36307661553581,0
+                        -104.28146343636864,23.364225696837455,0
+                        -104.28208283489545,23.36729960274566,0
+                        -104.28265414903436,23.368404192509598,0
+                        -104.28251450233005,23.368900341657096,0
+                        -104.2825260024554,23.37039979511418,0
+                        -104.28257556948385,23.372098138565374,0
+                        -104.28241756528662,23.372368389848027,0
+                        -104.28191541245972,23.372953200195198,0
+                        -104.27943680194616,23.36991590636009,0
+                        -104.27875686026812,23.36900048788908,0
+                        -104.27814507222803,23.368148608701674,0
+                        -104.2776886577492,23.36751422525186,0
+                        -104.27732895897648,23.367088035424974,0
+                        -104.27617219552745,23.365700711508563,0
+                        -104.27580257569224,23.365301569970615,0
+                        -104.26273285493885,23.34909942078636,0
+                        -104.2605950912779,23.346497003406043,0
+                        -104.25945784100182,23.345181911973317,0
+                        -104.25770936959267,23.34296066330846,0
+                        -104.25670856986717,23.341745557096367,0
+                        -104.2556402727201,23.340358505800104,0
+                        -104.25452238352116,23.33909766681196,0
+                        -104.25166591930422,23.3356336182343,0
+                        -104.24927610051962,23.33270467550512,0
+                        -104.24773152865117,23.330809466995305,0
+                        -104.24630360633829,23.32905029290948,0
+                        -104.24438037680035,23.326674506177085,0
+                        -104.24333091542522,23.3254590824322,0
+                        -104.24282616240973,23.32477920431064,0
+                        -104.23719257273987,23.317896192301617,0
+                        -104.23529889929723,23.31553850655341,0
+                        -104.23479329328941,23.315021184749124,0
+                        -104.23451236766513,23.314550121474465,0
+                        -104.23425985207177,23.31424178203547,0
+                        -104.23357951427548,23.31349778948027,0
+                        -104.23302663038591,23.312700222579096,0
+                        -104.23444497810469,23.309238663425514,0
+                        -104.24011500493613,23.307902335859087,0
+                        -104.24278844108154,23.30726492776971,0
+                        -104.27127543185931,23.300246114232774,0
+                        -104.27281546009306,23.297579613303316,0
+                        -104.27595871711935,23.276909459294835,0
+                        -104.28349339876596,23.266628758292466,0
+                        -104.27374622879562,23.25397439428027,0
+                        -104.27374944395622,23.244354627340996,0
+                        -104.34459903356105,23.260347024597326,0
+                        -104.34382809936204,23.262060025020947,0
+                        -104.34379027990569,23.263794152218914,0
+                        -104.34215672405362,23.26994763743537,0
+                        -104.34144650935193,23.27520170352615,0
+                        -104.34058037133549,23.280337681476713,0
+                        -104.34047921535542,23.28102374241976,0
+                        -104.33796132010099,23.28994648238653,0
+                        -104.33755987703228,23.290053180006993,0
+                        -104.33735372956575,23.290214897866807,0
+                        -104.33730376514671,23.290431471510637,0
+                        -104.33739385659013,23.29198547572142,0
+                        -104.3373796957809,23.292870619928703,0
+                        -104.33700569942432,23.293356804963786,0
+                        -104.33652592807451,23.293481233962,0
+                        -104.33559903651957,23.293061806691497,0
+                        -104.33513976423221,23.29299663177693,0
+                        -104.33469802870816,23.293338000957768,0
+                        -104.33464675643462,23.29381651600897,0
+                        -104.33469340368694,23.29426834832691,0
+                        -104.33499456292834,23.29466706380041,0
+                        -104.33648803911568,23.295206317639455,0
+                        -104.33635872249084,23.29564837229822,0
+                        -104.33723436989446,23.29654631132752,0
+                        -104.33697819942711,23.29693363418205,0
+                        -104.33682977275087,23.297285281461573,0
+                        -104.33678935945294,23.29754705850959,0
+                        -104.33672795562178,23.29809779274721,0
+                        -104.33667704654442,23.298504048323256,0
+                        -104.33657585439555,23.299190104399102,0
+                        -104.33657424201986,23.299515274247653,0
+                        -104.33648430566357,23.299903299187726,0
+                        -104.33632439255523,23.3005981391516,0
+                        -104.33599024829311,23.30093093387398,0
+                        -104.33495999495506,23.3016220843727,0
+                        -104.33392062655518,23.30217769894309,0
+                        -104.33247949380164,23.30289418475876,0
+                        -104.33220409951109,23.303209155774862,0
+                        -104.33206511648144,23.303624066843224,0
+                        -104.33171941495722,23.304309077035875,0
+                        -104.33151161311679,23.30479595555187,0
+                        -104.3311285046839,23.305137563214785,0
+                        -104.3304727485485,23.305243156406856,0
+                        -104.3300324984547,23.30527740649359,0
+                        -104.32947557556379,23.305175666374673,0
+                        -104.32909522462106,23.304966287912258,0
+                        -104.32875485321358,23.3045854589903,0
+                        -104.3283075925106,23.304068681440075,0
+                        -104.32744979112796,23.30351401157973,0
+                        -104.32680468337172,23.30344801452516,0
+                        -104.3261981015329,23.303499605064115,0
+                        -104.3256692518664,23.30365088689678,0
+                        -104.32499357633667,23.30382863290081,0
+                        -104.32448441937126,23.303952897461862,0
+                        -104.32372072789464,23.30413025869157,0
+                        -104.32256531633463,23.304414316141457,0
+                        -104.32185074513316,23.304546717070476,0
+                        -104.3212734946604,23.304598415275688,0
+                        -104.32065776903457,23.30452348742148,0
+                        -104.31988553047769,23.304456910997068,0
+                        -104.31906458057412,23.30435398861344,0
+                        -104.31734477392308,23.304084563257177,0
+                        -104.31643581587578,23.30398124398893,0
+                        -104.31590746228879,23.30403313560875,0
+                        -104.31497755985856,23.30420069609767,0
+                        -104.31316650544777,23.304563111890058,0
+                        -104.31188407904234,23.304819435704182,0
+                        -104.30941458005147,23.305802169017074,0
+                        -104.30834634641595,23.30624005960709,0
+                        -104.30709211070582,23.306713251369654,0
+                        -104.30654329498138,23.306936640815376,0
+                        -104.3060624177767,23.307259688029887,0
+                        -104.30576575337601,23.30789065916895,0
+                        -104.30544087344931,23.308304721404554,0
+                        -104.30524472063009,23.308412243868563,0
+                        -104.30500766576371,23.308862824846173,0
+                        -104.30453467852679,23.309547207363963,0
+                        -104.3034630121199,23.310635397699272,0
+                        -104.30282403820561,23.311264841219955,0
+                        -104.30207686820302,23.31201122441995,0
+                        -104.30099712929278,23.3127651537553,0
+                        -104.29995768002505,23.31329343973836,0
+                        -104.29938874541777,23.313616072157924,0
+                        -104.29889818927856,23.313911955186196,0
+                        -104.29783750289968,23.314756273312543,0
+                        -104.29758066175644,23.315242883809482,0
+                        -104.29684307783293,23.316016381472554,0
+                        -104.29571356803892,23.316923603908002,0
+                        -104.29476189667994,23.317488378968367,0
+                        -104.29455408281129,23.317948106794358,0
+                        -104.29403144053597,23.318758688128817,0
+                        -104.29356766449837,23.319533402453064,0
+                        -104.29317220207142,23.320335521173977,0
+                        -104.29252005378463,23.32158811021487,0
+                        -104.29216274388274,23.322571050205326,0
+                        -104.29204351177727,23.32292278298999,0
+                        -104.2911323480953,23.325059389422638,0
+                        -104.29073349781379,23.326493767132625,0
+                        -104.29110176534307,23.32713674803187,0
+                        -104.29201642568657,23.328035110779627,0
+                        -104.29256987200483,23.328805381352055,0
+                        -104.29283924484474,23.329655661342656,0
+                        -104.29293141408876,23.330721923375794,0
+                        -104.29278701914679,23.332130355898233,0
+                        -104.29278070678217,23.33332262931595,0
+                        -104.29277936774209,23.33357553577497,0
+                        -104.29291066386872,23.334641973993946,0
+                        -104.29271831249015,23.33586953743785,0
+                        -104.29244976241073,23.336708355017326,0
+                        -104.29196725870382,23.33731135773609,0
+                        -104.29146480397763,23.33798652924071,0
+                        -104.29124634836933,23.33859975637864,0
+                        -104.29122501123443,23.338933865326613,0
+                        -104.29089972110758,23.339402087037108,0
+                        -104.28983786602404,23.340417956954827,0
+                        -104.28886537861884,23.34118131296011,0
+                        -104.28802939344155,23.34202657645106,0
+                        -104.28745808953934,23.342764648905725,0
+                        -104.28719021492262,23.343467970318265,0
+                        -104.28733318449065,23.344173161542354,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/C9-0114/07/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/C9-0114/07/24<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 11<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Nuevo Ideal<br/>
+            <b>Titular:</b> por conducto del comisariado ejidal<br/>
+            <b>Predio:</b> EJIDO IGNACIO M. ALTAMIRANO<br/>
+            <b>Tipo de Propiedad:</b> Ejidal<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 05/11/24<br/>
+            <b>Vigencia:</b> 31/12/38<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 11
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.16297538544744,24.810104621920996,0
+                        -105.16053433624279,24.781640552618423,0
+                        -105.16449279592317,24.775269164090776,0
+                        -105.15983074269813,24.772953157419444,0
+                        -105.17018375588596,24.726719204890063,0
+                        -105.17803984864659,24.716314942128697,0
+                        -105.18096830580993,24.724421635989874,0
+                        -105.19970969626334,24.77635525565932,0
+                        -105.204533009584,24.786003225935364,0
+                        -105.19187558666945,24.828006464591773,0
+                        -105.16176432860487,24.829956704605184,0
+                        -105.16297538544744,24.810104621920996,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0171/07/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0171/07/24<br/>
+            <b>Año:</b> 2025 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> MIGUEL ANGEL Y MARIO ALBERTO AMBOS DE APELLIDOS SAUCEDO ORTEGA.<br/>
+            <b>Predio:</b> P.P. FRACCIÓN SEGREGADA DEL LOTE NO. 14 DEL PREDIO RÚSTICO MIRAVALLES<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 09/01/25<br/>
+            <b>Vigencia:</b> 31/12/38<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 8
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.43455209161931,24.3375252537673,0
+                        -105.42040826714994,24.314118700975527,0
+                        -105.42596912267227,24.31184526528301,0
+                        -105.42564190530028,24.3112500870524,0
+                        -105.43678299319859,24.306792895130997,0
+                        -105.44510438040206,24.316324315278926,0
+                        -105.44227089762148,24.320604604469214,0
+                        -105.44768936058026,24.32552907491763,0
+                        -105.43455209161931,24.3375252537673,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0496/01/25</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0496/01/25<br/>
+            <b>Año:</b> 2025 | <b>Mes:</b> 5<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Santiago Papasquiaro<br/>
+            <b>Titular:</b> Nancy Rojo Lopez<br/>
+            <b>Predio:</b> JOYA DEL LAUREL<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 15/05/25<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 5
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -106.34410510393637,25.003013866541792,0
+                        -106.36179845328174,25.00994101501826,0
+                        -106.3582529498543,25.020917115709228,0
+                        -106.33972150180855,25.03002446188506,0
+                        -106.3410926727537,25.003898862326366,0
+                        -106.34410510393637,25.003013866541792,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/C8-0018/12/23</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/C8-0018/12/23<br/>
+            <b>Año:</b> 2024 | <b>Mes:</b> 6<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Canatlan<br/>
+            <b>Titular:</b> POR CONDUCTO DEL COMISARIADO EJIDAL<br/>
+            <b>Predio:</b> EJIDO BRUNO MARTINEZ<br/>
+            <b>Tipo de Propiedad:</b> Ejidal<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 10/06/24<br/>
+            <b>Vigencia:</b> 31/12/33<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 30
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -104.47766994668449,24.13421454217763,0
+                        -104.48376348628108,24.138742174422703,0
+                        -104.48679970997617,24.13505837043625,0
+                        -104.49279487678012,24.139666602833,0
+                        -104.49424723419304,24.13825341466477,0
+                        -104.50366047156145,24.126958299186526,0
+                        -104.47780255894938,24.11366744501401,0
+                        -104.46377493347784,24.124411957272066,0
+                        -104.462857286832,24.12263848510645,0
+                        -104.42192675392398,24.127601082459915,0
+                        -104.42327063620957,24.135156770263542,0
+                        -104.42211858177153,24.137473591929634,0
+                        -104.42222580541318,24.13989452463979,0
+                        -104.42189213915536,24.144056927068835,0
+                        -104.42046713036802,24.15012992827259,0
+                        -104.42030347593013,24.15367880383834,0
+                        -104.42199075824759,24.159330076548446,0
+                        -104.42293414467265,24.15968588754994,0
+                        -104.44721768587343,24.157563007417775,0
+                        -104.44643816147604,24.153432638470974,0
+                        -104.4603936229042,24.151604001837903,0
+                        -104.45977216062377,24.15426619558771,0
+                        -104.46453016299566,24.15573709238853,0
+                        -104.4650566675889,24.154582863410212,0
+                        -104.46714707447184,24.156080431489563,0
+                        -104.46985732390117,24.15527700585226,0
+                        -104.46945588197079,24.15237638762422,0
+                        -104.47190024337839,24.15158103128406,0
+                        -104.47239617594272,24.145865581708883,0
+                        -104.47149924481225,24.14138267553559,0
+                        -104.47766994668449,24.13421454217763,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0008/10/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0008/10/24<br/>
+            <b>Año:</b> 2025 | <b>Mes:</b> 2<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> LUIS ANDRÉS MUÑOZ ORTEGA<br/>
+            <b>Predio:</b> P.P. FRACCIÓN PONIENTE No. UNO DE LOS EXCEDENTES DE SANTA ROSA ANTES EL SAUCILLAL<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 07/02/25<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 6
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.6899297102822,24.37822291657791,0
+                        -105.68761931180538,24.374006717098542,0
+                        -105.69912070442751,24.371262743784627,0
+                        -105.686046324089,24.347434344151797,0
+                        -105.69914232724868,24.344692213648575,0
+                        -105.71177960702079,24.372838509003262,0
+                        -105.6899297102822,24.37822291657791,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0212/10/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0212/10/24<br/>
+            <b>Año:</b> 2025 | <b>Mes:</b> 3<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> MIGUEL PÉREZ GAVILAN LOPEZ PORTILLO<br/>
+            <b>Predio:</b> P.P. LOTE NÚMERO 6 DEL FRACCIONAMIENTO DEL PREDIO RUSTICO LAS VEREDAS<br/>
+            <b>Tipo de Propiedad:</b> N/A<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 20/03/25<br/>
+            <b>Vigencia:</b> 31/12/36<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 6
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.92023260852481,24.360409344551123,0
+                        -105.8960224392529,24.355171795795727,0
+                        -105.88626522587084,24.351273489031687,0
+                        -105.88178176917197,24.33019376928099,0
+                        -105.91770974724788,24.34139610196338,0
+                        -105.92023260852481,24.360409344551123,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AS-0058/09/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AS-0058/09/24<br/>
+            <b>Año:</b> 2025 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> ISMAEL FRIAS OROZCO<br/>
+            <b>Predio:</b> PREDIO LOTES DE TERRENOS MARCADOS Nos. 41 y 42 DEL FRACCIONAMIENTO RUSTICO DENOMINADO LAGUNA COLORADA<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 15/01/25<br/>
+            <b>Vigencia:</b> 31/12/33<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 4
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.2234193233305,24.09809350239273,0
+                        -105.22876096147384,24.06978790458984,0
+                        -105.19587727111508,24.06431487917854,0
+                        -105.19066764588446,24.093486308738147,0
+                        -105.2234193233305,24.09809350239273,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/AQ-0176/11/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/AQ-0176/11/24<br/>
+            <b>Año:</b> 2025 | <b>Mes:</b> 7<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> San Dimas<br/>
+            <b>Titular:</b> NORA ILEANA VIDAURRI DAMM<br/>
+            <b>Predio:</b> P.P. PREDIO RÚSTICO DENOMINADO FRACCIÓN "C" DEL LOTE NO. 1 DE LA ANTIGUA HACIENDA DE SAN ANTONIO DE LA BORREGA<br/>
+            <b>Tipo de Propiedad:</b> Particular<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 01/07/25<br/>
+            <b>Vigencia:</b> 01/01/01<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 3
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.84249771315883,24.46154051048564,0
+                        -105.8400194367174,24.461274339118898,0
+                        -105.84477719839029,24.43346813690344,0
+                        -105.84249771315883,24.46154051048564,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+    <Placemark>
+        <n>10/C9-0121/08/24</n>
+        <description><![CDATA[
+            <b>Bitácora:</b> 10/C9-0121/08/24<br/>
+            <b>Año:</b> 2025 | <b>Mes:</b> 1<br/>
+            <hr/>
+            <b>Entidad:</b> Durango<br/>
+            <b>Municipio:</b> Durango<br/>
+            <b>Titular:</b> EJIDO N.C.P.E OJO DE AGUA EL CAZADOR<br/>
+            <b>Predio:</b> N.C.P.E OJO DE AGUA EL CAZADOR con domicilio para recibir y oír notificaciones en CALLE MAPIMÍ 314, COLONIA HIPODROMO, C.P. 34270<br/>
+            <b>Tipo de Propiedad:</b> Ejidal<br/>
+            <hr/>
+            <b>Fecha Autorización:</b> 15/01/25<br/>
+            <b>Vigencia:</b> 31/12/33<br/>
+            <b>Resolución:</b> Negado<br/>
+            <b>Código:</b>  <br/>
+            <hr/>
+            <b>Total Coordenadas:</b> 20
+        ]]></description>
+        <styleUrl>#defaultStyle</styleUrl>
+        <Polygon>
+            <extrude>0</extrude>
+            <altitudeMode>clampToGround</altitudeMode>
+            <outerBoundaryIs>
+                <LinearRing>
+                    <coordinates>
+                        -105.29845449481707,23.90697949349179,0
+                        -105.29017954242372,23.910210835421072,0
+                        -105.28753560103443,23.90973708933224,0
+                        -105.27118798313352,23.905476432823782,0
+                        -105.23821178727495,23.913452409954782,0
+                        -105.23008975427531,23.898705920083945,0
+                        -105.25164890988354,23.891247567160022,0
+                        -105.25859221154117,23.900178079395666,0
+                        -105.28213417694232,23.90171735765237,0
+                        -105.25792726276671,23.87200726436286,0
+                        -105.26914808901688,23.86448215245818,0
+                        -105.26942036046827,23.863162948762504,0
+                        -105.28420870970518,23.852974938981077,0
+                        -105.28740803000751,23.856437437828117,0
+                        -105.28737890634142,23.85659104262572,0
+                        -105.28764666020311,23.857764752093967,0
+                        -105.2901087194177,23.86083114192751,0
+                        -105.29170085186117,23.861324915028497,0
+                        -105.29561907738548,23.865463300311838,0
+                        -105.29772120694778,23.90424412288646,0
+                        -105.29845449481707,23.90697949349179,0
+                    </coordinates>
+                </LinearRing>
+            </outerBoundaryIs>
+        </Polygon>
+    </Placemark>
+</Document>
+</kml>
