@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Geoportal - Visualizador (ORE SEMARNAT Durango)</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Simple modern gov-like styling -->
+  <style>
+    :root{
+      --accent:#0b5ea8;
+      --muted:#f4f6f8;
+      --panel-w:360px;
+      --header-h:80px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0;padding:0}
+    body{
+      display:flex;
+      flex-direction:column;
+      height:100vh;
+      background:linear-gradient(180deg,#ffffff,#f7f9fb);
+      color:#1f2933;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* Header superior */
+    .main-header{
+      height:var(--header-h);
+      background:linear-gradient(135deg, #0b5ea8 0%, #084a87 100%);
+      box-shadow:0 4px 12px rgba(11,94,168,0.15);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 32px;
+      color:white;
+      z-index:2000;
+    }
+
+    .header-left{
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+
+    .header-logo{
+      width:56px;
+      height:56px;
+      background:rgba(255,255,255,0.15);
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      font-size:28px;
+      backdrop-filter:blur(10px);
+      border:2px solid rgba(255,255,255,0.2);
+    }
+
+    .header-title{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .header-title h1{
+      margin:0;
+      font-size:24px;
+      font-weight:700;
+      letter-spacing:-0.5px;
+    }
+
+    .header-title p{
+      margin:0;
+      font-size:13px;
+      opacity:0.9;
+      font-weight:400;
+    }
+
+    .header-right{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .header-badge{
+      background:rgba(255,255,255,0.15);
+      padding:8px 16px;
+      border-radius:8px;
+      font-size:13px;
+      font-weight:600;
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.2);
+    }
+
+    /* Container del mapa y panel */
+    .map-container{
+      flex:1;
+      display:flex;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* Left panel */
+    .panel{
+      width:var(--panel-w);
+      box-shadow:0 4px 18px rgba(16,24,40,0.08);
+      background:white;
+      padding:18px;
+      box-sizing:border-box;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      z-index:1000;
+      overflow-y:auto;
+    }
+
+    .brand{
+      display:flex;gap:12px;align-items:center;
+      padding-bottom:12px;
+      border-bottom:2px solid var(--muted);
+    }
+    .brand .logo{
+      width:44px;height:44px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:18px;
+    }
+    h2{font-size:16px;margin:0}
+    p.lead{margin:0;color:#4b5563;font-size:13px}
+
+    .controls{
+      display:flex;flex-direction:column;gap:12px;
+    }
+
+    .control-section{
+      padding:12px 0;
+      border-bottom:1px solid #eef2f7;
+    }
+
+    .control-section:last-child{
+      border-bottom:none;
+    }
+
+    .control-section > strong{
+      display:block;
+      margin-bottom:8px;
+      color:#374151;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+    }
+
+    .layer-row{
+      display:flex;align-items:center;justify-content:space-between;padding:8px;border-radius:8px;background:var(--muted);
+      gap:8px;font-size:13px;
+    }
+    .layer-row input{transform:scale(1.1)}
+    .legend{font-size:13px;color:#374151;padding:12px;border-radius:6px;background:#fff;border:1px solid #eef2f7}
+    .basemaps{display:flex;gap:6px;flex-wrap:wrap}
+    button.btn{
+      background:var(--accent);color:white;border:0;padding:8px 10px;border-radius:8px;font-weight:600;cursor:pointer;
+      transition:all 0.2s;
+    }
+    button.btn:hover{
+      background:#094d8f;
+      transform:translateY(-1px);
+    }
+    .small{font-size:12px;padding:6px 8px;background:#e5e7eb;color:#374151}
+    .small:hover{background:#d1d5db}
+    .footer{margin-top:auto;font-size:12px;color:#6b7280;padding-top:12px;border-top:1px solid #eef2f7}
+    #map{flex:1;position:relative}
+    .count-badge{
+      background:#e6eef9;
+      color:var(--accent);
+      padding:2px 6px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:12px;
+      min-width:28px;
+      text-align:center;
+      box-shadow:inset 0 -1px 0 rgba(0,0,0,0.03);
+    }
+    
+    /* Search Section Styles */
+    .search-box{
+      position:relative;
+      margin-top:8px;
+    }
+    .search-input{
+      width:100%;
+      padding:10px 36px 10px 12px;
+      border:2px solid #e5e7eb;
+      border-radius:8px;
+      font-size:13px;
+      transition:all 0.2s;
+      box-sizing:border-box;
+    }
+    .search-input:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(11,94,168,0.1);
+    }
+    .search-icon{
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
+      color:#9ca3af;
+      pointer-events:none;
+    }
+    .search-results{
+      margin-top:12px;
+      max-height:300px;
+      overflow-y:auto;
+      display:none;
+    }
+    .search-results.show{
+      display:block;
+    }
+    .search-result-item{
+      padding:10px;
+      background:#f9fafb;
+      border-radius:6px;
+      margin-bottom:6px;
+      cursor:pointer;
+      transition:all 0.2s;
+      border:1px solid #e5e7eb;
+    }
+    .search-result-item:hover{
+      background:#e6eef9;
+      border-color:var(--accent);
+      transform:translateX(2px);
+    }
+    .search-result-title{
+      font-weight:700;
+      font-size:13px;
+      color:#1f2937;
+      margin-bottom:6px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .search-result-subtitle{
+      font-size:11px;
+      color:#374151;
+      margin-bottom:6px;
+      font-weight:600;
+    }
+    .search-result-meta{
+      font-size:11px;
+      color:#6b7280;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .search-badge{
+      display:inline-block;
+      padding:2px 6px;
+      border-radius:4px;
+      font-size:10px;
+      font-weight:600;
+      text-transform:uppercase;
+    }
+    .no-results{
+      text-align:center;
+      padding:20px;
+      color:#9ca3af;
+      font-size:13px;
+    }
+    .search-stats{
+      font-size:12px;
+      color:#6b7280;
+      margin-top:8px;
+      padding:8px;
+      background:#f3f4f6;
+      border-radius:6px;
+      text-align:center;
+    }
+    
+    /* responsive */
+	
+	.footer-header{
+      background:#0b5ea8;
+      color:#fff;
+      text-align:center;
+      padding:14px 10px;
+      font-size:13px;
+      font-weight:600;
+    }
+    @media (max-width:900px){
+      .main-header{
+        height:auto;
+        padding:16px;
+        flex-direction:column;
+        gap:12px;
+      }
+      .header-title h1{font-size:18px}
+      .panel{position:absolute;left:10px;top:10px;width:320px;max-height:80vh}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Superior -->
+  <header class="main-header">
+    <div class="header-left">
+      <div class="header-logo">G</div>
+      <div class="header-title">
+        <h1>Geoportal SEMARNAT Durango</h1>
+        <p>Unidad de Gestión Ambiental: Aprovechamiento de Recursos Forestales Maderables en Terrenos Forestales o Preferentemente Forestales</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-badge">
+        🗺️ Visualizador Oficial Durango
+      </div>
+    </div>
+  </header>
+
+  <!-- Container del mapa -->
+  <div class="map-container">
+    <aside class="panel" id="panel">
+      <div class="brand">
+        <div class="logo">📍</div>
+        <div>
+          <h2>SNFG</h2>
+          <p class="lead">Base de datos al 05/12/2025</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="control-section">
+          <strong>Polígonos por tipo de Destino de la Bitácora</strong>
+          <div id="layersList" style="margin-top:8px;display:flex;flex-direction:column;gap:8px"></div>
+        </div>
+
+        <div class="control-section">
+          <strong>Mapas Base</strong>
+          <div class="basemaps" style="margin-top:8px">
+            <button class="btn small" id="osmBtn">OpenStreetMap</button>
+            <button class="small" id="satBtn">Satélite</button>
+          </div>
+        </div>
+
+        <div class="control-section">
+          <div class="legend" id="legend">
+            <strong>Leyenda del tipo de Bitácora</strong>
+            <div id="legendItems" style="margin-top:8px;display:flex;flex-direction:column;gap:8px"></div>
+          </div>
+        </div>
+
+        <div class="control-section" style="display:flex;gap:8px;align-items:center;border:none">
+          <button id="fitBtn" class="btn small">Ajustar Extensión</button>
+        </div>
+
+        <!-- NUEVA SECCIÓN DE BÚSQUEDA -->
+        <div class="control-section">
+          <strong>🔍 Buscar Polígonos</strong>
+          <div class="search-box">
+            <input 
+              type="text" 
+              id="searchInput" 
+              class="search-input" 
+              placeholder="Buscar por bitácora, predio, folio..."
+            />
+            <span class="search-icon">🔍</span>
+          </div>
+          <div id="searchStats" class="search-stats" style="display:none;"></div>
+          <div id="searchResults" class="search-results"></div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div>📊 <strong>Estado:</strong> <span id="status">Cargando capas...</span></div>
+        <div style="margin-top:6px">✓ <strong>Features:</strong> <span id="totalCount">0</span></div>
+        <small style="display:block;margin-top:8px;opacity:0.7">Datos: SNGF Durango | Diseño por TVH</small>
+      </div>
+    </aside>
+
+    <div id="map"></div>
+  </div>
+
+<!-- HEADER INFERIOR NUEVO -->
+<div class="footer-header">
+  SEMARNAT | Durango | Unidad de Gestión Ambiental
+</div>
+
+  <!-- leaflet-omnivore for KML/GPX/CSV -> GeoJSON -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-omnivore/0.3.4/leaflet-omnivore.min.js"></script>
+
+  <script>
+    // --- Configuración de KMLs ---
+    const baseUrl = 'https://dgo8mx.github.io/geoportalugadgo/kml1/';
+    const kmlFiles = [
+      {id:'autorizado_', name:'Autorizado', file:'autorizado_.kml', color:'#16a34a',zindex:1},
+      {id:'desistido', name:'Desistido', file:'desistido.kml', color:'#f59e0b',zindex:2},
+      {id:'negado', name:'Negado', file:'negado.kml', color:'#9f1239', zindex:3},
+      {id:'desechado', name:'Desechado', file:'desechado.kml', color:'#ef4444', zindex:4},
+      {id:'sin_resolucion', name:'Sin resolución', file:'sin_resolucion.kml', color:'#6b7280', zindex:5},
+      {id:'sin_clasificar', name:'Sin clasificar', file:'sin_clasificar.kml', color:'#3b82f6', zindex:6},
+    ];
+
+    // Mapa
+    const map = L.map('map', {minZoom:2}).setView([23.6345, -102.5528], 5);
+
+    // Basemaps
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom:19, attribution: 'Tiles &copy; Esri'
+    });
+
+    // Layers container
+    const kmlLayers = {};
+    const layerControlOrder = [];
+    
+    // Search data storage
+    const allFeatures = [];
+
+    // UI references
+    const layersList = document.getElementById('layersList');
+    const legendItems = document.getElementById('legendItems');
+    const status = document.getElementById('status');
+    const totalCountEl = document.getElementById('totalCount');
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    const searchStats = document.getElementById('searchStats');
+
+    let loadedCount = 0;
+    let totalFeatures = 0;
+
+    // Helper function to extract bitacora or predio number
+    function extractIdentifier(props) {
+      // Search for bitacora variations
+      const bitacoraKeys = ['bitacora', 'Bitacora', 'BITACORA', 'Bitácora', 'bitácora', 'No_Bitacora', 'no_bitacora'];
+      for (const key of bitacoraKeys) {
+        if (props[key]) return { type: 'Bitácora', value: props[key] };
+      }
+      
+      // Search for predio variations
+      const predioKeys = ['predio', 'Predio', 'PREDIO', 'No_Predio', 'no_predio', 'NumPredio', 'num_predio'];
+      for (const key of predioKeys) {
+        if (props[key]) return { type: 'Predio', value: props[key] };
+      }
+      
+      // Search for folio
+      const folioKeys = ['folio', 'Folio', 'FOLIO'];
+      for (const key of folioKeys) {
+        if (props[key]) return { type: 'Folio', value: props[key] };
+      }
+      
+      return null;
+    }
+
+    // Helper: create layer row in panel y legend entry
+    function addLayerRow(meta, layer, count) {
+      // layers list row
+      const row = document.createElement('div');
+      row.className = 'layer-row';
+      const left = document.createElement('div');
+      left.style.display='flex';
+      left.style.gap='8px';
+      left.style.alignItems='center';
+      const chk = document.createElement('input');
+      chk.type='checkbox';
+      chk.checked = true;
+      chk.onchange = () => {
+        if(chk.checked) layer.addTo(map);
+        else map.removeLayer(layer);
+      };
+      const label = document.createElement('div');
+      label.innerHTML = `<strong style="font-size:13px">${meta.name}</strong>`;
+      left.appendChild(chk);
+      left.appendChild(label);
+
+      const right = document.createElement('div');
+      right.style.display='flex'; right.style.gap='8px'; right.style.alignItems='center';
+      const gotoBtn = document.createElement('button');
+      gotoBtn.className = 'small';
+      gotoBtn.innerText = 'Ir a';
+      gotoBtn.onclick = () => zoomToLayer(meta.id);
+      right.appendChild(gotoBtn);
+
+      row.appendChild(left);
+      row.appendChild(right);
+      layersList.appendChild(row);
+
+      // legend
+      const li = document.createElement('div');
+      li.style.display='flex'; li.style.alignItems='center'; li.style.gap='8px'; li.style.justifyContent='space-between';
+      const leftLegend = document.createElement('div');
+      leftLegend.style.display='flex'; leftLegend.style.alignItems='center'; leftLegend.style.gap='8px';
+      leftLegend.innerHTML = `<div style="width:16px;height:12px;background:${meta.color};border-radius:3px"></div><div>${meta.name}</div>`;
+      const rightLegend = document.createElement('div');
+      rightLegend.style.display='flex'; rightLegend.style.alignItems='center'; rightLegend.style.gap='6px';
+      const countSpan = document.createElement('div');
+      countSpan.className = 'count-badge';
+      countSpan.style.background = '#f3f6f9';
+      countSpan.style.color = 'var(--accent)';
+      countSpan.innerText = (typeof count === 'number') ? count : '0';
+      rightLegend.appendChild(countSpan);
+
+      li.appendChild(leftLegend);
+      li.appendChild(rightLegend);
+
+      legendItems.appendChild(li);
+    }
+
+    // function to fit to layer
+    window.zoomToLayer = function(id){
+      const l = kmlLayers[id];
+      if(!l) return alert('Capa no cargada aún');
+      try {
+        map.fitBounds(l.getBounds(), {padding:[30,30]});
+      } catch(e){ console.warn(e) }
+    };
+
+    // Search functionality
+    function performSearch(query) {
+      const trimmedQuery = query.trim().toLowerCase();
+      
+      if (trimmedQuery.length === 0) {
+        searchResults.innerHTML = '';
+        searchResults.classList.remove('show');
+        searchStats.style.display = 'none';
+        return;
+      }
+
+      const results = allFeatures.filter(feature => {
+        const props = feature.properties;
+        for (const key in props) {
+          if (props[key] && String(props[key]).toLowerCase().includes(trimmedQuery)) {
+            return true;
+          }
+        }
+        return false;
+      });
+
+      displaySearchResults(results, trimmedQuery);
+    }
+
+    function displaySearchResults(results, query) {
+      searchResults.innerHTML = '';
+      
+      if (results.length === 0) {
+        searchResults.innerHTML = '<div class="no-results">No se encontraron resultados para "' + query + '"</div>';
+        searchResults.classList.add('show');
+        searchStats.style.display = 'none';
+        return;
+      }
+
+      searchStats.innerHTML = `Se encontraron <strong>${results.length}</strong> resultado(s)`;
+      searchStats.style.display = 'block';
+
+      results.slice(0, 50).forEach(feature => {
+        const item = document.createElement('div');
+        item.className = 'search-result-item';
+        
+        const props = feature.properties;
+        const meta = kmlFiles.find(f => f.id === feature.layerId);
+        
+        // Extract identifier (bitacora or predio)
+        const identifier = extractIdentifier(props);
+        
+        // Build title
+        let title = '';
+        if (identifier) {
+          title = `${identifier.type}: ${identifier.value}`;
+        } else {
+          title = props.name || props.Name || props.NOMBRE || props.nombre || 'Sin identificador';
+        }
+        
+        // Build subtitle
+        let subtitle = props.name || props.Name || props.NOMBRE || props.nombre || '';
+        
+        item.innerHTML = `
+          <div class="search-result-title">
+            📋 ${title}
+          </div>
+          ${subtitle && subtitle !== title ? `<div class="search-result-subtitle">${subtitle}</div>` : ''}
+          <div class="search-result-meta">
+            <span class="search-badge" style="background:${meta.color}20;color:${meta.color}">${meta.name}</span>
+            ${props.Folio && !title.includes(props.Folio) ? '<span>📄 Folio: ' + props.Folio + '</span>' : ''}
+            ${props.Expediente ? '<span>📋 Exp: ' + props.Expediente + '</span>' : ''}
+            ${props.Municipio || props.municipio ? '<span>📍 ' + (props.Municipio || props.municipio) + '</span>' : ''}
+          </div>
+        `;
+        
+        item.onclick = () => {
+          if (feature.layer && feature.layer.getBounds) {
+            map.fitBounds(feature.layer.getBounds(), {padding:[50,50], maxZoom:15});
+            feature.layer.openPopup();
+          }
+        };
+        
+        searchResults.appendChild(item);
+      });
+
+      if (results.length > 50) {
+        const moreInfo = document.createElement('div');
+        moreInfo.className = 'no-results';
+        moreInfo.innerHTML = `Mostrando 50 de ${results.length} resultados. Refina tu búsqueda.`;
+        searchResults.appendChild(moreInfo);
+      }
+
+      searchResults.classList.add('show');
+    }
+
+    // Search input event listener
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        performSearch(e.target.value);
+      }, 300);
+    });
+
+    // Load each KML with omnivore
+    kmlFiles.forEach((meta, index) => {
+      const url = baseUrl + meta.file;
+      const kml = omnivore.kml(url)
+        .on('ready', function() {
+          try {
+            this.eachLayer(function(featureLayer){
+              if(featureLayer.setStyle){
+                featureLayer.setStyle({
+                  color: meta.color,
+                  weight: 2,
+                  opacity: 0.9,
+                  fillOpacity: 0.35
+                });
+              }
+
+              let props = featureLayer.feature && featureLayer.feature.properties ? featureLayer.feature.properties : {};
+              
+              // Store feature for search
+              allFeatures.push({
+                layer: featureLayer,
+                properties: props,
+                layerId: meta.id,
+                layerName: meta.name,
+                color: meta.color
+              });
+              
+              let popupHtml = `
+<div style="font-family:'Segoe UI', Arial, sans-serif;font-size:12px;line-height:1.4;color:#1f2937;min-width:260px;">
+  <div style="background:#0b5ea8;color:white;padding:8px 10px;font-weight:700;font-size:13px;border-radius:6px 6px 0 0;text-align:center;">
+    Ficha Técnica
+  </div>
+  <div style="border:1px solid #e5e7eb;border-top:none;border-radius:0 0 6px 6px;overflow:hidden;">
+    <table style="width:100%; border-collapse:collapse;">
+`;
+
+              for (const k in props) {
+                if (k === 'styleUrl' || k === 'styleHash') continue;
+                popupHtml += `
+    <tr style="border-bottom:1px solid #e5e7eb;">
+      <td style="background:#f3f4f6;padding:6px 8px;font-weight:600;width:40%;text-transform:capitalize;">
+        ${k.replace(/_/g,' ')}
+      </td>
+      <td style="padding:6px 8px;">
+        ${props[k] ?? ''}
+      </td>
+    </tr>
+  `;
+              }
+
+              popupHtml += `</table></div></div>`;
+
+              featureLayer.bindPopup(popupHtml, {
+                maxWidth: 380,
+                closeButton: true
+              });
+            });
+          } catch(e){ console.warn('style error', e) }
+
+          kmlLayers[meta.id] = this;
+
+          kmlFiles.forEach((m, i) => {
+            const paneName = 'pane_' + m.id;
+            if(!map.getPane(paneName)) map.createPane(paneName);
+            map.getPane(paneName).style.zIndex = 400 + i;
+            m.pane = paneName;
+          });
+          
+          try {
+            this.eachLayer(l => {
+              if (l.options) l.options.pane = meta.pane;
+            });
+          } catch(e){}
+
+          this.addTo(map);
+
+          let count = 0;
+          try {
+            if (typeof this.getLayers === 'function') {
+              count = this.getLayers().length;
+            } else {
+              const gj = this.toGeoJSON ? this.toGeoJSON() : (this.feature ? this.feature : null);
+              if (gj && gj.features) count = gj.features.length;
+            }
+          } catch(e){ count = 0; }
+
+          loadedCount++;
+          totalFeatures += (Number.isFinite(count) ? count : 0);
+          status.innerText = `Capas cargadas: ${loadedCount} / ${kmlFiles.length}`;
+          totalCountEl.innerText = totalFeatures;
+
+          addLayerRow(meta, this, count);
+          layerControlOrder.push(this);
+
+          if(loadedCount === kmlFiles.length){
+            try {
+              const group = L.featureGroup(layerControlOrder);
+              map.fitBounds(group.getBounds(), {padding:[30,30]});
+            } catch(e){}
+          }
+        })
+        .on('error', function(err){
+          console.error('Error cargando KML:', url, err);
+          status.innerText = `Error cargando ${meta.file} (ver consola)`;
+          const placeholder = L.featureGroup();
+          kmlLayers[meta.id] = placeholder;
+          loadedCount++;
+          addLayerRow(meta, placeholder, 0);
+        });
+    });
+
+    // basemap buttons
+    document.getElementById('osmBtn').onclick = function(){
+      map.addLayer(osm); map.removeLayer(esriSat);
+    };
+    document.getElementById('satBtn').onclick = function(){
+      map.addLayer(esriSat); map.removeLayer(osm);
+    };
+
+    document.getElementById('fitBtn').onclick = function(){
+      try {
+        const group = L.featureGroup(Object.values(kmlLayers).filter(l=>l && l.getBounds));
+        map.fitBounds(group.getBounds(), {padding:[40,40]});
+      } catch(e){
+        alert('No hay geometría cargada aún para ajustar la extensión.');
+      }
+    };
+
+    // Accessibility / keyboard
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){
+        const p = document.getElementById('panel');
+        p.style.display = (p.style.display === 'none') ? 'flex' : 'none';
+      }
+    });
+  </script>
+  
+</body>
+</html>
