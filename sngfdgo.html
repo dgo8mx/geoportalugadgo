@@ -210,6 +210,33 @@
       color:#9ca3af;
       pointer-events:none;
     }
+    
+    /* Suggestions */
+    .search-suggestions{
+      margin-top:8px;
+      display:none;
+      gap:4px;
+      flex-wrap:wrap;
+    }
+    .search-suggestions.show{
+      display:flex;
+    }
+    .suggestion-chip{
+      background:#e6eef9;
+      color:var(--accent);
+      padding:4px 10px;
+      border-radius:12px;
+      font-size:11px;
+      cursor:pointer;
+      transition:all 0.2s;
+      border:1px solid transparent;
+    }
+    .suggestion-chip:hover{
+      background:var(--accent);
+      color:white;
+      transform:translateY(-1px);
+    }
+    
     .search-results{
       margin-top:12px;
       max-height:300px;
@@ -363,10 +390,11 @@
               type="text" 
               id="searchInput" 
               class="search-input" 
-              placeholder="Buscar por bitácora, predio, folio..."
+              placeholder="Buscar por bitácora, predio, municipio..."
             />
-            <span class="search-icon">🔍</span>
+            <span class="search-icon">🔎</span>
           </div>
+          <div id="searchSuggestions" class="search-suggestions"></div>
           <div id="searchStats" class="search-stats" style="display:none;"></div>
           <div id="searchResults" class="search-results"></div>
         </div>
@@ -420,6 +448,9 @@
     
     // Search data storage
     const allFeatures = [];
+    
+    // Variable para guardar el polígono actualmente resaltado
+    let currentHighlightedLayer = null;
 
     // UI references
     const layersList = document.getElementById('layersList');
@@ -429,36 +460,234 @@
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
     const searchStats = document.getElementById('searchStats');
+    const searchSuggestions = document.getElementById('searchSuggestions');
 
     let loadedCount = 0;
     let totalFeatures = 0;
 
-    // Helper function to extract bitacora or predio number
-    function extractIdentifier(props) {
-      // Search for bitacora variations
-      const bitacoraKeys = ['bitacora', 'Bitacora', 'BITACORA', 'Bitácora', 'bitácora', 'No_Bitacora', 'no_bitacora'];
-      for (const key of bitacoraKeys) {
-        if (props[key]) return { type: 'Bitácora', value: props[key] };
+    // MEJORADO: Función para extraer AMBOS bitácora Y predio del campo description
+    function extractFromDescription(description) {
+      if (!description || typeof description !== 'string') return null;
+      
+      // Remover tags HTML
+      const cleanText = description.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+      
+      const result = {
+        bitacora: null,
+        predio: null
+      };
+      
+      // Patrones mejorados para capturar bitácora completa
+      const bitacoraPatterns = [
+        /bitácora[:\s]+([A-Z0-9\-\/\.]+(?:\s*[A-Z0-9\-\/\.]+)*)/gi,
+        /bitacora[:\s]+([A-Z0-9\-\/\.]+(?:\s*[A-Z0-9\-\/\.]+)*)/gi,
+        /no\.?\s*bitácora[:\s]+([A-Z0-9\-\/\.]+(?:\s*[A-Z0-9\-\/\.]+)*)/gi,
+        /no\.?\s*bitacora[:\s]+([A-Z0-9\-\/\.]+(?:\s*[A-Z0-9\-\/\.]+)*)/gi
+      ];
+      
+      for (const pattern of bitacoraPatterns) {
+        pattern.lastIndex = 0;
+        const match = pattern.exec(cleanText);
+        if (match && match[1]) {
+          let value = match[1].trim();
+          if (value.length < 3) {
+            const contextMatch = cleanText.substring(match.index).match(/bitácora[:\s]+(.{3,30}?)(?=\s+predio|$)/i);
+            if (contextMatch && contextMatch[1]) {
+              value = contextMatch[1].trim();
+            }
+          }
+          result.bitacora = value;
+          break;
+        }
       }
       
-      // Search for predio variations
-      const predioKeys = ['predio', 'Predio', 'PREDIO', 'No_Predio', 'no_predio', 'NumPredio', 'num_predio'];
-      for (const key of predioKeys) {
-        if (props[key]) return { type: 'Predio', value: props[key] };
+      // Patrones mejorados para capturar predio completo
+      const predioPatterns = [
+        /predio[:\s]+([^,\n]{3,})(?=\s*bitácora|\s*bitacora|$)/gi,
+        /nombre\s*del?\s*predio[:\s]+([^,\n]{3,})(?=\s*bitácora|\s*bitacora|$)/gi
+      ];
+      
+      for (const pattern of predioPatterns) {
+        pattern.lastIndex = 0;
+        const match = pattern.exec(cleanText);
+        if (match && match[1]) {
+          result.predio = match[1].trim().substring(0, 50);
+          break;
+        }
       }
       
-      // Search for folio
-      const folioKeys = ['folio', 'Folio', 'FOLIO'];
-      for (const key of folioKeys) {
-        if (props[key]) return { type: 'Folio', value: props[key] };
+      return result;
+    }
+
+    // MEJORADO: Función que retorna AMBOS bitácora Y predio cuando están disponibles
+    function extractIdentifier(props, layerName) {
+      let bitacora = null;
+      let predio = null;
+      
+      // PASO 1: Intentar extraer de description primero
+      if (props.description || props.Description || props.DESCRIPTION) {
+        const descText = props.description || props.Description || props.DESCRIPTION;
+        const extracted = extractFromDescription(descText);
+        
+        if (extracted) {
+          if (extracted.bitacora && extracted.bitacora.length >= 3) {
+            bitacora = extracted.bitacora;
+          }
+          if (extracted.predio && extracted.predio.length >= 3) {
+            predio = extracted.predio;
+          }
+        }
       }
       
-      return null;
+      // PASO 2: Buscar en campos directos si no se encontraron
+      const allKeys = Object.keys(props);
+      
+      // Buscar bitácora si no se encontró
+      if (!bitacora) {
+        for (const key of allKeys) {
+          const lowerKey = key.toLowerCase();
+          const value = props[key];
+          
+          if (value && String(value).trim() !== '' && String(value).trim().length >= 2) {
+            if (lowerKey.includes('bitacora') || lowerKey.includes('bitácora')) {
+              bitacora = String(value).trim();
+              break;
+            }
+          }
+        }
+      }
+      
+      // Buscar predio si no se encontró
+      if (!predio) {
+        for (const key of allKeys) {
+          const lowerKey = key.toLowerCase();
+          const value = props[key];
+          
+          if (value && String(value).trim() !== '' && String(value).trim().length >= 3) {
+            if (lowerKey.includes('predio')) {
+              predio = String(value).trim();
+              break;
+            }
+          }
+        }
+      }
+      
+      // RETORNAR AMBOS si están disponibles
+      if (bitacora && predio) {
+        return { 
+          type: 'combined', 
+          bitacora: bitacora, 
+          predio: predio 
+        };
+      }
+      
+      // Si solo hay bitácora
+      if (bitacora) {
+        return { type: 'Bitácora', value: bitacora };
+      }
+      
+      // Si solo hay predio
+      if (predio) {
+        return { type: 'Predio', value: predio };
+      }
+      
+      // PASO 3: Buscar folio, expediente, nombre
+      const priorityKeys = ['folio', 'expediente', 'nombre', 'name'];
+      for (const keyName of priorityKeys) {
+        for (const key of allKeys) {
+          if (key.toLowerCase().includes(keyName)) {
+            const value = props[key];
+            if (value && String(value).trim() !== '' && String(value).trim().length >= 2) {
+              return { 
+                type: keyName.charAt(0).toUpperCase() + keyName.slice(1), 
+                value: String(value).trim() 
+              };
+            }
+          }
+        }
+      }
+      
+      // PASO 4: Tomar cualquier valor válido
+      const excludeKeys = ['styleUrl', 'styleHash', 'description', 'Description', 'DESCRIPTION'];
+      for (const key of allKeys) {
+        if (!excludeKeys.includes(key)) {
+          const value = props[key];
+          if (value && String(value).trim() !== '' && String(value).trim().length >= 2) {
+            return { type: key, value: String(value).trim().substring(0, 50) };
+          }
+        }
+      }
+      
+      // ÚLTIMO RECURSO: usar el nombre de la capa
+      return { type: 'Capa', value: layerName };
+    }
+
+    // Función para resaltar un polígono
+    function highlightPolygon(layer) {
+      if (currentHighlightedLayer) {
+        resetPolygonStyle(currentHighlightedLayer);
+      }
+
+      if (layer.setStyle) {
+        layer._originalStyle = {
+          weight: layer.options.weight,
+          color: layer.options.color,
+          fillOpacity: layer.options.fillOpacity,
+          opacity: layer.options.opacity
+        };
+        
+        layer.setStyle({
+          weight: 5,
+          color: '#ff6b00',
+          fillOpacity: 0.65,
+          opacity: 1
+        });
+      }
+
+      currentHighlightedLayer = layer;
+    }
+
+    function resetPolygonStyle(layer) {
+      if (layer && layer._originalStyle && layer.setStyle) {
+        layer.setStyle(layer._originalStyle);
+        delete layer._originalStyle;
+      }
+    }
+
+    // Generar sugerencias inteligentes
+    function generateSuggestions() {
+      const suggestions = new Set();
+      
+      // Obtener municipios únicos
+      allFeatures.forEach(feature => {
+        const props = feature.properties;
+        const municipio = props.Municipio || props.municipio || props.MUNICIPIO;
+        if (municipio && municipio.length > 2) {
+          suggestions.add(municipio);
+        }
+      });
+      
+      // Limitar a 6 sugerencias
+      const suggestionsArray = Array.from(suggestions).slice(0, 6);
+      
+      searchSuggestions.innerHTML = '';
+      if (suggestionsArray.length > 0) {
+        suggestionsArray.forEach(sugg => {
+          const chip = document.createElement('div');
+          chip.className = 'suggestion-chip';
+          chip.textContent = sugg;
+          chip.onclick = () => {
+            searchInput.value = sugg;
+            performSearch(sugg);
+          };
+          searchSuggestions.appendChild(chip);
+        });
+        searchSuggestions.classList.add('show');
+      }
     }
 
     // Helper: create layer row in panel y legend entry
     function addLayerRow(meta, layer, count) {
-      // layers list row
       const row = document.createElement('div');
       row.className = 'layer-row';
       const left = document.createElement('div');
@@ -510,7 +739,6 @@
       legendItems.appendChild(li);
     }
 
-    // function to fit to layer
     window.zoomToLayer = function(id){
       const l = kmlLayers[id];
       if(!l) return alert('Capa no cargada aún');
@@ -519,7 +747,6 @@
       } catch(e){ console.warn(e) }
     };
 
-    // Search functionality
     function performSearch(query) {
       const trimmedQuery = query.trim().toLowerCase();
       
@@ -527,8 +754,11 @@
         searchResults.innerHTML = '';
         searchResults.classList.remove('show');
         searchStats.style.display = 'none';
+        searchSuggestions.classList.add('show');
         return;
       }
+
+      searchSuggestions.classList.remove('show');
 
       const results = allFeatures.filter(feature => {
         const props = feature.properties;
@@ -563,36 +793,41 @@
         const props = feature.properties;
         const meta = kmlFiles.find(f => f.id === feature.layerId);
         
-        // Extract identifier (bitacora or predio)
-        const identifier = extractIdentifier(props);
+        const identifier = extractIdentifier(props, feature.layerName);
         
-        // Build title
+        // MEJORADO: Construir título con Bitácora Y Predio cuando ambos existan
         let title = '';
-        if (identifier) {
-          title = `${identifier.type}: ${identifier.value}`;
+        if (identifier.type === 'combined') {
+          title = `Bitácora: ${identifier.bitacora} | Predio: ${identifier.predio}`;
         } else {
-          title = props.name || props.Name || props.NOMBRE || props.nombre || 'Sin identificador';
+          title = `${identifier.type}: ${identifier.value}`;
         }
         
-        // Build subtitle
-        let subtitle = props.name || props.Name || props.NOMBRE || props.nombre || '';
+        let subtitle = '';
+        const nameValue = props.name || props.Name || props.NOMBRE || props.nombre || '';
+        if (nameValue && !title.includes(nameValue) && nameValue.length > 3) {
+          subtitle = nameValue;
+        }
         
         item.innerHTML = `
           <div class="search-result-title">
             📋 ${title}
           </div>
-          ${subtitle && subtitle !== title ? `<div class="search-result-subtitle">${subtitle}</div>` : ''}
+          ${subtitle ? `<div class="search-result-subtitle">${subtitle}</div>` : ''}
           <div class="search-result-meta">
             <span class="search-badge" style="background:${meta.color}20;color:${meta.color}">${meta.name}</span>
-            ${props.Folio && !title.includes(props.Folio) ? '<span>📄 Folio: ' + props.Folio + '</span>' : ''}
-            ${props.Expediente ? '<span>📋 Exp: ' + props.Expediente + '</span>' : ''}
+            ${props.Folio && !title.includes(props.Folio) ? '<span>📄 ' + props.Folio + '</span>' : ''}
+            ${props.Expediente && !title.includes(props.Expediente) ? '<span>📋 ' + props.Expediente + '</span>' : ''}
             ${props.Municipio || props.municipio ? '<span>📍 ' + (props.Municipio || props.municipio) + '</span>' : ''}
           </div>
         `;
         
         item.onclick = () => {
-          if (feature.layer && feature.layer.getBounds) {
-            map.fitBounds(feature.layer.getBounds(), {padding:[50,50], maxZoom:15});
+          if (feature.layer) {
+            highlightPolygon(feature.layer);
+            if (feature.layer.getBounds) {
+              map.fitBounds(feature.layer.getBounds(), {padding:[50,50], maxZoom:15});
+            }
             feature.layer.openPopup();
           }
         };
@@ -610,13 +845,19 @@
       searchResults.classList.add('show');
     }
 
-    // Search input event listener
     let searchTimeout;
     searchInput.addEventListener('input', (e) => {
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(() => {
         performSearch(e.target.value);
       }, 300);
+    });
+
+    // Mostrar sugerencias al hacer focus
+    searchInput.addEventListener('focus', () => {
+      if (searchInput.value.trim() === '') {
+        generateSuggestions();
+      }
     });
 
     // Load each KML with omnivore
@@ -637,13 +878,16 @@
 
               let props = featureLayer.feature && featureLayer.feature.properties ? featureLayer.feature.properties : {};
               
-              // Store feature for search
               allFeatures.push({
                 layer: featureLayer,
                 properties: props,
                 layerId: meta.id,
                 layerName: meta.name,
                 color: meta.color
+              });
+              
+              featureLayer.on('click', function(e) {
+                highlightPolygon(featureLayer);
               });
               
               let popupHtml = `
@@ -717,6 +961,8 @@
             try {
               const group = L.featureGroup(layerControlOrder);
               map.fitBounds(group.getBounds(), {padding:[30,30]});
+              // Generar sugerencias después de cargar todo
+              generateSuggestions();
             } catch(e){}
           }
         })
@@ -730,7 +976,6 @@
         });
     });
 
-    // basemap buttons
     document.getElementById('osmBtn').onclick = function(){
       map.addLayer(osm); map.removeLayer(esriSat);
     };
@@ -747,11 +992,24 @@
       }
     };
 
-    // Accessibility / keyboard
+    map.on('click', function(e) {
+      if (!e.originalEvent || !e.originalEvent.target || !e.originalEvent.target.classList.contains('leaflet-interactive')) {
+        if (currentHighlightedLayer) {
+          resetPolygonStyle(currentHighlightedLayer);
+          currentHighlightedLayer = null;
+        }
+      }
+    });
+
     document.addEventListener('keydown', function(e){
       if(e.key === 'Escape'){
         const p = document.getElementById('panel');
         p.style.display = (p.style.display === 'none') ? 'flex' : 'none';
+        
+        if (currentHighlightedLayer) {
+          resetPolygonStyle(currentHighlightedLayer);
+          currentHighlightedLayer = null;
+        }
       }
     });
   </script>
