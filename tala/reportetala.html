@@ -2,184 +2,72 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Geoportal de Reportes Ciudadanos</title>
+  <title>Geoportal de Reportes – Tala Ilegal</title>
 
   <!-- Leaflet -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Leaflet Draw -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <!-- Fuente -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
+    body{margin:0;font-family:Inter,Arial;background:#f3f4f6;}
+    header{background:#990033;color:#fff;padding:20px;font-size:20px;font-weight:600;}
+    .app{display:grid;grid-template-columns:1fr 420px;height:calc(100vh - 72px);}
+    #map{width:100%;height:100%;}
+    .sidebar{background:#fff;padding:20px;overflow-y:auto;border-left:1px solid #e5e7eb;}
+    h2{margin-bottom:15px;}
+    label{font-size:14px;}
+    input, textarea{width:100%;padding:10px;margin-top:5px;margin-bottom:10px;border:1px solid #d1d5db;border-radius:8px;}
+    textarea{resize:none;height:80px;}
+    .coords{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+    button{
+      width:100%;padding:12px;border:none;border-radius:10px;
+      font-size:14px;font-weight:500;color:#fff;cursor:pointer;
+      margin-bottom:10px;
     }
 
-    body {
-      background-color: #f3f4f6;
-      color: #111827;
-    }
+    .btn-primary{background:#2563eb;}
+    .btn-location{background:#059669;}
+    .btn-track{background:#7c3aed;}
+    .btn-route{background:#0d9488;}
+    .btn-export{background:#334155;}
 
-    header {
-      background-color: #990033;
-      color: #ffffff;
-      padding: 20px 40px;
-      font-size: 22px;
-      font-weight: 600;
-    }
+    .status{font-size:13px;font-weight:600;margin-top:5px;}
 
-    .app {
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      height: calc(100vh - 72px);
-    }
-
-    #map {
-      width: 100%;
-      height: 100%;
-    }
-
-    .sidebar {
-      background-color: #ffffff;
-      padding: 25px;
-      border-left: 1px solid #e5e7eb;
-      overflow-y: auto;
-    }
-
-    .sidebar h2 {
-      font-size: 18px;
-      margin-bottom: 15px;
-    }
-
-    label {
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      font-size: 14px;
-    }
-
-    textarea {
-      resize: none;
-      height: 100px;
-    }
-
-    .coords {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    button {
-      width: 100%;
-      background-color: #2563eb;
-      color: white;
-      border: none;
-      padding: 14px;
-      font-size: 16px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    button:hover {
-      background-color: #1d4ed8;
-    }
-
-    .status {
-      margin-top: 10px;
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .search-box {
-      position: absolute;
-      top: 90px;
-      left: 20px;
-      z-index: 1000;
-      background: white;
-      width: 320px;
-      border-radius: 14px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      padding: 12px;
-    }
-
-    .results {
-      max-height: 220px;
-      overflow-y: auto;
-    }
-
-    .result-item {
-      padding: 6px 8px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .result-item:hover {
-      background-color: #f3f4f6;
-    }
-
-    .loading {font-size: 12px;color: #6b7280;}
-    .no-results {font-size: 13px;color: #9ca3af;}
-    .selected-location {font-size:12px;color:#16a34a;font-weight:600;}
-
-    .leaflet-control-layers {
-      background: rgba(255,255,255,0.95) !important;
-      border-radius: 16px !important;
-      padding: 10px !important;
-      border: 1px solid #e5e7eb !important;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.25) !important;
-      font-size: 14px !important;
+    .leaflet-control-layers{
+      background:#fff;border-radius:16px;padding:10px;border:1px solid #e5e7eb;
+      box-shadow:0 12px 30px rgba(0,0,0,0.25);
     }
   </style>
 </head>
 
 <body>
 
-<header>🌎 Geoportal de Reportes Ciudadanos de Tala Ilegal en Bosques de México</header>
+<header>🌲 Geoportal de Reportes – Tala Ilegal (México)</header>
 
 <div class="app">
 
-  <!-- Mapa -->
-  <div style="position: relative;">
-    <div class="search-box">
-      <input id="busqueda" type="text" placeholder="Buscar localidad en México…">
-      <div id="resultados" class="results"></div>
-    </div>
-    <div id="map"></div>
-  </div>
+  <div id="map"></div>
 
-  <!-- Sidebar -->
+  <!-- SIDEBAR -->
   <div class="sidebar">
 
     <h2>Nuevo reporte</h2>
 
     <form id="formReporte">
       <label>Tipo de reporte</label>
-      <input id="titulo" type="text" required>
+      <input id="titulo" required>
 
       <label>Descripción</label>
       <textarea id="descripcion" required></textarea>
@@ -187,82 +75,84 @@
       <div class="coords">
         <div>
           <label>Latitud</label>
-          <input id="lat" type="text" readonly>
+          <input id="lat" readonly>
         </div>
         <div>
           <label>Longitud</label>
-          <input id="lng" type="text" readonly>
+          <input id="lng" readonly>
         </div>
       </div>
 
-      <button type="submit">Guardar reporte</button>
+      <button type="button" id="btnUbicacion" class="btn-location">📍 Usar mi ubicación</button>
+      <button type="button" id="btnSeguimiento" class="btn-track">📡 Seguimiento en tiempo real</button>
+      <div id="precisionGps" style="font-size:12px;margin-bottom:10px;color:#6b7280;"></div>
+
+      <button type="submit" class="btn-primary">Guardar reporte</button>
       <div id="estado" class="status"></div>
     </form>
 
-    <hr style="margin:20px 0;">
+    <hr>
+    <h2>Rutas GPS</h2>
 
-    <h2>Capas</h2>
-    <label style="display:flex;align-items:center;gap:10px;">
-      <input id="toggleReportes" type="checkbox" checked style="transform:scale(1.2);">
+    <button id="btnStartRoute" class="btn-route">▶ Iniciar grabación de ruta</button>
+    <button id="btnStopRoute" class="btn-route" style="background:#be123c;">⏹ Detener grabación</button>
+
+    <button id="btnGuardarRuta" class="btn-primary">💾 Guardar ruta en Supabase</button>
+
+    <button id="btnExportRoute" class="btn-export">⬇ Exportar ruta (GeoJSON)</button>
+    <button id="btnExportKML" class="btn-export">⬇ Exportar ruta (KML)</button>
+
+    <hr>
+
+    <h2>Zonas Críticas</h2>
+    <button id="btnDibujarPoligono" class="btn-route">✏ Dibujar zona crítica</button>
+
+    <hr>
+
+    <label style="display:flex;gap:10px;align-items:center;margin-top:10px;">
+      <input id="toggleReportes" type="checkbox" checked>
       Mostrar reportes en el mapa
     </label>
 
-    <div id="contadorReportes" style="margin-top:8px;font-size:13px;color:#6b7280;"></div>
+    <div id="contadorReportes" style="font-size:13px;color:#6b7280;margin-top:5px;"></div>
 
   </div>
 </div>
 
 <script>
-  const supabaseUrl = 'https://tcejcwfocunsozsnahge.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjZWpjd2ZvY3Vuc296c25haGdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4MTg1NDIsImV4cCI6MjA4MDM5NDU0Mn0.XhgwFT0_HCqm2dCq6_Bedmx-JAQFfzOdQfAGfap5IBk';
+
+  /* ============================================================
+     CONFIGURACIÓN SUPABASE
+  ============================================================ */
+  const supabaseUrl = "https://tcejcwfocunsozsnahge.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjZWpjd2ZvY3Vuc296c25haGdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4MTg1NDIsImV4cCI6MjA4MDM5NDU0Mn0.XhgwFT0_HCqm2dCq6_Bedmx-JAQFfzOdQfAGfap5IBk";
   const clienteSupabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-  const map = L.map('map').setView([23.6345, -102.5528], 5);
+  /* ============================================================
+     MAPA BASE
+  ============================================================ */
+  const map = L.map("map").setView([23.6345, -102.5528], 6);
 
-  // Capas base
-  const capaCalles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 });
-  const capaSatelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 });
-  const capaTopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { maxZoom: 17 });
+  const capaCalles = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
-  capaCalles.addTo(map);
+  const capaReportes = L.layerGroup().addTo(map);
+  const capaZonas = new L.FeatureGroup().addTo(map);
 
-  const capasBase = {
-    "🗺️ Calles": capaCalles,
-    "🛰️ Satélite": capaSatelite,
-    "⛰️ Topográfica": capaTopo
-  };
-
-  L.control.layers(capasBase, null, { position:'topright', collapsed:true }).addTo(map);
-
-  let tempMarker = null;
-  let capaReportes = L.layerGroup().addTo(map);
-
-  // Click en mapa
-map.on('click', (e) => {
-  const coords = e.latlng;
-  const latField = document.getElementById('lat');
-  const lngField = document.getElementById('lng');
-
-  latField.value = coords.lat.toFixed(6);
-  lngField.value = coords.lng.toFixed(6);
-
-  if (!tempMarker) {
-    tempMarker = L.marker([coords.lat, coords.lng]).addTo(map);
-  } else {
-    tempMarker.setLatLng(coords);
-  }
-});
+  L.control.layers(
+    { "Calles (OSM)": capaCalles },
+    { "Reportes": capaReportes, "Zonas críticas": capaZonas }
+  ).addTo(map);
 
 
-  // Cargar reportes
+  /* ============================================================
+     CARGAR REPORTES DESDE SUPABASE
+  ============================================================ */
   async function cargarReportes() {
     capaReportes.clearLayers();
 
-    const { data, error } = await clienteSupabase
-      .from('reportes')
-      .select('*');
+    const { data, error } = await clienteSupabase.from("reportes").select("*");
 
-    if (!error && data) {
+    if (data) {
       data.forEach(r => {
         if (r.latitud && r.longitud) {
           L.marker([r.latitud, r.longitud])
@@ -271,96 +161,443 @@ map.on('click', (e) => {
         }
       });
 
-      contadorReportes.innerText = `Reportes cargados: ${data.length}`;
+      contadorReportes.innerText = `Reportes: ${data.length}`;
     }
   }
 
   cargarReportes();
 
-  // Toggle de capa
-  toggleReportes.addEventListener('change', function() {
-    if (this.checked) {
-      map.addLayer(capaReportes);
-    } else {
-      map.removeLayer(capaReportes);
-    }
+  toggleReportes.addEventListener("change", function() {
+    this.checked ? map.addLayer(capaReportes) : map.removeLayer(capaReportes);
   });
 
-  // Guardar reporte
-  formReporte.addEventListener('submit', async function(e) {
+
+  /* ============================================================
+     SELECCIÓN DE COORDENADAS CON CLICK
+  ============================================================ */
+  let tempMarker = null;
+
+  map.on("click", e => {
+    const { lat, lng } = e.latlng;
+
+    document.getElementById("lat").value = lat.toFixed(6);
+    document.getElementById("lng").value = lng.toFixed(6);
+
+    if (!tempMarker)
+      tempMarker = L.marker([lat, lng]).addTo(map);
+    else
+      tempMarker.setLatLng([lat, lng]);
+  });
+
+
+  /* ============================================================
+     GEOLOCALIZACIÓN ÚNICA
+  ============================================================ */
+  btnUbicacion.onclick = () => {
+    navigator.geolocation.getCurrentPosition(pos => {
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+
+      document.getElementById("lat").value = lat.toFixed(6);
+      document.getElementById("lng").value = lng.toFixed(6);
+
+      map.flyTo([lat, lng], 17);
+
+      if (!tempMarker)
+        tempMarker = L.marker([lat, lng]).addTo(map);
+      else
+        tempMarker.setLatLng([lat, lng]);
+    });
+  };
+
+
+  /* ============================================================
+     SEGUIMIENTO GPS EN TIEMPO REAL
+  ============================================================ */
+  let watchId = null;
+  let markerGPS = null;
+
+  btnSeguimiento.onclick = () => {
+    if (!watchId) {
+
+      btnSeguimiento.innerText = "🛑 Detener seguimiento";
+      btnSeguimiento.style.background = "#dc2626";
+
+      watchId = navigator.geolocation.watchPosition(pos => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        precisionGps.innerText = `Precisión: ±${Math.round(pos.coords.accuracy)} m`;
+
+        document.getElementById("lat").value = lat.toFixed(6);
+        document.getElementById("lng").value = lng.toFixed(6);
+
+        if (!markerGPS)
+          markerGPS = L.marker([lat, lng]).addTo(map);
+        else
+          markerGPS.setLatLng([lat, lng]);
+
+        map.setView([lat, lng], 18);
+      });
+
+    } else {
+
+      navigator.geolocation.clearWatch(watchId);
+      watchId = null;
+
+      btnSeguimiento.innerText = "📡 Seguimiento en tiempo real";
+      btnSeguimiento.style.background = "#7c3aed";
+      precisionGps.innerText = "";
+    }
+  };
+
+
+  /* ============================================================
+     GUARDAR REPORTE EN SUPABASE
+  ============================================================ */
+  formReporte.onsubmit = async e => {
     e.preventDefault();
 
-    const titulo = document.getElementById('titulo').value;
-    const descripcion = document.getElementById('descripcion').value;
-    const latVal = document.getElementById('lat').value;
-    const lngVal = document.getElementById('lng').value;
+    const titulo = document.getElementById("titulo").value;
+    const descripcion = document.getElementById("descripcion").value;
+    const lat = document.getElementById("lat").value;
+    const lng = document.getElementById("lng").value;
 
-    if (!latVal || !lngVal) {
-      alert('Selecciona una ubicación en el mapa');
+    const { error } = await clienteSupabase.from("reportes")
+      .insert([{ titulo, descripcion, latitud: lat, longitud: lng }]);
+
+    if (error) {
+      estado.innerText = "❌ Error: " + error.message;
+      estado.style.color = "red";
+    } else {
+      estado.innerText = "✅ Reporte guardado";
+      estado.style.color = "green";
+      formReporte.reset();
+      cargarReportes();
+    }
+  };
+
+
+  /* ============================================================
+     GRABACIÓN DE RUTAS GPS
+  ============================================================ */
+  let grabandoRuta = false;
+  let rutaCoords = [];
+  let lineaRuta = null;
+
+  btnStartRoute.onclick = () => {
+    grabandoRuta = true;
+    rutaCoords = [];
+    alert("Grabación iniciada. Se registrará tu movimiento GPS.");
+  };
+
+  btnStopRoute.onclick = () => {
+    grabandoRuta = false;
+    alert("Grabación detenida.");
+  };
+
+  navigator.geolocation.watchPosition(pos => {
+    if (!grabandoRuta) return;
+
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+    const point = [lat, lng];
+
+    rutaCoords.push(point);
+
+    if (!lineaRuta)
+      lineaRuta = L.polyline(rutaCoords, { color: "red" }).addTo(map);
+    else
+      lineaRuta.setLatLngs(rutaCoords);
+
+  });
+
+
+  /* ============================================================
+     GUARDAR RUTA EN SUPABASE (LineString)
+  ============================================================ */
+  btnGuardarRuta.onclick = async () => {
+    if (rutaCoords.length < 2) {
+      alert("No hay suficiente información en la ruta.");
       return;
     }
 
-    const { error } = await clienteSupabase
-      .from('reportes')
-      .insert([{ titulo, descripcion, latitud: latVal, longitud: lngVal }]);
+    const nombreRuta = prompt("Nombre de esta ruta:");
 
-    if (!error) {
-      estado.innerText = '✅ Reporte guardado';
-      estado.style.color = '#16a34a';
-      this.reset();
-      await cargarReportes();
+    if (!nombreRuta) return;
+
+    const geojsonLinea = {
+      type: "Feature",
+      geometry: {
+        type: "LineString",
+        coordinates: rutaCoords.map(c => [c[1], c[0]]) // lng, lat
+      }
+    };
+
+    const { error } = await clienteSupabase
+      .from("rutas_gps")
+      .insert([{ nombre: nombreRuta, geom: geojsonLinea }]);
+
+    if (error) {
+      alert("Error guardando ruta: " + error.message);
     } else {
-      estado.innerText = '❌ Error: ' + error.message;
-      estado.style.color = '#dc2626';
+      alert("Ruta guardada correctamente en Supabase.");
+    }
+  };
+
+
+  /* ============================================================
+     EXPORTAR GEOJSON
+  ============================================================ */
+  btnExportRoute.onclick = () => {
+    if (rutaCoords.length < 2) {
+      alert("No hay datos suficientes.");
+      return;
+    }
+
+    const geojson = {
+      type: "Feature",
+      geometry: {
+        type: "LineString",
+        coordinates: rutaCoords.map(c => [c[1], c[0]])
+      }
+    };
+
+    const blob = new Blob([JSON.stringify(geojson)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ruta.geojson";
+    a.click();
+  };
+
+
+  /* ============================================================
+     EXPORTAR KML
+  ============================================================ */
+  btnExportKML.onclick = () => {
+    if (rutaCoords.length < 2) {
+      alert("No hay datos suficientes.");
+      return;
+    }
+
+    const kml = `
+    <?xml version="1.0" encoding="UTF-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2">
+      <Document>
+        <Placemark>
+          <name>Ruta GPS</name>
+          <LineString>
+            <coordinates>
+              ${rutaCoords.map(c => `${c[1]},${c[0]},0`).join(" ")}
+            </coordinates>
+          </LineString>
+        </Placemark>
+      </Document>
+    </kml>
+    `;
+
+    const blob = new Blob([kml], { type: "application/vnd.google-earth.kml+xml" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ruta.kml";
+    a.click();
+  };
+
+
+  /* ============================================================
+     DIBUJAR ZONAS CRÍTICAS + GUARDAR EN SUPABASE
+  ============================================================ */
+  const drawControl = new L.Control.Draw({
+    edit: { featureGroup: capaZonas },
+    draw: {
+      polygon: true,
+      rectangle: true,
+      circle: false,
+      marker: false,
+      polyline: false
     }
   });
 
-  // Buscador
-  let marcadorBusqueda = null;
-  let timeoutBusqueda = null;
+  btnDibujarPoligono.onclick = () => {
+    map.addControl(drawControl);
+    alert("Dibuja una zona crítica en el mapa.");
+  };
 
-  busqueda.addEventListener('input', function () {
-    const texto = this.value.trim();
-    resultados.innerHTML = '';
-    if (texto.length < 3) return;
+  map.on(L.Draw.Event.CREATED, async function (e) {
+    capaZonas.addLayer(e.layer);
 
-    clearTimeout(timeoutBusqueda);
-    timeoutBusqueda = setTimeout(() => {
+    const geojson = e.layer.toGeoJSON();
+    const titulo = prompt("Nombre de esta zona crítica:");
 
-      fetch(`https://nominatim.openstreetmap.org/search?format=json&countrycodes=mx&limit=10&q=${encodeURIComponent(texto)}`)
-        .then(r => r.json())
-        .then(data => {
-          resultados.innerHTML = '';
+    if (!titulo) return;
 
-          if (!data.length) {
-            resultados.innerHTML = '<div class="no-results">Sin resultados</div>';
-            return;
-          }
+    const { error } = await clienteSupabase
+      .from("zonas_criticas")
+      .insert([{ titulo, geom: geojson }]);
 
-          data.forEach(l => {
-            const div = document.createElement('div');
-            div.className = 'result-item';
-            div.innerHTML = `<strong>${l.display_name}</strong>`;
-
-            div.onclick = () => {
-              const lat = parseFloat(l.lat);
-              const lng = parseFloat(l.lon);
-              map.flyTo([lat, lng], 15);
-
-              if (!marcadorBusqueda) {
-                marcadorBusqueda = L.marker([lat, lng]).addTo(map);
-              } else {
-                marcadorBusqueda.setLatLng([lat, lng]);
-              }
-
-              resultados.innerHTML = `<div class="selected-location">Ubicación seleccionada ✅</div>`;
-            };
-
-            resultados.appendChild(div);
-          });
-        });
-    }, 400);
+    if (error)
+      alert("Error guardando zona: " + error.message);
+    else
+      alert("Zona crítica guardada en Supabase.");
   });
+
+  /* ============================================================
+     BUSCADOR DE LOCALIDADES (CONTROL PERSONALIZADO)
+  ============================================================ */
+
+  // Crear control de búsqueda
+  const SearchControl = L.Control.extend({
+    onAdd: function(map) {
+      const container = L.DomUtil.create('div', 'search-control');
+      container.style.background = 'white';
+      container.style.padding = '8px';
+      container.style.borderRadius = '8px';
+      container.style.boxShadow = '0 8px 20px rgba(0,0,0,0.12)';
+      container.style.width = '320px';
+      container.style.maxHeight = '320px';
+      container.style.overflow = 'auto';
+      container.style.fontFamily = 'Inter, Arial';
+      container.innerHTML = `
+        <input id="inputSearch" placeholder="Buscar localidad en México..." style="width:100%;padding:8px;border:1px solid #e5e7eb;border-radius:6px;margin-bottom:6px;">
+        <div id="searchResults" style="font-size:13px;"></div>
+      `;
+      // evitar que el mapa reciba clicks cuando se escribe
+      L.DomEvent.disableClickPropagation(container);
+      return container;
+    }
+  });
+
+  const searchControl = new SearchControl({ position: 'topleft' });
+  map.addControl(searchControl);
+
+  const inputSearch = document.getElementById('inputSearch');
+  const searchResults = document.getElementById('searchResults');
+  let marcadorBusqueda = null;
+  let searchTimeout = null;
+
+  inputSearch.addEventListener('input', function() {
+    const q = this.value.trim();
+    searchResults.innerHTML = '';
+    if (q.length < 3) return;
+
+    if (searchTimeout) clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(async () => {
+      searchResults.innerHTML = '<div style="color:#6b7280;padding:6px">Buscando…</div>';
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&countrycodes=mx&limit=8&q=${encodeURIComponent(q)}`);
+        const data = await res.json();
+
+        if (!data.length) {
+          searchResults.innerHTML = '<div style="color:#9ca3af;padding:6px">Sin resultados</div>';
+          return;
+        }
+
+        searchResults.innerHTML = '';
+        data.forEach(place => {
+          const item = document.createElement('div');
+          item.style.padding = '6px';
+          item.style.cursor = 'pointer';
+          item.style.borderBottom = '1px solid #f3f4f6';
+          item.innerHTML = `<strong style="font-size:13px">${place.display_name}</strong>`;
+          item.onclick = () => {
+            const lat = parseFloat(place.lat);
+            const lon = parseFloat(place.lon);
+
+            map.flyTo([lat, lon], 15);
+
+            if (!marcadorBusqueda) {
+              marcadorBusqueda = L.marker([lat, lon]).addTo(map);
+            } else {
+              marcadorBusqueda.setLatLng([lat, lon]);
+            }
+
+            marcadorBusqueda.bindPopup(`📍 ${place.display_name}`).openPopup();
+
+            document.getElementById('lat').value = lat.toFixed(6);
+            document.getElementById('lng').value = lon.toFixed(6);
+
+            searchResults.innerHTML = `<div style="color:#16a34a;padding:6px">Ubicación seleccionada ✅</div>`;
+            inputSearch.value = place.display_name;
+          };
+          searchResults.appendChild(item);
+        });
+
+      } catch (err) {
+        searchResults.innerHTML = '<div style="color:#ef4444;padding:6px">Error en la búsqueda</div>';
+        console.error(err);
+      }
+    }, 350);
+  });
+
+
+  /* ============================================================
+     CARGAR RUTAS Y ZONAS GUARDADAS (AL INICIAR)
+  ============================================================ */
+  async function cargarRutasGuardadas() {
+    // Cargar rutas (rutas_gps)
+    const { data: rutas, error: errRutas } = await clienteSupabase.from('rutas_gps').select('*');
+    if (errRutas) {
+      console.error('Error cargando rutas:', errRutas.message);
+    } else if (rutas) {
+      rutas.forEach(r => {
+        try {
+          const geo = r.geom;
+          if (geo && geo.geometry && geo.geometry.type === 'LineString') {
+            const coords = geo.geometry.coordinates.map(c => [c[1], c[0]]); // lat,lng
+            L.polyline(coords, { color: '#ff4500', weight: 4, opacity: 0.8 })
+              .bindPopup(`<b>${r.nombre}</b><br>${new Date(r.fecha).toLocaleString()}`)
+              .addTo(map);
+          }
+        } catch (e) {
+          console.warn('Formato ruta inválido', e);
+        }
+      });
+    }
+
+    // Cargar zonas críticas (zonas_criticas)
+    const { data: zonas, error: errZonas } = await clienteSupabase.from('zonas_criticas').select('*');
+    if (errZonas) {
+      console.error('Error cargando zonas:', errZonas.message);
+    } else if (zonas) {
+      zonas.forEach(z => {
+        try {
+          const gj = z.geom;
+          const layer = L.geoJSON(gj, {
+            style: { color: '#8b0000', fillOpacity: 0.2, weight: 2 }
+          }).bindPopup(`<b>${z.titulo}</b><br>${new Date(z.fecha).toLocaleString()}`);
+          capaZonas.addLayer(layer);
+        } catch (e) {
+          console.warn('Formato zona inválido', e);
+        }
+      });
+    }
+  }
+
+  // Ejecutar cargas iniciales
+  cargarRutasGuardadas();
+
+
+  /* ============================================================
+     LIMPIEZA: quitar control de dibujo cuando el usuario termina edición
+  ============================================================ */
+  map.on('draw:deleted', function(e) {
+    // Opcional: podrías implementar borrado en Supabase,
+    // por ahora solo se elimina visualmente del mapa.
+  });
+
+  map.on('draw:edited', function(e) {
+    // Edición local: si quieres sincronizar cambios con la base,
+    // implementa aquí la actualización a Supabase.
+  });
+
+
+  /* ============================================================
+     FIN DEL SCRIPT / CIERRE
+  ============================================================ */
 
 </script>
 </body>
