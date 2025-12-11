@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Geoportal de Reportes Ciudadanos</title>
+
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Fuente -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: #f3f4f6;
+      color: #111827;
+    }
+
+    header {
+      background-color: #990033;
+      color: #ffffff;
+      padding: 20px 40px;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      height: calc(100vh - 72px);
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    .sidebar {
+      background-color: #ffffff;
+      padding: 25px;
+      border-left: 1px solid #e5e7eb;
+      overflow-y: auto;
+    }
+
+    .sidebar h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    .coords {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    button {
+      width: 100%;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background-color: #1d4ed8;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .search-box {
+      position: absolute;
+      top: 90px;
+      left: 20px;
+      z-index: 1000;
+      background: white;
+      width: 320px;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      padding: 12px;
+    }
+
+    .results {
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    .result-item {
+      padding: 6px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .result-item:hover {
+      background-color: #f3f4f6;
+	  
+	  
+    }
+	.loading {
+  font-size: 12px;
+  color: #6b7280;
+  padding: 5px 0;
+}
+
+.no-results {
+  font-size: 13px;
+  color: #9ca3af;
+  padding: 5px 0;
+}
+
+.selected-location {
+  font-size: 12px;
+  color: #16a34a;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* ===== ESTILO PROFESIONAL PARA CONTROL DE CAPAS ===== */
+.leaflet-control-layers {
+  background: rgba(255,255,255,0.95) !important;
+  border-radius: 16px !important;
+  padding: 10px !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25) !important;
+  font-size: 14px !important;
+}
+
+.leaflet-control-layers label {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.leaflet-control-layers label:hover {
+  background: #f3f4f6;
+  transform: scale(1.02);
+}
+
+.leaflet-control-layers input[type="radio"] {
+  accent-color: #990033;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.leaflet-control-layers-overlays {
+  margin-top: 6px;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 6px;
+}
+
+.leaflet-control-layers-toggle {
+  width: 48px !important;
+  height: 48px !important;
+  background-size: 32px 32px !important;
+  border-radius: 50% !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
+}
+
+  </style>
+</head>
+
+<body>
+
+<header>🌎 Geoportal de Reportes Ciudadanos de Tala Ilega en Bosques de México </header>
+
+<div class="app">
+
+  <!-- Mapa -->
+  <div style="position: relative;">
+    <div class="search-box">
+      <input id="busqueda" type="text" placeholder="Buscar localidad en México…">
+      <div id="resultados" class="results"></div>
+    </div>
+    <div id="map"></div>
+  </div>
+
+  <!-- Panel -->
+  <div class="sidebar">
+    <h2>Nuevo reporte</h2>
+
+    <form id="formReporte">
+      <label for="titulo">Menciona el tipo de Reporte</label>
+      <input id="titulo" type="text" required>
+
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" required></textarea>
+
+      <div class="coords">
+        <div>
+          <label>Latitud</label>
+          <input id="lat" type="text" readonly>
+        </div>
+        <div>
+          <label>Longitud</label>
+          <input id="lng" type="text" readonly>
+        </div>
+      </div>
+
+      <button type="submit">Guardar reporte</button>
+      <div id="estado" class="status"></div>
+    </form>
+  </div>
+
+</div>
+
+<script>
+  const supabaseUrl = 'https://tcejcwfocunsozsnahge.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjZWpjd2ZvY3Vuc296c25haGdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4MTg1NDIsImV4cCI6MjA4MDM5NDU0Mn0.XhgwFT0_HCqm2dCq6_Bedmx-JAQFfzOdQfAGfap5IBk';
+  const clienteSupabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+  const map = L.map('map').setView([23.6345, -102.5528], 5);
+
+
+
+// ===== CAPAS BASE =====
+
+// Calles (OpenStreetMap)
+const capaCalles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '© OpenStreetMap'
+});
+
+// Satélite (ESRI)
+const capaSatelite = L.tileLayer(
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  {
+    maxZoom: 19,
+    attribution: '© ESRI'
+  }
+);
+
+// Topográfica (OpenTopoMap)
+const capaTopo = L.tileLayer(
+  'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+  {
+    maxZoom: 17,
+    attribution: '© OpenTopoMap'
+  }
+);
+
+// Agregar capa por defecto
+capaCalles.addTo(map);
+
+// Control de capas
+const capasBase = {
+  "🗺️ Calles (OSM)": capaCalles,
+  "🛰️ Satélite": capaSatelite,
+  "⛰️ Topográfica": capaTopo
+};
+
+
+L.control.layers(capasBase, null, {
+  position: 'topright',
+  collapsed: true
+}).addTo(map);
+
+
+  let tempMarker;
+
+  map.on('click', (e) => {
+    const { lat, lng } = e.latlng;
+    document.getElementById('lat').value = lat.toFixed(6);
+    document.getElementById('lng').value = lng.toFixed(6);
+
+    if (tempMarker) {
+      tempMarker.setLatLng(e.latlng);
+    } else {
+      tempMarker = L.marker(e.latlng)
+        .addTo(map)
+        .bindPopup('Ubicación seleccionada')
+        .openPopup();
+    }
+  });
+
+  async function cargarReportes() {
+    const { data, error } = await clienteSupabase
+      .from('reportes')
+      .select('*');
+
+    if (!error && data) {
+      data.forEach(r => {
+        if (r.latitud && r.longitud) {
+          L.marker([r.latitud, r.longitud])
+            .addTo(map)
+            .bindPopup(`<b>${r.titulo}</b><br>${r.descripcion}`);
+        }
+      });
+    } else if (error) {
+      console.error(error.message);
+    }
+  }
+
+  cargarReportes();
+
+  document.getElementById('formReporte').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const titulo = document.getElementById('titulo').value;
+    const descripcion = document.getElementById('descripcion').value;
+    const lat = document.getElementById('lat').value;
+    const lng = document.getElementById('lng').value;
+    const estado = document.getElementById('estado');
+
+    if (!lat || !lng) {
+      alert('Selecciona una ubicación en el mapa.');
+      return;
+    }
+
+    estado.innerText = 'Enviando reporte...';
+    estado.style.color = '#2563eb';
+
+    const { error } = await clienteSupabase
+      .from('reportes')
+      .insert([{ titulo, descripcion, latitud: lat, longitud: lng }]);
+
+    if (error) {
+      estado.innerText = 'Error al guardar: ' + error.message;
+      estado.style.color = '#dc2626';
+    } else {
+      estado.innerText = '✅ Reporte guardado correctamente.';
+      estado.style.color = '#16a34a';
+      this.reset();
+
+      L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup(`<b>${titulo}</b><br>${descripcion}`);
+    }
+  });
+
+// ===== BUSCADOR DE LOCALIDADES (OPENSTREETMAP - MÉXICO) =====
+let marcadorBusqueda = null;
+let timeoutBusqueda = null;
+
+busqueda.addEventListener('input', function () {
+  const texto = this.value.trim();
+
+  resultados.innerHTML = '';
+
+  if (texto.length < 3) return;
+
+  clearTimeout(timeoutBusqueda);
+
+  timeoutBusqueda = setTimeout(() => {
+    resultados.innerHTML = '<div class="loading">Buscando…</div>';
+
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&countrycodes=mx&limit=10&q=${encodeURIComponent(texto)}`)
+      .then(r => r.json())
+      .then(data => {
+        resultados.innerHTML = '';
+
+        if (!data.length) {
+          resultados.innerHTML = '<div class="no-results">Sin resultados</div>';
+          return;
+        }
+
+        data.forEach(l => {
+          const div = document.createElement('div');
+          div.className = 'result-item';
+          div.innerHTML = `<strong>${l.display_name}</strong>`;
+
+          div.onclick = () => {
+            const lat = parseFloat(l.lat);
+            const lng = parseFloat(l.lon);
+
+            map.flyTo([lat, lng], 15, {
+              animate: true,
+              duration: 1.2
+            });
+
+            if (marcadorBusqueda) {
+              marcadorBusqueda.setLatLng([lat, lng]);
+            } else {
+              marcadorBusqueda = L.marker([lat, lng]).addTo(map);
+            }
+
+            marcadorBusqueda
+              .bindPopup(`📍 ${l.display_name}`)
+              .openPopup();
+
+            busqueda.value = l.display_name;
+            resultados.innerHTML = `<div class="selected-location">Ubicación seleccionada ✅</div>`;
+          };
+
+          resultados.appendChild(div);
+        });
+      })
+
+      .catch(() => {
+        resultados.innerHTML = '<div class="no-results">Error en la búsqueda</div>';
+      });
+
+  }, 400);
+});
+
+
+  
+  
+</script>
+
+</body>
+</html>
