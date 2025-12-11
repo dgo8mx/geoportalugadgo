@@ -140,80 +140,26 @@
 
     .result-item:hover {
       background-color: #f3f4f6;
-	  
-	  
     }
-	.loading {
-  font-size: 12px;
-  color: #6b7280;
-  padding: 5px 0;
-}
 
-.no-results {
-  font-size: 13px;
-  color: #9ca3af;
-  padding: 5px 0;
-}
+    .loading {font-size: 12px;color: #6b7280;}
+    .no-results {font-size: 13px;color: #9ca3af;}
+    .selected-location {font-size:12px;color:#16a34a;font-weight:600;}
 
-.selected-location {
-  font-size: 12px;
-  color: #16a34a;
-  font-weight: 600;
-  margin-top: 4px;
-}
-
-/* ===== ESTILO PROFESIONAL PARA CONTROL DE CAPAS ===== */
-.leaflet-control-layers {
-  background: rgba(255,255,255,0.95) !important;
-  border-radius: 16px !important;
-  padding: 10px !important;
-  border: 1px solid #e5e7eb !important;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.25) !important;
-  font-size: 14px !important;
-}
-
-.leaflet-control-layers label {
-  display: flex !important;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 8px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.leaflet-control-layers label:hover {
-  background: #f3f4f6;
-  transform: scale(1.02);
-}
-
-.leaflet-control-layers input[type="radio"] {
-  accent-color: #990033;
-  transform: scale(1.2);
-  cursor: pointer;
-}
-
-.leaflet-control-layers-overlays {
-  margin-top: 6px;
-  border-top: 1px solid #e5e7eb;
-  padding-top: 6px;
-}
-
-.leaflet-control-layers-toggle {
-  width: 48px !important;
-  height: 48px !important;
-  background-size: 32px 32px !important;
-  border-radius: 50% !important;
-  background-color: #ffffff !important;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
-}
-
+    .leaflet-control-layers {
+      background: rgba(255,255,255,0.95) !important;
+      border-radius: 16px !important;
+      padding: 10px !important;
+      border: 1px solid #e5e7eb !important;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25) !important;
+      font-size: 14px !important;
+    }
   </style>
 </head>
 
 <body>
 
-<header>🌎 Geoportal de Reportes Ciudadanos de Tala Ilega en Bosques de México </header>
+<header>🌎 Geoportal de Reportes Ciudadanos de Tala Ilegal en Bosques de México</header>
 
 <div class="app">
 
@@ -226,15 +172,16 @@
     <div id="map"></div>
   </div>
 
-  <!-- Panel -->
+  <!-- Sidebar -->
   <div class="sidebar">
+
     <h2>Nuevo reporte</h2>
 
     <form id="formReporte">
-      <label for="titulo">Menciona el tipo de Reporte</label>
+      <label>Tipo de reporte</label>
       <input id="titulo" type="text" required>
 
-      <label for="descripcion">Descripción</label>
+      <label>Descripción</label>
       <textarea id="descripcion" required></textarea>
 
       <div class="coords">
@@ -251,8 +198,18 @@
       <button type="submit">Guardar reporte</button>
       <div id="estado" class="status"></div>
     </form>
-  </div>
 
+    <hr style="margin:20px 0;">
+
+    <h2>Capas</h2>
+    <label style="display:flex;align-items:center;gap:10px;">
+      <input id="toggleReportes" type="checkbox" checked style="transform:scale(1.2);">
+      Mostrar reportes en el mapa
+    </label>
+
+    <div id="contadorReportes" style="margin-top:8px;font-size:13px;color:#6b7280;"></div>
+
+  </div>
 </div>
 
 <script>
@@ -262,69 +219,45 @@
 
   const map = L.map('map').setView([23.6345, -102.5528], 5);
 
+  // Capas base
+  const capaCalles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 });
+  const capaSatelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 });
+  const capaTopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { maxZoom: 17 });
 
+  capaCalles.addTo(map);
 
-// ===== CAPAS BASE =====
+  const capasBase = {
+    "🗺️ Calles": capaCalles,
+    "🛰️ Satélite": capaSatelite,
+    "⛰️ Topográfica": capaTopo
+  };
 
-// Calles (OpenStreetMap)
-const capaCalles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution: '© OpenStreetMap'
+  L.control.layers(capasBase, null, { position:'topright', collapsed:true }).addTo(map);
+
+  let tempMarker = null;
+  let capaReportes = L.layerGroup().addTo(map);
+
+  // Click en mapa
+map.on('click', (e) => {
+  const coords = e.latlng;
+  const latField = document.getElementById('lat');
+  const lngField = document.getElementById('lng');
+
+  latField.value = coords.lat.toFixed(6);
+  lngField.value = coords.lng.toFixed(6);
+
+  if (!tempMarker) {
+    tempMarker = L.marker([coords.lat, coords.lng]).addTo(map);
+  } else {
+    tempMarker.setLatLng(coords);
+  }
 });
 
-// Satélite (ESRI)
-const capaSatelite = L.tileLayer(
-  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-  {
-    maxZoom: 19,
-    attribution: '© ESRI'
-  }
-);
 
-// Topográfica (OpenTopoMap)
-const capaTopo = L.tileLayer(
-  'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-  {
-    maxZoom: 17,
-    attribution: '© OpenTopoMap'
-  }
-);
-
-// Agregar capa por defecto
-capaCalles.addTo(map);
-
-// Control de capas
-const capasBase = {
-  "🗺️ Calles (OSM)": capaCalles,
-  "🛰️ Satélite": capaSatelite,
-  "⛰️ Topográfica": capaTopo
-};
-
-
-L.control.layers(capasBase, null, {
-  position: 'topright',
-  collapsed: true
-}).addTo(map);
-
-
-  let tempMarker;
-
-  map.on('click', (e) => {
-    const { lat, lng } = e.latlng;
-    document.getElementById('lat').value = lat.toFixed(6);
-    document.getElementById('lng').value = lng.toFixed(6);
-
-    if (tempMarker) {
-      tempMarker.setLatLng(e.latlng);
-    } else {
-      tempMarker = L.marker(e.latlng)
-        .addTo(map)
-        .bindPopup('Ubicación seleccionada')
-        .openPopup();
-    }
-  });
-
+  // Cargar reportes
   async function cargarReportes() {
+    capaReportes.clearLayers();
+
     const { data, error } = await clienteSupabase
       .from('reportes')
       .select('*');
@@ -333,121 +266,102 @@ L.control.layers(capasBase, null, {
       data.forEach(r => {
         if (r.latitud && r.longitud) {
           L.marker([r.latitud, r.longitud])
-            .addTo(map)
-            .bindPopup(`<b>${r.titulo}</b><br>${r.descripcion}`);
+            .bindPopup(`<b>${r.titulo}</b><br>${r.descripcion}`)
+            .addTo(capaReportes);
         }
       });
-    } else if (error) {
-      console.error(error.message);
+
+      contadorReportes.innerText = `Reportes cargados: ${data.length}`;
     }
   }
 
   cargarReportes();
 
-  document.getElementById('formReporte').addEventListener('submit', async function(e) {
+  // Toggle de capa
+  toggleReportes.addEventListener('change', function() {
+    if (this.checked) {
+      map.addLayer(capaReportes);
+    } else {
+      map.removeLayer(capaReportes);
+    }
+  });
+
+  // Guardar reporte
+  formReporte.addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const titulo = document.getElementById('titulo').value;
     const descripcion = document.getElementById('descripcion').value;
-    const lat = document.getElementById('lat').value;
-    const lng = document.getElementById('lng').value;
-    const estado = document.getElementById('estado');
+    const latVal = document.getElementById('lat').value;
+    const lngVal = document.getElementById('lng').value;
 
-    if (!lat || !lng) {
-      alert('Selecciona una ubicación en el mapa.');
+    if (!latVal || !lngVal) {
+      alert('Selecciona una ubicación en el mapa');
       return;
     }
 
-    estado.innerText = 'Enviando reporte...';
-    estado.style.color = '#2563eb';
-
     const { error } = await clienteSupabase
       .from('reportes')
-      .insert([{ titulo, descripcion, latitud: lat, longitud: lng }]);
+      .insert([{ titulo, descripcion, latitud: latVal, longitud: lngVal }]);
 
-    if (error) {
-      estado.innerText = 'Error al guardar: ' + error.message;
-      estado.style.color = '#dc2626';
-    } else {
-      estado.innerText = '✅ Reporte guardado correctamente.';
+    if (!error) {
+      estado.innerText = '✅ Reporte guardado';
       estado.style.color = '#16a34a';
       this.reset();
-
-      L.marker([lat, lng])
-        .addTo(map)
-        .bindPopup(`<b>${titulo}</b><br>${descripcion}`);
+      await cargarReportes();
+    } else {
+      estado.innerText = '❌ Error: ' + error.message;
+      estado.style.color = '#dc2626';
     }
   });
 
-// ===== BUSCADOR DE LOCALIDADES (OPENSTREETMAP - MÉXICO) =====
-let marcadorBusqueda = null;
-let timeoutBusqueda = null;
+  // Buscador
+  let marcadorBusqueda = null;
+  let timeoutBusqueda = null;
 
-busqueda.addEventListener('input', function () {
-  const texto = this.value.trim();
+  busqueda.addEventListener('input', function () {
+    const texto = this.value.trim();
+    resultados.innerHTML = '';
+    if (texto.length < 3) return;
 
-  resultados.innerHTML = '';
+    clearTimeout(timeoutBusqueda);
+    timeoutBusqueda = setTimeout(() => {
 
-  if (texto.length < 3) return;
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&countrycodes=mx&limit=10&q=${encodeURIComponent(texto)}`)
+        .then(r => r.json())
+        .then(data => {
+          resultados.innerHTML = '';
 
-  clearTimeout(timeoutBusqueda);
+          if (!data.length) {
+            resultados.innerHTML = '<div class="no-results">Sin resultados</div>';
+            return;
+          }
 
-  timeoutBusqueda = setTimeout(() => {
-    resultados.innerHTML = '<div class="loading">Buscando…</div>';
+          data.forEach(l => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            div.innerHTML = `<strong>${l.display_name}</strong>`;
 
-    fetch(`https://nominatim.openstreetmap.org/search?format=json&countrycodes=mx&limit=10&q=${encodeURIComponent(texto)}`)
-      .then(r => r.json())
-      .then(data => {
-        resultados.innerHTML = '';
+            div.onclick = () => {
+              const lat = parseFloat(l.lat);
+              const lng = parseFloat(l.lon);
+              map.flyTo([lat, lng], 15);
 
-        if (!data.length) {
-          resultados.innerHTML = '<div class="no-results">Sin resultados</div>';
-          return;
-        }
+              if (!marcadorBusqueda) {
+                marcadorBusqueda = L.marker([lat, lng]).addTo(map);
+              } else {
+                marcadorBusqueda.setLatLng([lat, lng]);
+              }
 
-        data.forEach(l => {
-          const div = document.createElement('div');
-          div.className = 'result-item';
-          div.innerHTML = `<strong>${l.display_name}</strong>`;
+              resultados.innerHTML = `<div class="selected-location">Ubicación seleccionada ✅</div>`;
+            };
 
-          div.onclick = () => {
-            const lat = parseFloat(l.lat);
-            const lng = parseFloat(l.lon);
-
-            map.flyTo([lat, lng], 15, {
-              animate: true,
-              duration: 1.2
-            });
-
-            if (marcadorBusqueda) {
-              marcadorBusqueda.setLatLng([lat, lng]);
-            } else {
-              marcadorBusqueda = L.marker([lat, lng]).addTo(map);
-            }
-
-            marcadorBusqueda
-              .bindPopup(`📍 ${l.display_name}`)
-              .openPopup();
-
-            busqueda.value = l.display_name;
-            resultados.innerHTML = `<div class="selected-location">Ubicación seleccionada ✅</div>`;
-          };
-
-          resultados.appendChild(div);
+            resultados.appendChild(div);
+          });
         });
-      })
+    }, 400);
+  });
 
-      .catch(() => {
-        resultados.innerHTML = '<div class="no-results">Error en la búsqueda</div>';
-      });
-
-  }, 400);
-});
-
-
-  
-  
 </script>
-
 </body>
 </html>
