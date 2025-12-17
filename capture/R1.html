@@ -1,0 +1,4405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramienta Geografica ORE Durango</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        body.resizing {
+            cursor: ew-resize !important;
+            user-select: none !important;
+        }
+
+        body.resizing * {
+            cursor: ew-resize !important;
+        }
+
+        .header {
+	color: #336633;
+	padding: 15px 20px;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+	background: black;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .map-container {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .coordinates-footer {
+            position: relative;
+            width: 100%;
+            background: white;
+            border-top: 3px solid #667eea;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .coordinates-footer.collapsed {
+            height: 50px;
+        }
+
+        .coordinates-footer.expanded {
+            height: 350px;
+        }
+
+        .footer-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            height: 50px;
+        }
+
+        .footer-header:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #6a3d8f 100%);
+        }
+
+        .footer-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .coord-badge {
+            background: rgba(255,255,255,0.3);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .footer-toggle {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-toggle:hover {
+            background: rgba(255,255,255,0.35);
+            transform: scale(1.05);
+        }
+
+        .footer-content {
+            height: 300px;
+            overflow: auto;
+            background: #f8f9fa;
+        }
+
+        #map.default-cursor {
+            cursor: grab !important;
+        }
+
+        #map.default-cursor:active {
+            cursor: grabbing !important;
+        }
+
+        #map.capture-mode {
+            cursor: crosshair !important;
+        }
+
+        #map.capture-mode * {
+            cursor: crosshair !important;
+        }
+
+        .leaflet-marker-icon,
+        .leaflet-marker-shadow {
+            cursor: pointer !important;
+        }
+
+        .leaflet-marker-draggable {
+            cursor: move !important;
+        }
+
+        .leaflet-dragging .leaflet-marker-draggable {
+            cursor: grabbing !important;
+        }
+
+        .leaflet-interactive {
+            cursor: move !important;
+        }
+
+        .leaflet-interactive:hover {
+            filter: brightness(1.2);
+        }
+
+        .sidebar {
+            width: 35%;
+            min-width: 350px;
+            max-width: 800px;
+            background: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            order: -1;
+        }
+
+        .resize-handle {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 8px;
+            cursor: ew-resize;
+            background: transparent;
+            z-index: 1000;
+            transition: background 0.2s;
+        }
+
+        .resize-handle:hover {
+            background: rgba(102, 126, 234, 0.3);
+        }
+
+        .resize-handle::after {
+            content: '';
+            position: absolute;
+            right: 3px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2px;
+            height: 40px;
+            background: #dee2e6;
+            border-radius: 2px;
+        }
+
+        .resize-handle:hover::after {
+            background: #667eea;
+        }
+
+        .controls {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #dee2e6;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .layer-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .layer-btn {
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .layer-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .layer-btn.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .layer-btn:not(.active) {
+            opacity: 0.5;
+        }
+
+        .layer-btn:not(.active):hover {
+            opacity: 0.7;
+        }
+
+        .mode-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 8px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+        }
+
+        .mode-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .mode-btn:not(.active) {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .mode-btn:not(.active):hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        #captureTypeToggle {
+            border-top: 1px solid #dee2e6;
+            padding-top: 15px;
+            margin-top: 5px;
+        }
+
+        .capture-options-section {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 2px solid #ffc107;
+        }
+
+        .capture-options-section .control-group label {
+            color: #856404;
+            font-weight: 700;
+        }
+
+        .capture-type-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .capture-type-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 15px 10px;
+            border: 2px solid #ced4da;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .capture-type-btn .btn-icon {
+            font-size: 32px;
+        }
+
+        .capture-type-btn .btn-text {
+            font-size: 12px;
+            color: #495057;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .capture-type-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .capture-type-btn.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .capture-type-btn.active .btn-text {
+            color: white;
+        }
+
+        .capture-type-btn:not(.active) {
+            opacity: 0.6;
+        }
+
+        .capture-type-btn:not(.active):hover {
+            opacity: 0.8;
+        }
+
+        .import-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 2px solid #667eea;
+        }
+
+        .import-description {
+            font-size: 13px;
+            color: #6c757d;
+            margin: 10px 0;
+        }
+
+        .btn-large {
+            padding: 15px;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .import-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .import-info strong {
+            display: block;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .import-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .import-info li {
+            padding: 5px 0;
+            color: #495057;
+            font-size: 13px;
+        }
+
+        #mapCaptureSection,
+        #manualCaptureOptionsSection {
+            margin-top: 10px;
+        }
+
+        .polygon-config-section {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 2px solid #667eea;
+        }
+
+        .config-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .config-field {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .config-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ced4da;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            color: #495057;
+        }
+
+        .config-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .manual-capture-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 2px dashed #667eea;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .input-label-main {
+            font-size: 13px;
+            font-weight: 600;
+            color: #495057;
+            min-width: 70px;
+        }
+
+        .coord-system-toggle {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0 15px 0;
+        }
+
+        .coord-system-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ced4da;
+            background: white;
+            color: #495057;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .coord-system-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-1px);
+        }
+
+        .coord-system-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .capture-table-container {
+            margin-top: 15px;
+        }
+
+        .capture-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .capture-table thead {
+            background: #667eea;
+            color: white;
+        }
+
+        .capture-table th {
+            padding: 8px 4px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 10px;
+            border: 1px solid #5568d3;
+        }
+
+        .capture-table td {
+            padding: 4px;
+            border: 1px solid #dee2e6;
+        }
+
+        .capture-table input,
+        .capture-table select {
+            width: 100%;
+            padding: 4px 2px;
+            border: 1px solid #ced4da;
+            border-radius: 3px;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .capture-table input:focus,
+        .capture-table select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+        }
+
+        .capture-table .vertex-number {
+            text-align: center;
+            font-weight: 600;
+            color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .capture-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .capture-actions .btn {
+            flex: 1;
+        }
+
+        .table-container {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+
+        .coord-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background: white;
+        }
+
+        .coord-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .coord-table th {
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            border-bottom: 2px solid #5568d3;
+        }
+
+        .coord-table th:first-child {
+            width: 40px;
+            text-align: center;
+        }
+
+        .coord-table th:nth-child(5) {
+            width: 100px;
+            text-align: center;
+        }
+
+        .coord-table th:last-child {
+            width: 110px;
+            text-align: center;
+        }
+
+        .coord-table tbody tr {
+            border-bottom: 1px solid #dee2e6;
+            transition: background 0.2s;
+        }
+
+        .coord-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .coord-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .coord-table tbody tr.empty-row:hover {
+            background: transparent;
+        }
+
+        .coord-table td {
+            padding: 10px 8px;
+            color: #495057;
+        }
+
+        .coord-table td:first-child {
+            text-align: center;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .coord-table td:last-child {
+            text-align: center;
+        }
+
+        .coord-table .coord-value {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .editable-cell {
+            cursor: text;
+            background: #fff;
+            transition: all 0.2s;
+            padding: 10px 8px !important;
+            position: relative;
+        }
+
+        .editable-cell:hover {
+            background: #f0f8ff;
+            box-shadow: inset 0 0 0 2px #667eea;
+        }
+
+        .editable-cell:focus {
+            outline: none;
+            background: #fff9e6;
+            box-shadow: inset 0 0 0 2px #667eea;
+        }
+
+        .editable-cell::before {
+            content: '✎';
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            color: #667eea;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .editable-cell:hover::before {
+            opacity: 0.5;
+        }
+
+        .coord-status {
+            text-align: center;
+            padding: 5px !important;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-ok {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-saved {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-locked {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            animation: shake 0.5s;
+        }
+
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .polygon-vertex-row {
+            background: #f0f8ff;
+        }
+
+        .polygon-vertex-row:hover {
+            background: #e6f3ff !important;
+        }
+
+        .vertex-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            margin-right: 4px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .editable-cell {
+            position: relative;
+        }
+
+        .editable-cell:hover::before {
+            content: '✎';
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            opacity: 0.5;
+            color: #667eea;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .layers-list {
+            max-height: 300px;
+            overflow-y: auto;
+            background: white;
+            border-radius: 8px;
+            padding: 5px;
+        }
+
+        .layer-item {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            padding: 10px;
+            transition: all 0.2s;
+        }
+
+        .layer-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .layer-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .layer-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 1px #dee2e6;
+        }
+
+        .layer-name {
+            flex: 1;
+            font-weight: 600;
+            font-size: 13px;
+            color: #495057;
+        }
+
+        .layer-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .layer-action-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .layer-action-btn:hover {
+            background: #667eea;
+            border-color: #667eea;
+            transform: scale(1.1);
+        }
+
+        .layer-info {
+            color: #6c757d;
+            font-size: 11px;
+            margin-top: 5px;
+            padding-left: 28px;
+        }
+
+        .manual-capture-container {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .coord-input-form {
+            margin-top: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .input-row.gms-row {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-field-small {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-label-main {
+            font-size: 12px;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 4px;
+        }
+
+        .input-label-sub {
+            font-size: 11px;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 3px;
+        }
+
+        .coord-input {
+            padding: 8px;
+            border: 2px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .coord-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .coord-input-small {
+            padding: 6px;
+            border: 2px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .coord-input-small:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-block {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .manual-points-counter {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+        }
+
+        .table-icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .table-icon-btn:hover {
+            background: #e9ecef;
+        }
+
+        .empty-row td {
+            padding: 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: 40%;
+                border-right: none;
+                border-bottom: 1px solid #dee2e6;
+                order: 0;
+            }
+
+            .map-container {
+                width: 100%;
+                height: 60%;
+                order: 1;
+            }
+
+            .coordinates-footer.expanded {
+                height: 250px;
+            }
+
+            .footer-content {
+                height: 200px;
+            }
+
+            .layer-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .capture-type-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <center><h1>🗺️ Herramienta de DICTAMINACION DE UBICACIÓN GEOGRAFICA DE LOS PROYECTOS DE MANEJO FORESTAL, MANIFESTACIÓN DE IMPACTO AMBIENTAL, CAMBIO DE USO DEL SUELO, MANEJO DE VIDA SILVESTRE O ÁREA JURÍDICA</h1></center
+        ><p>Captura y Validación de Coordenadas</p>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="resize-handle" id="resizeHandle" title="Arrastra para ajustar el ancho del panel"></div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Capa Base:</label>
+                    <div class="layer-buttons">
+                        <button class="layer-btn active" data-layer="osm" onClick="changeBaseLayer('osm')" title="OpenStreetMap">
+                            🗺️ <br> 
+							<span style="font-size: 11px;">Vista General</span>
+                        </button>
+                        <button class="layer-btn" data-layer="topo" onClick="changeBaseLayer('topo')" title="Topográfico">
+                            ⛰️ <span style="font-size: 11px;">Vista Topografica</span>
+                        </button>
+                        <button class="layer-btn" data-layer="satellite" onClick="changeBaseLayer('satellite')" title="Satélite">
+                            🛰️ <span style="font-size: 11px;">Vista Satélite</span>
+                        </button>
+                        <button class="layer-btn" data-layer="streets" onClick="changeBaseLayer('streets')" title="Calles">
+                            🏙️ <span style="font-size: 11px;">Vista Calles</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Modo de Trabajo:</label>
+                    <div class="mode-toggle">
+                        <button class="mode-btn" onClick="setWorkMode('navigate')">
+                            <span style="font-size: 18px;">👆</span><br>
+                            <span style="font-size: 11px;">Navegar</span>
+                        </button>
+                        <button class="mode-btn active" onClick="setWorkMode('capture')">
+                            <span style="font-size: 18px;">🎯</span><br>
+                            <span style="font-size: 11px;">Capturar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Opciones de captura -->
+                <div id="captureOptionsSection" class="capture-options-section">
+                    <div class="control-group">
+                        <label>Tipo de Captura:</label>
+                        <div class="capture-type-grid">
+                            <button class="capture-type-btn active" onClick="setCaptureType('map')">
+                                <span class="btn-icon">🗺️</span>
+                                <span class="btn-text">Captura en Mapa</span>
+                            </button>
+                            <button class="capture-type-btn" onClick="setCaptureType('manual')">
+                                <span class="btn-icon">⌨️</span>
+                                <span class="btn-text">Captura Manual</span>
+                            </button>
+                            <button class="capture-type-btn" onClick="setCaptureType('import')">
+                                <span class="btn-icon">📤</span>
+                                <span class="btn-text">Importar Excel</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Opciones de captura en mapa -->
+                <div id="mapCaptureSection" style="display: block;">
+                    <!-- Botones de punto/marcador removidos - captura directa -->
+                </div>
+
+                <!-- Opciones de captura manual -->
+
+                <!-- Opciones de captura manual -->
+                <div id="manualCaptureOptionsSection" style="display: none;">
+                    <div id="polygonConfigSection" class="polygon-config-section">
+                        <div class="control-group">
+                            <label>Configuración de Polígonos:</label>
+                            
+                            <div class="config-row">
+                                <div class="config-field">
+                                    <label class="input-label-main">N° Polígonos:</label>
+                                    <input type="number" id="numPolygons" class="config-input" value="1" min="1" max="10">
+                                </div>
+                                <div class="config-field">
+                                    <label class="input-label-main">Vértices:</label>
+                                    <input type="number" id="numVertices" class="config-input" value="4" min="3" max="50">
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary" onClick="generateCaptureTable()" style="margin-top: 10px;">
+                                📋 Generar Tabla
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="manualCaptureSection" class="manual-capture-section" style="display: none;">
+                    </div>
+                </div>
+
+                <!-- Opciones de importación -->
+                <div id="importCaptureSection" style="display: none;">
+                    <div class="import-section">
+                        <div class="control-group">
+                            <label>Importar desde Excel:</label>
+                            <p class="import-description">
+                                Selecciona un archivo Excel con coordenadas.
+                            </p>
+                            
+                            <button class="btn btn-primary btn-large" onClick="document.getElementById('excelFileInput').click()">
+                                📂 Seleccionar Archivo
+                            </button>
+                            <input type="file" id="excelFileInput" accept=".xlsx,.xls,.csv" style="display: none;" onChange="importCoordinates(event)">
+                            
+                            <div class="import-info">
+                                <strong>📋 Formato esperado:</strong>
+                                <ul>
+                                    <li>✓ Columnas: Latitud, Longitud</li>
+                                    <li>✓ Opcional: Nombre, Poligono</li>
+                                    <li>✓ Primera fila con encabezados</li>
+                                </ul>
+                                <button class="btn btn-secondary" onClick="showImportHelp()" style="margin-top: 10px;">
+                                    ❓ Ver Guía Completa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group" style="margin-top: 15px;">
+                    <button class="btn btn-primary" onClick="togglePolygon()" id="polygonBtn">
+                        🔷 Crear Polígono
+                    </button>
+                    <button class="btn btn-danger" onClick="clearAll()">
+                        🗑️ Limpiar Todo
+                    </button>
+                </div>
+
+                <!-- Botón de Reporte de Sobreposición -->
+                <div class="control-group" style="margin-top: 15px;">
+                    <button class="btn btn-primary" onClick="loadSupabaseLayer()" id="supabaseBtn" style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);">
+                        📊 Reporte de Sobreposición
+                    </button>
+                </div>
+
+                <!-- Panel de control de capa de Supabase -->
+                <div class="control-group" id="supabaseLayerPanel" style="display: none; margin-top: 15px;">
+                    <label style="display: flex; align-items: center; gap: 10px; padding: 10px; background: #f0f9ff; border-radius: 6px; border: 1px solid #3b82f6;">
+                        <input type="checkbox" id="supabaseLayerToggle" onChange="toggleSupabaseLayer()" checked style="width: 18px; height: 18px; cursor: pointer;">
+                        <span style="font-weight: 600; color: #1e3a8a;">🗺️ Capa de Sobreposición</span>
+                    </label>
+                    <div style="margin-top: 10px; padding: 10px; background: white; border-radius: 6px; border: 1px solid #e5e7eb;">
+                        <div id="supabaseLayerInfo" style="font-size: 12px; color: #6b7280;">
+                            <p style="margin: 5px 0;"><strong>Estado:</strong> <span id="supabaseStatus">Cargando...</span></p>
+                            <p style="margin: 5px 0;"><strong>Elementos:</strong> <span id="supabaseCount">0</span></p>
+                        </div>
+                        <button class="btn btn-secondary" onClick="removeSupabaseLayer()" style="margin-top: 10px; width: 100%; font-size: 13px;">
+                            🗑️ Remover Capa
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Panel de capas de polígonos -->
+                <div class="control-group" id="polygonLayersPanel" style="display: none; margin-top: 15px;">
+                    <label>📁 Capas de Polígonos:</label>
+                    <div id="polygonLayersList" class="layers-list">
+                        <!-- Las capas se generan dinámicamente aquí -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+        </div>
+        
+        <div class="coordinates-footer collapsed" id="coordinatesFooter">
+            <div class="footer-header" onClick="toggleFooter()">
+                <div class="footer-title">
+                    <span>📍 Coordenadas Capturadas</span>
+                    <span class="coord-badge" id="coordCount">0</span>
+                </div>
+                <button class="footer-toggle" id="footerToggleBtn">
+                    <span id="footerToggleIcon">▲</span>
+                    <span id="footerToggleText">Mostrar</span>
+                </button>
+            </div>
+                <div class="footer-content" id="footerContent">
+                    <div class="table-container">
+                    <table class="coord-table" id="coordTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Latitud</th>
+                                <th>Longitud</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="coordTableBody">
+                            <tr class="empty-row">
+                                <td colspan="5">
+                                    <div class="empty-state">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        <p>No hay coordenadas capturadas</p>
+                                        <p style="font-size: 12px; margin-top: 5px;">Haz clic en el mapa para comenzar</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-geometryutil@0.10.1/src/leaflet.geometryutil.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <script>
+        // Función para calcular área geodésica (en caso de que L.GeometryUtil no esté disponible)
+        function calculateGeodesicArea(latlngs) {
+            // Si L.GeometryUtil está disponible, usarlo
+            if (typeof L.GeometryUtil !== 'undefined' && L.GeometryUtil.geodesicArea) {
+                return L.GeometryUtil.geodesicArea(latlngs);
+            }
+            
+            // Función alternativa usando fórmula de área geodésica
+            const earthRadius = 6378137; // Radio de la Tierra en metros
+            
+            function toRadians(degrees) {
+                return degrees * Math.PI / 180;
+            }
+            
+            if (latlngs.length < 3) return 0;
+            
+            let area = 0;
+            const coords = latlngs.map(ll => ({
+                lat: toRadians(ll.lat),
+                lng: toRadians(ll.lng)
+            }));
+            
+            for (let i = 0; i < coords.length; i++) {
+                const j = (i + 1) % coords.length;
+                area += (coords[j].lng - coords[i].lng) * 
+                        (2 + Math.sin(coords[i].lat) + Math.sin(coords[j].lat));
+            }
+            
+            area = Math.abs(area * earthRadius * earthRadius / 2);
+            
+            return area;
+        }
+    </script>
+    <script>
+        // Variables globales
+        let coordinates = [];
+        let markers = [];
+        let currentMode = 'point';
+        let markerCounter = 1;
+        let workMode = 'capture';
+        let coordSystem = 'geographic';
+        let polygon = null;
+        let polygonActive = false;
+        let capturedPolygons = [];
+        let polygonLayers = []; // Array para almacenar capas de polígonos con metadata
+        let polygonLayerCounter = 1;
+        let captureTableGenerated = false;
+
+        // Inicializar el mapa centrado en Durango, México
+        // Coordenadas del centro del estado de Durango:
+        // Lat: 24.0277° N, Lng: 104.6532° W
+        // Zoom 8: Vista completa del estado
+        // Límites aproximados de Durango:
+        // Norte: 26.8°, Sur: 22.3°, Este: -102.5°, Oeste: -107.1°
+        const map = L.map('map').setView([24.0277, -104.6532], 8);
+        
+        const osmStandard = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        });
+
+        const openTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data: © OpenStreetMap contributors, SRTM | Map style: © OpenTopoMap',
+            maxZoom: 17
+        });
+
+        const esriWorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles © Esri',
+            maxZoom: 19
+        });
+
+        const esriWorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles © Esri',
+            maxZoom: 19
+        });
+
+        let currentLayer = osmStandard;
+        currentLayer.addTo(map);
+
+        const baseLayers = {
+            'osm': osmStandard,
+            'topo': openTopoMap,
+            'satellite': esriWorldImagery,
+            'streets': esriWorldStreetMap
+        };
+
+        const mapElement = document.getElementById('map');
+        mapElement.classList.add('capture-mode');
+
+        function changeBaseLayer(layerKey) {
+            map.removeLayer(currentLayer);
+            currentLayer = baseLayers[layerKey];
+            currentLayer.addTo(map);
+            
+            const layerButtons = document.querySelectorAll('.layer-btn');
+            layerButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.opacity = '0.5';
+            });
+            const activeBtn = document.querySelector(`[data-layer="${layerKey}"]`);
+            activeBtn.classList.add('active');
+            activeBtn.style.opacity = '1';
+        }
+
+        function setWorkMode(mode) {
+            workMode = mode;
+            const mapElement = document.getElementById('map');
+            const captureOptionsSection = document.getElementById('captureOptionsSection');
+            
+            // Actualizar botones del modo de trabajo
+            const workModeButtons = document.querySelectorAll('.control-group .mode-toggle .mode-btn');
+            workModeButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.opacity = '0.5';
+            });
+            event.target.classList.add('active');
+            event.target.style.opacity = '1';
+            
+            if (mode === 'capture') {
+                mapElement.classList.remove('default-cursor');
+                mapElement.classList.add('capture-mode');
+                captureOptionsSection.style.display = 'block';
+                // Por defecto mostrar captura en mapa
+                setCaptureType('map');
+            } else {
+                mapElement.classList.remove('capture-mode');
+                mapElement.classList.add('default-cursor');
+                captureOptionsSection.style.display = 'none';
+                document.getElementById('mapCaptureSection').style.display = 'none';
+                document.getElementById('manualCaptureOptionsSection').style.display = 'none';
+                document.getElementById('importCaptureSection').style.display = 'none';
+            }
+        }
+
+        function setCaptureType(type) {
+            const mapSection = document.getElementById('mapCaptureSection');
+            const manualSection = document.getElementById('manualCaptureOptionsSection');
+            const importSection = document.getElementById('importCaptureSection');
+            
+            const mapBtn = document.querySelector('[onclick="setCaptureType(\'map\')"]');
+            const manualBtn = document.querySelector('[onclick="setCaptureType(\'manual\')"]');
+            const importBtn = document.querySelector('[onclick="setCaptureType(\'import\')"]');
+            
+            // Resetear estilos de todos los botones
+            [mapBtn, manualBtn, importBtn].forEach(btn => {
+                btn.style.background = 'white';
+                btn.style.opacity = '0.6';
+                btn.style.cursor = 'pointer';
+            });
+            
+            if (type === 'map') {
+                mapSection.style.display = 'block';
+                manualSection.style.display = 'none';
+                importSection.style.display = 'none';
+                mapBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                mapBtn.style.opacity = '1';
+                workMode = 'capture'; // Activar captura en mapa
+            } else if (type === 'manual') {
+                mapSection.style.display = 'none';
+                manualSection.style.display = 'block';
+                importSection.style.display = 'none';
+                manualBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                manualBtn.style.opacity = '1';
+                workMode = 'navigate'; // Desactivar captura en mapa
+            } else if (type === 'import') {
+                mapSection.style.display = 'none';
+                manualSection.style.display = 'none';
+                importSection.style.display = 'block';
+                importBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                importBtn.style.opacity = '1';
+                workMode = 'navigate'; // Desactivar captura en mapa
+            }
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            const modeButtons = document.querySelectorAll('#mapCaptureSection .mode-btn');
+            modeButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.opacity = '0.5';
+            });
+            event.target.classList.add('active');
+            event.target.style.opacity = '1';
+        }
+
+        function generateCaptureTable() {
+            const numPolygons = parseInt(document.getElementById('numPolygons').value);
+            const numVertices = parseInt(document.getElementById('numVertices').value);
+            const manualSection = document.getElementById('manualCaptureSection');
+            
+            if (numPolygons < 1 || numVertices < 3) {
+                showToast('⚠️ Valores inválidos', 'warning');
+                return;
+            }
+            
+            captureTableGenerated = true;
+            
+            let tableHTML = `
+                <div class="control-group">
+                    <label>Sistema de Coordenadas:</label>
+                    <div class="coord-system-toggle">
+                        <button class="coord-system-btn active" onclick="setCoordSystemForTable('geographic')">
+                            🌐 Geográficas
+                        </button>
+                        <button class="coord-system-btn" onclick="setCoordSystemForTable('utm')">
+                            📐 UTM
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="capture-table-container">
+                    <table class="capture-table">
+            `;
+            
+            if (coordSystem === 'geographic') {
+                tableHTML += `
+                    <thead>
+                        <tr>
+                            <th>Pol</th>
+                            <th>Vér</th>
+                            <th>°</th>
+                            <th>'</th>
+                            <th>"</th>
+                            <th>Dir</th>
+                            <th>°</th>
+                            <th>'</th>
+                            <th>"</th>
+                            <th>Dir</th>
+                            <th>📍</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                
+                for (let p = 1; p <= numPolygons; p++) {
+                    for (let v = 1; v <= numVertices; v++) {
+                        const rowId = `p${p}v${v}`;
+                        tableHTML += `
+                            <tr id="row_${rowId}">
+                                <td class="vertex-number">${p}</td>
+                                <td class="vertex-number">${v}</td>
+                                <td><input type="number" id="${rowId}_latDeg" placeholder="20" onchange="validateRowCoordinate('${rowId}')"></td>
+                                <td><input type="number" id="${rowId}_latMin" placeholder="30" onchange="validateRowCoordinate('${rowId}')"></td>
+                                <td><input type="number" id="${rowId}_latSec" step="0.01" placeholder="45" onchange="validateRowCoordinate('${rowId}')"></td>
+                                <td>
+                                    <select id="${rowId}_latDir" onchange="validateRowCoordinate('${rowId}')">
+                                        <option value="N">N</option>
+                                        <option value="S">S</option>
+                                    </select>
+                                </td>
+                                <td><input type="number" id="${rowId}_lngDeg" placeholder="100" onchange="validateRowCoordinate('${rowId}')"></td>
+                                <td><input type="number" id="${rowId}_lngMin" placeholder="15" onchange="validateRowCoordinate('${rowId}')"></td>
+                                <td><input type="number" id="${rowId}_lngSec" step="0.01" placeholder="30" onchange="validateRowCoordinate('${rowId}')"></td>
+                                <td>
+                                    <select id="${rowId}_lngDir" onchange="validateRowCoordinate('${rowId}')">
+                                        <option value="E">E</option>
+                                        <option value="W" selected>W</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button class="table-icon-btn" onclick="previewRowCoordinate('${rowId}')" title="Ver en mapa">🔍</button>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                }
+            } else {
+                tableHTML += `
+                    <thead>
+                        <tr>
+                            <th>Pol</th>
+                            <th>Vér</th>
+                            <th>Zona</th>
+                            <th>Hem</th>
+                            <th>Este</th>
+                            <th>Norte</th>
+                            <th>📍</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                
+                for (let p = 1; p <= numPolygons; p++) {
+                    for (let v = 1; v <= numVertices; v++) {
+                        const rowId = `p${p}v${v}`;
+                        tableHTML += `
+                            <tr id="row_${rowId}">
+                                <td class="vertex-number">${p}</td>
+                                <td class="vertex-number">${v}</td>
+                                <td><input type="number" id="${rowId}_zone" placeholder="13" onchange="validateRowCoordinate('${rowId}')"></td>
+                                <td>
+                                    <select id="${rowId}_hem" onchange="validateRowCoordinate('${rowId}')">
+                                        <option value="N">N</option>
+                                        <option value="S">S</option>
+                                    </select>
+                                </td>
+                                <td><input type="number" id="${rowId}_east" placeholder="500000" onchange="validateRowCoordinate('${rowId}')"></td>
+                                <td><input type="number" id="${rowId}_north" placeholder="2200000" onchange="validateRowCoordinate('${rowId}')"></td>
+                                <td>
+                                    <button class="table-icon-btn" onclick="previewRowCoordinate('${rowId}')" title="Ver en mapa">🔍</button>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                }
+            }
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="capture-actions">
+                <button class="btn btn-success" onclick="processTableData()">
+                    ✓ Procesar
+                </button>
+                <button class="btn btn-secondary" onclick="clearTableData()">
+                    🔄 Limpiar
+                </button>
+            </div>
+            `;
+            
+            manualSection.innerHTML = tableHTML;
+            manualSection.style.display = 'block';
+            showToast('✓ Tabla generada');
+        }
+
+        function setCoordSystemForTable(system) {
+            coordSystem = system;
+            document.querySelectorAll('.coord-system-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            generateCaptureTable();
+        }
+
+        function gmsToDecimal(degrees, minutes, seconds, direction) {
+            let decimal = Math.abs(degrees) + (minutes / 60) + (seconds / 3600);
+            if (direction === 'S' || direction === 'W') {
+                decimal = -decimal;
+            }
+            return decimal;
+        }
+
+        function utmToLatLng(zone, hemisphere, easting, northing) {
+            const k0 = 0.9996;
+            const e = 0.00669438;
+            const a = 6378137;
+            const e_p2 = e / (1 - e);
+            
+            let n = hemisphere === 'S' ? northing - 10000000 : northing;
+            
+            const M = n / k0;
+            const mu = M / (a * (1 - e / 4 - 3 * e * e / 64));
+            
+            const phi1Rad = mu + (3 * e / 2) * Math.sin(2 * mu) + (21 * e * e / 16) * Math.sin(4 * mu);
+            
+            const C1 = e_p2 * Math.pow(Math.cos(phi1Rad), 2);
+            const T1 = Math.pow(Math.tan(phi1Rad), 2);
+            const N1 = a / Math.sqrt(1 - e * Math.pow(Math.sin(phi1Rad), 2));
+            const R1 = a * (1 - e) / Math.pow(1 - e * Math.pow(Math.sin(phi1Rad), 2), 1.5);
+            const D = (easting - 500000) / (N1 * k0);
+            
+            const lat = phi1Rad - (N1 * Math.tan(phi1Rad) / R1) * (D * D / 2);
+            const lng = ((D) / Math.cos(phi1Rad)) * (180 / Math.PI) + (zone - 1) * 6 - 180 + 3;
+            
+            return {
+                lat: lat * (180 / Math.PI),
+                lng: lng
+            };
+        }
+
+        // Variables para los marcadores temporales de validación
+        let validationMarkers = {};
+
+        function validateRowCoordinate(rowId) {
+            try {
+                let lat, lng;
+                
+                if (coordSystem === 'geographic') {
+                    const latDeg = parseFloat(document.getElementById(`${rowId}_latDeg`).value) || 0;
+                    const latMin = parseFloat(document.getElementById(`${rowId}_latMin`).value) || 0;
+                    const latSec = parseFloat(document.getElementById(`${rowId}_latSec`).value) || 0;
+                    const latDir = document.getElementById(`${rowId}_latDir`).value;
+                    
+                    const lngDeg = parseFloat(document.getElementById(`${rowId}_lngDeg`).value) || 0;
+                    const lngMin = parseFloat(document.getElementById(`${rowId}_lngMin`).value) || 0;
+                    const lngSec = parseFloat(document.getElementById(`${rowId}_lngSec`).value) || 0;
+                    const lngDir = document.getElementById(`${rowId}_lngDir`).value;
+                    
+                    // Solo validar si hay al menos grados ingresados
+                    if (latDeg === 0 && lngDeg === 0) {
+                        return;
+                    }
+                    
+                    lat = gmsToDecimal(latDeg, latMin, latSec, latDir);
+                    lng = gmsToDecimal(lngDeg, lngMin, lngSec, lngDir);
+                } else {
+                    const zone = parseInt(document.getElementById(`${rowId}_zone`).value) || 0;
+                    const hemisphere = document.getElementById(`${rowId}_hem`).value;
+                    const easting = parseFloat(document.getElementById(`${rowId}_east`).value) || 0;
+                    const northing = parseFloat(document.getElementById(`${rowId}_north`).value) || 0;
+                    
+                    if (zone === 0 || easting === 0 || northing === 0) {
+                        return;
+                    }
+                    
+                    const result = utmToLatLng(zone, hemisphere, easting, northing);
+                    lat = result.lat;
+                    lng = result.lng;
+                }
+                
+                // Validar que las coordenadas sean válidas
+                if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+                    return;
+                }
+                
+                // Remover marcador anterior si existe
+                if (validationMarkers[rowId]) {
+                    map.removeLayer(validationMarkers[rowId]);
+                }
+                
+                // Crear un marcador temporal de validación
+                const marker = L.circleMarker([lat, lng], {
+                    radius: 8,
+                    fillColor: '#4CAF50',
+                    color: '#fff',
+                    weight: 2,
+                    fillOpacity: 0.9
+                }).addTo(map);
+                
+                marker.bindPopup(`
+                    <b>✓ Coordenada Validada</b><br>
+                    <small>${rowId}</small><br>
+                    Lat: ${lat.toFixed(6)}<br>
+                    Lng: ${lng.toFixed(6)}
+                `);
+                
+                validationMarkers[rowId] = marker;
+                
+                // Resaltar la fila temporalmente
+                const row = document.getElementById(`row_${rowId}`);
+                if (row) {
+                    row.style.backgroundColor = '#e8f5e9';
+                    setTimeout(() => {
+                        row.style.backgroundColor = '';
+                    }, 1500);
+                }
+                
+            } catch (error) {
+                console.error('Error validando coordenada:', error);
+            }
+        }
+
+        function previewRowCoordinate(rowId) {
+            try {
+                let lat, lng;
+                
+                if (coordSystem === 'geographic') {
+                    const latDeg = parseFloat(document.getElementById(`${rowId}_latDeg`).value) || 0;
+                    const latMin = parseFloat(document.getElementById(`${rowId}_latMin`).value) || 0;
+                    const latSec = parseFloat(document.getElementById(`${rowId}_latSec`).value) || 0;
+                    const latDir = document.getElementById(`${rowId}_latDir`).value;
+                    
+                    const lngDeg = parseFloat(document.getElementById(`${rowId}_lngDeg`).value) || 0;
+                    const lngMin = parseFloat(document.getElementById(`${rowId}_lngMin`).value) || 0;
+                    const lngSec = parseFloat(document.getElementById(`${rowId}_lngSec`).value) || 0;
+                    const lngDir = document.getElementById(`${rowId}_lngDir`).value;
+                    
+                    if (latDeg === 0 && lngDeg === 0) {
+                        showToast('⚠️ Ingresa coordenadas primero', 'warning');
+                        return;
+                    }
+                    
+                    lat = gmsToDecimal(latDeg, latMin, latSec, latDir);
+                    lng = gmsToDecimal(lngDeg, lngMin, lngSec, lngDir);
+                } else {
+                    const zone = parseInt(document.getElementById(`${rowId}_zone`).value) || 0;
+                    const hemisphere = document.getElementById(`${rowId}_hem`).value;
+                    const easting = parseFloat(document.getElementById(`${rowId}_east`).value) || 0;
+                    const northing = parseFloat(document.getElementById(`${rowId}_north`).value) || 0;
+                    
+                    if (zone === 0 || easting === 0 || northing === 0) {
+                        showToast('⚠️ Ingresa coordenadas primero', 'warning');
+                        return;
+                    }
+                    
+                    const result = utmToLatLng(zone, hemisphere, easting, northing);
+                    lat = result.lat;
+                    lng = result.lng;
+                }
+                
+                // Validar coordenadas
+                if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+                    showToast('⚠️ Coordenadas fuera de rango válido', 'warning');
+                    return;
+                }
+                
+                // Remover marcador anterior si existe
+                if (validationMarkers[rowId]) {
+                    map.removeLayer(validationMarkers[rowId]);
+                }
+                
+                // Crear marcador temporal con animación
+                const marker = L.circleMarker([lat, lng], {
+                    radius: 10,
+                    fillColor: '#2196F3',
+                    color: '#fff',
+                    weight: 3,
+                    fillOpacity: 0.9
+                }).addTo(map);
+                
+                marker.bindPopup(`
+                    <b>📍 Vista Previa</b><br>
+                    <small>${rowId}</small><br>
+                    Lat: ${lat.toFixed(6)}<br>
+                    Lng: ${lng.toFixed(6)}<br>
+                    <small>Click fuera para cerrar</small>
+                `);
+                
+                validationMarkers[rowId] = marker;
+                
+                // Hacer zoom con animación
+                map.setView([lat, lng], 18, {
+                    animate: true,
+                    duration: 0.8
+                });
+                
+                // Abrir popup después del zoom
+                setTimeout(() => {
+                    marker.openPopup();
+                }, 500);
+                
+                // Resaltar la fila
+                const row = document.getElementById(`row_${rowId}`);
+                if (row) {
+                    row.style.backgroundColor = '#e3f2fd';
+                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    setTimeout(() => {
+                        row.style.backgroundColor = '';
+                    }, 3000);
+                }
+                
+                showToast(`✓ Visualizando ${rowId}`, 'success');
+                
+            } catch (error) {
+                console.error('Error previsualizando coordenada:', error);
+                showToast('❌ Error al previsualizar coordenada', 'error');
+            }
+        }
+
+        function clearValidationMarkers() {
+            Object.values(validationMarkers).forEach(marker => {
+                map.removeLayer(marker);
+            });
+            validationMarkers = {};
+        }
+
+        function processTableData() {
+            // Limpiar marcadores de validación temporales
+            clearValidationMarkers();
+            
+            const numPolygons = parseInt(document.getElementById('numPolygons').value);
+            const numVertices = parseInt(document.getElementById('numVertices').value);
+            
+            let processedPolygons = 0;
+            
+            for (let p = 1; p <= numPolygons; p++) {
+                let polygonCoords = [];
+                
+                for (let v = 1; v <= numVertices; v++) {
+                    const rowId = `p${p}v${v}`;
+                    let lat, lng;
+                    
+                    try {
+                        if (coordSystem === 'geographic') {
+                            const latDeg = parseFloat(document.getElementById(`${rowId}_latDeg`).value) || 0;
+                            const latMin = parseFloat(document.getElementById(`${rowId}_latMin`).value) || 0;
+                            const latSec = parseFloat(document.getElementById(`${rowId}_latSec`).value) || 0;
+                            const latDir = document.getElementById(`${rowId}_latDir`).value;
+                            
+                            const lngDeg = parseFloat(document.getElementById(`${rowId}_lngDeg`).value) || 0;
+                            const lngMin = parseFloat(document.getElementById(`${rowId}_lngMin`).value) || 0;
+                            const lngSec = parseFloat(document.getElementById(`${rowId}_lngSec`).value) || 0;
+                            const lngDir = document.getElementById(`${rowId}_lngDir`).value;
+                            
+                            if (latDeg === 0 && lngDeg === 0) continue;
+                            
+                            lat = gmsToDecimal(latDeg, latMin, latSec, latDir);
+                            lng = gmsToDecimal(lngDeg, lngMin, lngSec, lngDir);
+                        } else {
+                            const zone = parseInt(document.getElementById(`${rowId}_zone`).value);
+                            const hemisphere = document.getElementById(`${rowId}_hem`).value;
+                            const easting = parseFloat(document.getElementById(`${rowId}_east`).value);
+                            const northing = parseFloat(document.getElementById(`${rowId}_north`).value);
+                            
+                            if (!zone || isNaN(easting) || isNaN(northing)) continue;
+                            
+                            const coords = utmToLatLng(zone, hemisphere, easting, northing);
+                            lat = coords.lat;
+                            lng = coords.lng;
+                        }
+                        
+                        polygonCoords.push({
+                            lat: parseFloat(lat.toFixed(6)),
+                            lng: parseFloat(lng.toFixed(6))
+                        });
+                    } catch (e) {
+                        console.error('Error procesando coordenada:', e);
+                    }
+                }
+                
+                // Si el polígono tiene suficientes vértices, crear la capa usando savePolygonAsLayer
+                if (polygonCoords.length >= 3) {
+                    // Crear un polígono temporal para usar savePolygonAsLayer
+                    const latlngs = polygonCoords.map(c => [c.lat, c.lng]);
+                    
+                    // Crear polígono temporal (se usa para calcular el área y luego se guarda como capa)
+                    const tempPolygon = L.polygon(latlngs, {
+                        color: '#667eea',
+                        fillColor: '#667eea',
+                        fillOpacity: 0.3,
+                        weight: 3
+                    });
+                    
+                    // Calcular área
+                    const area = calculateGeodesicArea(latlngs);
+                    const areaHa = (area / 10000).toFixed(2);
+                    const areaKm2 = (area / 1000000).toFixed(4);
+                    
+                    const currentIndex = polygonLayers.length;
+                    const polygonColor = getPolygonColor(currentIndex);
+                    
+                    // Crear la capa del polígono
+                    const layerPolygon = L.polygon(latlngs, {
+                        color: polygonColor,
+                        fillColor: polygonColor,
+                        fillOpacity: 0.3,
+                        weight: 3
+                    });
+                    
+                    const layerName = `Polígono ${polygonLayerCounter}`;
+                    const polygonId = Date.now() + p;
+                    polygonLayerCounter++;
+                    
+                    // Guardar metadata de la capa
+                    const layerData = {
+                        id: polygonId,
+                        name: layerName,
+                        polygon: layerPolygon,
+                        coordinates: latlngs.map(ll => ({lat: ll[0], lng: ll[1]})),
+                        area: {
+                            m2: area.toFixed(2),
+                            ha: areaHa,
+                            km2: areaKm2
+                        },
+                        visible: true,
+                        color: polygonColor,
+                        createdAt: new Date().toISOString(),
+                        vertexMarkers: []
+                    };
+                    
+                    layerPolygon.bindPopup(`
+                        <div style="min-width: 200px;">
+                            <b>${layerName}</b><br>
+                            <hr style="margin: 5px 0;">
+                            📏 Área: ${area.toFixed(2)} m²<br>
+                            📐 Área: ${areaHa} ha<br>
+                            🗺️ Área: ${areaKm2} km²<br>
+                            <hr style="margin: 5px 0;">
+                            <small>Puntos: ${latlngs.length}</small><br>
+                            <small>${new Date().toLocaleString()}</small>
+                        </div>
+                    `);
+                    
+                    layerPolygon.addTo(map);
+                    
+                    // Crear marcadores de vértices y agregarlos a la tabla
+                    latlngs.forEach((latlng, vertexIndex) => {
+                        const vertexMarker = L.circleMarker([latlng[0], latlng[1]], {
+                            radius: 5,
+                            fillColor: polygonColor,
+                            color: '#fff',
+                            weight: 2,
+                            fillOpacity: 0.8,
+                            draggable: true
+                        }).addTo(map);
+                        
+                        vertexMarker.bindPopup(`
+                            <b>${layerName}</b><br>
+                            Vértice ${vertexIndex + 1}<br>
+                            Lat: ${latlng[0].toFixed(6)}<br>
+                            Lng: ${latlng[1].toFixed(6)}
+                        `);
+                        
+                        layerData.vertexMarkers.push(vertexMarker);
+                        
+                        // Agregar a la tabla de coordenadas
+                        const coordData = {
+                            id: polygonId + vertexIndex,
+                            lat: latlng[0].toFixed(6),
+                            lng: latlng[1].toFixed(6),
+                            marker: vertexMarker,
+                            name: `${layerName} - V${vertexIndex + 1}`,
+                            type: 'polygon-vertex',
+                            polygonId: polygonId,
+                            polygonName: layerName,
+                            polygonColor: polygonColor,
+                            vertexIndex: vertexIndex
+                        };
+                        
+                        coordinates.push(coordData);
+                        markers.push(vertexMarker);
+                        
+                        // Configurar arrastre para vértices guardados
+                        setupMarkerDrag(vertexMarker, coordinates.length - 1);
+                    });
+                    
+                    polygonLayers.push(layerData);
+                    processedPolygons++;
+                    
+                    console.log(`Polygon layer ${layerName} created from table data`);
+                }
+            }
+            
+            if (processedPolygons === 0) {
+                showToast('⚠️ No hay datos válidos para crear polígonos', 'warning');
+                return;
+            }
+            
+            // Actualizar tabla de coordenadas
+            updateCoordinatesList();
+            
+            // Actualizar panel de capas
+            updatePolygonLayersPanel();
+            
+            // Ajustar vista del mapa para mostrar todos los polígonos
+            if (polygonLayers.length > 0) {
+                const allBounds = L.latLngBounds();
+                polygonLayers.forEach(layer => {
+                    allBounds.extend(layer.polygon.getBounds());
+                });
+                map.fitBounds(allBounds, { padding: [50, 50] });
+            }
+            
+            showToast(`✓ ${processedPolygons} polígono(s) creado(s) con todas las funcionalidades`, 'success');
+            
+            // Opcional: Limpiar la tabla después de procesar
+            // clearTableData();
+        }
+
+        function getPolygonColor(index) {
+            const colors = ['#667eea', '#f093fb', '#4facfe', '#43e97b', '#fa709a', '#30cfd0'];
+            return colors[index % colors.length];
+        }
+
+        function clearTableData() {
+            clearValidationMarkers();
+            generateCaptureTable();
+        }
+
+        map.on('click', function(e) {
+            if (workMode !== 'capture') return;
+            
+            // Solo capturar si está en modo "Captura en Mapa"
+            const mapCaptureSection = document.getElementById('mapCaptureSection');
+            if (mapCaptureSection.style.display === 'none') return;
+            
+            const lat = e.latlng.lat.toFixed(6);
+            const lng = e.latlng.lng.toFixed(6);
+            
+            let marker;
+            let markerName = null;
+
+            if (currentMode === 'marker') {
+                markerName = `Marcador ${markerCounter}`;
+                markerCounter++;
+                
+                marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+                marker.bindPopup(`<b>${markerName}</b><br>Lat: ${lat}<br>Lng: ${lng}<br><small>Arrastra para ajustar posición</small>`);
+            } else {
+                marker = L.circleMarker([lat, lng], {
+                    radius: 6,
+                    fillColor: '#667eea',
+                    color: '#fff',
+                    weight: 2,
+                    fillOpacity: 0.8,
+                    draggable: true
+                }).addTo(map);
+                marker.bindPopup(`<b>📍 Nueva Coordenada</b><br>Lat: ${lat}<br>Lng: ${lng}<br><small>Arrastra para ajustar posición</small>`);
+            }
+
+            const coordId = Date.now();
+            coordinates.push({
+                id: coordId,
+                lat: lat,
+                lng: lng,
+                marker: marker,
+                name: markerName,
+                type: currentMode
+            });
+            markers.push(marker);
+            
+            // Configurar evento de arrastre para este marcador
+            setupMarkerDrag(marker, coordinates.length - 1);
+            
+            // Actualizar la tabla de coordenadas
+            updateCoordinatesList();
+            
+            // Expandir el footer automáticamente para ver la coordenada capturada
+            const footer = document.getElementById('coordinatesFooter');
+            if (footer.classList.contains('collapsed')) {
+                footer.classList.remove('collapsed');
+                footer.classList.add('expanded');
+                document.getElementById('footerToggle').innerHTML = '▼ Contraer';
+            }
+            
+            // Hacer zoom con animación para visualizar y validar la coordenada
+            setTimeout(() => {
+                map.setView([lat, lng], 18, {
+                    animate: true,
+                    duration: 0.8
+                });
+                
+                // Abrir el popup después del zoom para mejor visualización
+                setTimeout(() => {
+                    marker.openPopup();
+                }, 500);
+            }, 100);
+            
+            // Scroll automático a la última fila de la tabla
+            setTimeout(() => {
+                const tableBody = document.getElementById('coordTableBody');
+                const lastRow = tableBody.lastElementChild;
+                if (lastRow) {
+                    lastRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    // Resaltar temporalmente la nueva fila
+                    lastRow.style.backgroundColor = '#e3f2fd';
+                    setTimeout(() => {
+                        lastRow.style.backgroundColor = '';
+                    }, 2000);
+                }
+            }, 200);
+            
+            showToast('✓ Coordenada capturada - Valida y ajusta si es necesario', 'success');
+        });
+
+        function setupMarkerDrag(marker, index) {
+            // Para marcadores L.marker (con icono)
+            if (marker.dragging) {
+                marker.on('dragstart', function(e) {
+                    showToast('🖐️ Arrastrando...', 'success');
+                    // Resaltar la fila en la tabla
+                    highlightTableRow(index, true);
+                });
+                
+                marker.on('drag', function(e) {
+                    const newLatLng = e.target.getLatLng();
+                    // Actualizar popup en tiempo real
+                    const coord = coordinates[index];
+                    if (coord) {
+                        const lat = newLatLng.lat.toFixed(6);
+                        const lng = newLatLng.lng.toFixed(6);
+                        if (coord.type === 'marker' || (coord.name && coord.name.includes('Marcador'))) {
+                            marker.setPopupContent(`<b>${coord.name}</b><br>Lat: ${lat}<br>Lng: ${lng}`);
+                        } else {
+                            marker.setPopupContent(`Lat: ${lat}<br>Lng: ${lng}`);
+                        }
+                    }
+                });
+                
+                marker.on('dragend', function(e) {
+                    const newLatLng = e.target.getLatLng();
+                    updateMarkerPosition(index, newLatLng.lat, newLatLng.lng);
+                    highlightTableRow(index, false);
+                });
+            }
+            // Para CircleMarker - necesitamos habilitarlo manualmente
+            else if (marker instanceof L.CircleMarker) {
+                enableCircleMarkerDrag(marker, index);
+            }
+        }
+
+        function enableCircleMarkerDrag(marker, index) {
+            let isDragging = false;
+            let startPos = null;
+            
+            marker.on('mousedown', function(e) {
+                isDragging = true;
+                startPos = e.latlng;
+                map.dragging.disable();
+                map.on('mousemove', onMouseMove);
+                showToast('🖐️ Arrastrando punto...', 'success');
+                highlightTableRow(index, true);
+            });
+            
+            function onMouseMove(e) {
+                if (isDragging) {
+                    marker.setLatLng(e.latlng);
+                    
+                    // Actualizar popup en tiempo real
+                    const coord = coordinates[index];
+                    if (coord) {
+                        const lat = e.latlng.lat.toFixed(6);
+                        const lng = e.latlng.lng.toFixed(6);
+                        marker.setPopupContent(`Lat: ${lat}<br>Lng: ${lng}`);
+                    }
+                    
+                    // Si hay polígonos, actualizarlos
+                    if (polygonActive) {
+                        updatePolygonWhileDragging(index, e.latlng);
+                    }
+                }
+            }
+            
+            map.on('mouseup', function(e) {
+                if (isDragging) {
+                    isDragging = false;
+                    map.dragging.enable();
+                    map.off('mousemove', onMouseMove);
+                    
+                    const finalLatLng = marker.getLatLng();
+                    updateMarkerPosition(index, finalLatLng.lat, finalLatLng.lng);
+                    highlightTableRow(index, false);
+                }
+            });
+        }
+
+        function updateMarkerPosition(index, newLat, newLng) {
+            if (index >= 0 && index < coordinates.length) {
+                const coord = coordinates[index];
+                const oldLat = coord.lat;
+                const oldLng = coord.lng;
+                
+                coord.lat = newLat.toFixed(6);
+                coord.lng = newLng.toFixed(6);
+                
+                // Actualizar popup
+                if (coord.type === 'marker' || (coord.name && coord.name.includes('Marcador'))) {
+                    coord.marker.setPopupContent(`<b>${coord.name}</b><br>Lat: ${coord.lat}<br>Lng: ${coord.lng}<br><small>Posición actualizada ✓</small>`);
+                } else {
+                    coord.marker.setPopupContent(`<b>📍 Coordenada Ajustada</b><br>Lat: ${coord.lat}<br>Lng: ${coord.lng}<br><small>Posición actualizada ✓</small>`);
+                }
+                
+                // Actualizar tabla
+                updateCoordinatesList();
+                
+                // Actualizar polígonos si están activos
+                if (polygonActive) {
+                    updatePolygon();
+                }
+                
+                if (capturedPolygons.length > 0) {
+                    updateCapturedPolygons();
+                }
+                
+                // Si es un vértice de polígono guardado, actualizar el polígono
+                if (coord.type === 'polygon-vertex' && coord.polygonId) {
+                    updateSavedPolygonLayer(coord.polygonId);
+                }
+                
+                // Hacer zoom a la nueva posición para validar
+                map.setView([newLat, newLng], 18, {
+                    animate: true,
+                    duration: 0.5
+                });
+                
+                // Abrir popup para mostrar la nueva posición
+                setTimeout(() => {
+                    coord.marker.openPopup();
+                }, 300);
+                
+                // Mostrar notificación con delta
+                const deltaLat = (newLat - parseFloat(oldLat)).toFixed(6);
+                const deltaLng = (newLng - parseFloat(oldLng)).toFixed(6);
+                
+                showToast(`✓ Posición actualizada (Δ Lat: ${deltaLat}, Δ Lng: ${deltaLng})`, 'success');
+                
+                // Animar la fila en la tabla
+                flashTableRow(index);
+            }
+        }
+
+        function updatePolygonWhileDragging(index, newLatLng) {
+            if (polygon) {
+                // Obtener solo puntos temporales
+                const tempPoints = coordinates.filter(c => c.type !== 'polygon-vertex' && c.type !== 'polygon');
+                const tempIndex = tempPoints.findIndex(tp => coordinates.indexOf(tp) === index);
+                
+                if (tempIndex === -1) return; // El punto arrastrado no es temporal
+                
+                const latlngs = tempPoints.map((c, i) => {
+                    if (i === tempIndex) {
+                        return [newLatLng.lat, newLatLng.lng];
+                    }
+                    return [parseFloat(c.lat), parseFloat(c.lng)];
+                });
+                
+                if (latlngs.length >= 3) {
+                    polygon.setLatLngs(latlngs);
+                }
+            }
+        }
+
+        function highlightTableRow(index, highlight) {
+            const row = document.querySelector(`tr[data-index="${index}"]`);
+            if (row) {
+                if (highlight) {
+                    row.style.backgroundColor = '#fff9e6';
+                    row.style.boxShadow = '0 0 10px rgba(102, 126, 234, 0.5)';
+                    row.style.transform = 'scale(1.02)';
+                } else {
+                    row.style.backgroundColor = '';
+                    row.style.boxShadow = '';
+                    row.style.transform = '';
+                }
+            }
+        }
+
+        function flashTableRow(index) {
+            const row = document.querySelector(`tr[data-index="${index}"]`);
+            if (row) {
+                row.style.backgroundColor = '#d4edda';
+                row.style.transition = 'background-color 0.5s';
+                setTimeout(() => {
+                    row.style.backgroundColor = '';
+                }, 1000);
+            }
+        }
+
+        function updateCoordinatesList() {
+            const tableBody = document.getElementById('coordTableBody');
+            
+            // Actualizar contador
+            document.getElementById('coordCount').textContent = coordinates.length;
+            
+            if (coordinates.length === 0) {
+                tableBody.innerHTML = `
+                    <tr class="empty-row">
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <p>No hay coordenadas</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tableBody.innerHTML = coordinates.map((coord, index) => {
+                const isPolygonVertex = coord.type === 'polygon-vertex';
+                const rowClass = isPolygonVertex ? 'polygon-vertex-row' : '';
+                const namePrefix = isPolygonVertex ? `<span class="vertex-badge" style="background-color: ${coord.polygonColor};">🔷</span> ` : '';
+                
+                return `
+                <tr data-index="${index}" class="${rowClass}">
+                    <td>${index + 1}</td>
+                    <td class="editable-cell" 
+                        contenteditable="true" 
+                        data-field="name" 
+                        data-index="${index}" 
+                        onblur="updateCoordinate(${index}, 'name', this.textContent)"
+                        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                    >${namePrefix}${coord.name || `Punto ${index + 1}`}</td>
+                    <td class="coord-value editable-cell" 
+                        contenteditable="true" 
+                        data-field="lat" 
+                        data-index="${index}"
+                        onblur="updateCoordinate(${index}, 'lat', this.textContent)"
+                        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                        title="Click para editar latitud"
+                    >${coord.lat}</td>
+                    <td class="coord-value editable-cell" 
+                        contenteditable="true" 
+                        data-field="lng" 
+                        data-index="${index}"
+                        onblur="updateCoordinate(${index}, 'lng', this.textContent)"
+                        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                        title="Click para editar longitud"
+                    >${coord.lng}</td>
+                    <td class="coord-status" id="status-${index}">
+                        <span class="status-badge ${isPolygonVertex ? 'status-saved' : 'status-ok'}">
+                            ${isPolygonVertex ? '💾 Guardado' : '✓ OK'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="table-icon-btn" onclick="zoomToCoord(${index})" title="Ver">🔍</button>
+                            <button class="table-icon-btn" onclick="copyFullCoord(${index})" title="Copiar">📋</button>
+                            ${!isPolygonVertex ? 
+                                `<button class="table-icon-btn" onclick="deleteCoord(${index})" title="Eliminar">🗑️</button>` : 
+                                `<button class="table-icon-btn" onclick="deleteVertexFromPolygon(${index})" title="Eliminar vértice del polígono" style="opacity: 0.6;">🗑️</button>`
+                            }
+                        </div>
+                    </td>
+                </tr>
+            `}).join('');
+            
+            if (polygonActive) {
+                updatePolygon();
+            }
+        }
+
+        function updateCoordinate(index, field, value) {
+            const coord = coordinates[index];
+            const statusCell = document.getElementById(`status-${index}`);
+            
+            if (field === 'name') {
+                coord.name = value.trim() || `Punto ${index + 1}`;
+                
+                // Actualizar popup del marcador
+                if (coord.marker) {
+                    const lat = coord.lat;
+                    const lng = coord.lng;
+                    if (coord.type === 'marker' || coord.name.includes('Marcador')) {
+                        coord.marker.setPopupContent(`<b>${coord.name}</b><br>Lat: ${lat}<br>Lng: ${lng}`);
+                    }
+                }
+                
+                showStatus(statusCell, 'ok', '✓ Nombre actualizado');
+                return;
+            }
+            
+            // Validar y actualizar coordenadas
+            const newValue = parseFloat(value);
+            
+            if (isNaN(newValue)) {
+                showStatus(statusCell, 'error', '✗ Valor inválido');
+                // Restaurar valor anterior
+                setTimeout(() => updateCoordinatesList(), 100);
+                showToast('⚠️ Coordenada inválida', 'warning');
+                return;
+            }
+            
+            // Validar rangos
+            if (field === 'lat' && (newValue < -90 || newValue > 90)) {
+                showStatus(statusCell, 'error', '✗ Lat fuera de rango');
+                setTimeout(() => updateCoordinatesList(), 100);
+                showToast('⚠️ Latitud debe estar entre -90 y 90', 'warning');
+                return;
+            }
+            
+            if (field === 'lng' && (newValue < -180 || newValue > 180)) {
+                showStatus(statusCell, 'error', '✗ Lng fuera de rango');
+                setTimeout(() => updateCoordinatesList(), 100);
+                showToast('⚠️ Longitud debe estar entre -180 y 180', 'warning');
+                return;
+            }
+            
+            // Actualizar coordenada
+            const oldLat = parseFloat(coord.lat);
+            const oldLng = parseFloat(coord.lng);
+            
+            if (field === 'lat') {
+                coord.lat = newValue.toFixed(6);
+            } else if (field === 'lng') {
+                coord.lng = newValue.toFixed(6);
+            }
+            
+            // Actualizar posición del marcador en el mapa
+            if (coord.marker) {
+                const newLat = parseFloat(coord.lat);
+                const newLng = parseFloat(coord.lng);
+                
+                coord.marker.setLatLng([newLat, newLng]);
+                
+                // Actualizar popup
+                if (coord.type === 'marker' || coord.name.includes('Marcador')) {
+                    coord.marker.setPopupContent(`<b>${coord.name}</b><br>Lat: ${coord.lat}<br>Lng: ${coord.lng}`);
+                } else {
+                    coord.marker.setPopupContent(`Lat: ${coord.lat}<br>Lng: ${coord.lng}`);
+                }
+                
+                // Animar el marcador
+                animateMarker(coord.marker);
+            }
+            
+            // Si hay polígono activo, actualizarlo
+            if (polygonActive) {
+                updatePolygon();
+            }
+            
+            // Si hay polígonos capturados, actualizarlos
+            if (capturedPolygons.length > 0) {
+                updateCapturedPolygons();
+            }
+            
+            // Si es un vértice de polígono guardado, actualizar el polígono de la capa
+            if (coord.type === 'polygon-vertex' && coord.polygonId) {
+                updateSavedPolygonLayer(coord.polygonId);
+            }
+            
+            showStatus(statusCell, 'ok', '✓ Actualizado');
+            showToast('✓ Coordenada actualizada en el mapa', 'success');
+            
+            // Hacer zoom suave a la nueva posición
+            map.panTo([parseFloat(coord.lat), parseFloat(coord.lng)]);
+        }
+
+        function updateSavedPolygonLayer(polygonId) {
+            // Buscar la capa del polígono
+            const layer = polygonLayers.find(l => l.id === polygonId);
+            if (!layer) return;
+            
+            // Obtener todos los vértices actualizados de este polígono
+            const vertices = coordinates.filter(c => c.polygonId === polygonId);
+            if (vertices.length < 3) return;
+            
+            // Crear nuevas coordenadas
+            const newLatLngs = vertices.map(v => [parseFloat(v.lat), parseFloat(v.lng)]);
+            
+            // Actualizar el polígono en el mapa
+            layer.polygon.setLatLngs(newLatLngs);
+            
+            // Actualizar coordenadas guardadas en la capa
+            layer.coordinates = vertices.map(v => ({lat: parseFloat(v.lat), lng: parseFloat(v.lng)}));
+            
+            // Recalcular área
+            const area = calculateGeodesicArea(newLatLngs);
+            const areaHa = (area / 10000).toFixed(2);
+            const areaKm2 = (area / 1000000).toFixed(4);
+            
+            layer.area = {
+                m2: area.toFixed(2),
+                ha: areaHa,
+                km2: areaKm2
+            };
+            
+            // Actualizar popup del polígono
+            layer.polygon.setPopupContent(`
+                <div style="min-width: 200px;">
+                    <b>${layer.name}</b><br>
+                    <hr style="margin: 5px 0;">
+                    📏 Área: ${area.toFixed(2)} m²<br>
+                    📐 Área: ${areaHa} ha<br>
+                    🗺️ Área: ${areaKm2} km²<br>
+                    <hr style="margin: 5px 0;">
+                    <small>Puntos: ${vertices.length}</small><br>
+                    <small>Última edición: ${new Date().toLocaleString()}</small>
+                </div>
+            `);
+            
+            // Actualizar también los popups de los marcadores de vértices
+            vertices.forEach((vertex, idx) => {
+                if (vertex.marker) {
+                    vertex.marker.setPopupContent(`
+                        <b>${layer.name}</b><br>
+                        Vértice ${idx + 1}<br>
+                        Lat: ${vertex.lat}<br>
+                        Lng: ${vertex.lng}
+                    `);
+                }
+            });
+            
+            // Actualizar panel de capas
+            updatePolygonLayersPanel();
+            
+            console.log(`Polygon layer ${layer.name} updated with new coordinates`);
+        }
+
+        function animateMarker(marker) {
+            const icon = marker.getElement ? marker.getElement() : null;
+            if (icon) {
+                icon.style.transition = 'transform 0.3s ease';
+                icon.style.transform = 'scale(1.3)';
+                setTimeout(() => {
+                    icon.style.transform = 'scale(1)';
+                }, 300);
+            }
+        }
+
+        function showStatus(statusCell, type, message) {
+            if (!statusCell) return;
+            
+            const badges = {
+                'ok': `<span class="status-badge status-ok">${message}</span>`,
+                'error': `<span class="status-badge status-error">${message}</span>`,
+                'warning': `<span class="status-badge status-warning">${message}</span>`
+            };
+            
+            statusCell.innerHTML = badges[type] || badges['ok'];
+            
+            // Volver a OK después de 3 segundos
+            if (type !== 'ok') {
+                setTimeout(() => {
+                    statusCell.innerHTML = '<span class="status-badge status-ok">✓ OK</span>';
+                }, 3000);
+            }
+        }
+
+        function updateCapturedPolygons() {
+            capturedPolygons.forEach(polyData => {
+                if (polyData.polygon) {
+                    // Buscar coordenadas que pertenecen a este polígono
+                    const polyCoords = coordinates.filter(c => 
+                        polyData.coords.some(pc => 
+                            Math.abs(parseFloat(pc.lat) - parseFloat(c.lat)) < 0.000001 &&
+                            Math.abs(parseFloat(pc.lng) - parseFloat(c.lng)) < 0.000001
+                        )
+                    );
+                    
+                    if (polyCoords.length >= 3) {
+                        const latlngs = polyCoords.map(c => [parseFloat(c.lat), parseFloat(c.lng)]);
+                        polyData.polygon.setLatLngs(latlngs);
+                        
+                        // Recalcular área
+                        const area = calculateGeodesicArea(polyData.polygon.getLatLngs()[0]);
+                        const areaHa = (area / 10000).toFixed(2);
+                        
+                        polyData.polygon.setPopupContent(`
+                            <b>Polígono</b><br>
+                            ${area.toFixed(2)} m²<br>
+                            ${areaHa} ha
+                        `);
+                    }
+                }
+            });
+        }
+
+        function toggleFooter() {
+            const footer = document.getElementById('coordinatesFooter');
+            const toggleIcon = document.getElementById('footerToggleIcon');
+            const toggleText = document.getElementById('footerToggleText');
+            
+            if (footer.classList.contains('collapsed')) {
+                // Expandir
+                footer.classList.remove('collapsed');
+                footer.classList.add('expanded');
+                toggleIcon.textContent = '▼';
+                toggleText.textContent = 'Ocultar';
+            } else {
+                // Colapsar
+                footer.classList.remove('expanded');
+                footer.classList.add('collapsed');
+                toggleIcon.textContent = '▲';
+                toggleText.textContent = 'Mostrar';
+            }
+            
+            // Actualizar tamaño del mapa después de la animación
+            setTimeout(() => map.invalidateSize(), 350);
+        }
+
+        function zoomToCoord(index) {
+            const coord = coordinates[index];
+            map.setView([coord.lat, coord.lng], 18, {
+                animate: true,
+                duration: 0.5
+            });
+            coord.marker.openPopup();
+        }
+
+        function copyFullCoord(index) {
+            const coord = coordinates[index];
+            const text = `${coord.lat}, ${coord.lng}`;
+            navigator.clipboard.writeText(text);
+            showToast('✓ Copiado');
+        }
+
+        function deleteCoord(index) {
+            const coord = coordinates[index];
+            map.removeLayer(coord.marker);
+            coordinates.splice(index, 1);
+            markers.splice(index, 1);
+            updateCoordinatesList();
+            showToast('✓ Eliminado');
+        }
+
+        function deleteVertexFromPolygon(index) {
+            const coord = coordinates[index];
+            
+            if (coord.type !== 'polygon-vertex') {
+                deleteCoord(index);
+                return;
+            }
+            
+            // Encontrar el polígono al que pertenece
+            const layer = polygonLayers.find(l => l.id === coord.polygonId);
+            if (!layer) return;
+            
+            // Contar cuántos vértices tiene el polígono
+            const vertexCount = coordinates.filter(c => c.polygonId === coord.polygonId).length;
+            
+            if (vertexCount <= 3) {
+                showToast('⚠️ Un polígono necesita al menos 3 vértices. Elimina el polígono completo desde el panel de capas.', 'warning');
+                return;
+            }
+            
+            if (confirm(`¿Eliminar vértice ${coord.vertexIndex + 1} de ${layer.name}?`)) {
+                // Remover marcador del mapa
+                map.removeLayer(coord.marker);
+                
+                // Remover del array de marcadores de vértices
+                const markerIndex = layer.vertexMarkers.indexOf(coord.marker);
+                if (markerIndex > -1) {
+                    layer.vertexMarkers.splice(markerIndex, 1);
+                }
+                
+                // Remover de coordinates y markers
+                coordinates.splice(index, 1);
+                markers.splice(index, 1);
+                
+                // Renumerar vértices restantes
+                coordinates.forEach((c, idx) => {
+                    if (c.polygonId === coord.polygonId) {
+                        const verticesBeforeThis = coordinates.slice(0, idx).filter(v => v.polygonId === coord.polygonId).length;
+                        c.vertexIndex = verticesBeforeThis;
+                        c.name = `${layer.name} - V${verticesBeforeThis + 1}`;
+                    }
+                });
+                
+                // Actualizar polígono guardado
+                updateSavedPolygonLayer(coord.polygonId);
+                
+                // Actualizar tabla
+                updateCoordinatesList();
+                
+                showToast(`✓ Vértice eliminado de ${layer.name}`);
+            }
+        }
+
+        function togglePolygon() {
+            const btn = document.getElementById('polygonBtn');
+            
+            if (!polygonActive) {
+                // Obtener solo puntos temporales (no vértices de polígonos guardados)
+                const tempPoints = coordinates.filter(c => c.type !== 'polygon-vertex' && c.type !== 'polygon');
+                
+                // Verificar que hay al menos 3 puntos temporales
+                if (tempPoints.length < 3) {
+                    showToast('⚠️ Se necesitan al menos 3 puntos nuevos', 'warning');
+                    return;
+                }
+                
+                // Crear polígono
+                polygonActive = true;
+                updatePolygon();
+                
+                btn.textContent = '💾 Guardar Polígono';
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-success');
+                
+                showToast('✓ Polígono creado - Arrastra puntos para ajustar');
+            } else {
+                // Guardar polígono como capa
+                if (polygon) {
+                    savePolygonAsLayer();
+                    
+                    // Resetear para crear nuevo polígono
+                    map.removeLayer(polygon);
+                    polygon = null;
+                    polygonActive = false;
+                    
+                    btn.textContent = '🔷 Crear Polígono';
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('btn-primary');
+                }
+            }
+        }
+
+        function savePolygonAsLayer() {
+            if (!polygon) return;
+            
+            const latlngs = polygon.getLatLngs()[0];
+            const area = calculateGeodesicArea(latlngs);
+            const areaHa = (area / 10000).toFixed(2);
+            const areaKm2 = (area / 1000000).toFixed(4);
+            
+            const currentIndex = polygonLayers.length;
+            const polygonColor = getPolygonColor(currentIndex);
+            
+            // Crear copia del polígono para la capa
+            const layerPolygon = L.polygon(latlngs, {
+                color: polygonColor,
+                fillColor: polygonColor,
+                fillOpacity: 0.3,
+                weight: 3
+            });
+            
+            const layerName = `Polígono ${polygonLayerCounter}`;
+            const polygonId = Date.now();
+            polygonLayerCounter++;
+            
+            // Guardar metadata de la capa
+            const layerData = {
+                id: polygonId,
+                name: layerName,
+                polygon: layerPolygon,
+                coordinates: latlngs.map(ll => ({lat: ll.lat, lng: ll.lng})),
+                area: {
+                    m2: area.toFixed(2),
+                    ha: areaHa,
+                    km2: areaKm2
+                },
+                visible: true,
+                color: polygonColor,
+                createdAt: new Date().toISOString(),
+                vertexMarkers: [] // Array para guardar los marcadores de vértices
+            };
+            
+            layerPolygon.bindPopup(`
+                <div style="min-width: 200px;">
+                    <b>${layerName}</b><br>
+                    <hr style="margin: 5px 0;">
+                    📏 Área: ${area.toFixed(2)} m²<br>
+                    📐 Área: ${areaHa} ha<br>
+                    🗺️ Área: ${areaKm2} km²<br>
+                    <hr style="margin: 5px 0;">
+                    <small>Puntos: ${latlngs.length}</small><br>
+                    <small>${new Date().toLocaleString()}</small>
+                </div>
+            `);
+            
+            layerPolygon.addTo(map);
+            
+            // Crear marcadores de vértices y agregarlos a la tabla
+            latlngs.forEach((latlng, vertexIndex) => {
+                const vertexMarker = L.circleMarker([latlng.lat, latlng.lng], {
+                    radius: 5,
+                    fillColor: polygonColor,
+                    color: '#fff',
+                    weight: 2,
+                    fillOpacity: 0.8,
+                    draggable: true // Hacer vértices arrastrables
+                }).addTo(map);
+                
+                vertexMarker.bindPopup(`
+                    <b>${layerName}</b><br>
+                    Vértice ${vertexIndex + 1}<br>
+                    Lat: ${latlng.lat.toFixed(6)}<br>
+                    Lng: ${latlng.lng.toFixed(6)}
+                `);
+                
+                layerData.vertexMarkers.push(vertexMarker);
+                
+                // Agregar a la tabla de coordenadas
+                const coordData = {
+                    id: Date.now() + vertexIndex,
+                    lat: latlng.lat.toFixed(6),
+                    lng: latlng.lng.toFixed(6),
+                    marker: vertexMarker,
+                    name: `${layerName} - V${vertexIndex + 1}`,
+                    type: 'polygon-vertex',
+                    polygonId: polygonId,
+                    polygonName: layerName,
+                    polygonColor: polygonColor,
+                    vertexIndex: vertexIndex
+                };
+                
+                coordinates.push(coordData);
+                markers.push(vertexMarker);
+                
+                // Configurar arrastre para vértices guardados
+                setupMarkerDrag(vertexMarker, coordinates.length - 1);
+            });
+            
+            polygonLayers.push(layerData);
+            
+            console.log('Polygon layer saved:', layerData);
+            console.log('Total polygon layers:', polygonLayers.length);
+            console.log('Coordinates with vertices:', coordinates);
+            
+            // Actualizar tabla de coordenadas
+            updateCoordinatesList();
+            
+            // Actualizar panel de capas
+            updatePolygonLayersPanel();
+            
+            showToast(`✓ ${layerName} guardado con ${latlngs.length} vértices`, 'success');
+        }
+
+        function clearCapturedPointsForNewPolygon() {
+            // Solo limpiar puntos que NO son vértices de polígonos guardados
+            const tempMarkers = markers.filter((marker, index) => {
+                const coord = coordinates[index];
+                return coord && coord.type !== 'polygon-vertex';
+            });
+            
+            const tempCoordinates = coordinates.filter(coord => coord.type !== 'polygon-vertex');
+            
+            // Remover solo marcadores temporales
+            tempMarkers.forEach(marker => map.removeLayer(marker));
+            
+            // Mantener solo coordenadas de polígonos guardados
+            coordinates = coordinates.filter(coord => coord.type === 'polygon-vertex');
+            markers = markers.filter((marker, index) => {
+                // Mantener solo marcadores de polígonos guardados
+                return coordinates.some(coord => coord.marker === marker);
+            });
+            
+            // Actualizar tabla
+            updateCoordinatesList();
+            
+            console.log('Temporary points cleared, polygon vertices kept');
+        }
+
+        function updatePolygonLayersPanel() {
+            const panel = document.getElementById('polygonLayersPanel');
+            const layersList = document.getElementById('polygonLayersList');
+            
+            console.log('updatePolygonLayersPanel called');
+            console.log('Panel element:', panel);
+            console.log('LayersList element:', layersList);
+            console.log('polygonLayers.length:', polygonLayers.length);
+            console.log('polygonLayers:', polygonLayers);
+            
+            if (!panel || !layersList) {
+                console.error('Panel or layersList element not found!');
+                return;
+            }
+            
+            if (polygonLayers.length === 0) {
+                panel.style.display = 'none';
+                console.log('No layers, hiding panel');
+                return;
+            }
+            
+            panel.style.display = 'block';
+            console.log('Showing panel with', polygonLayers.length, 'layers');
+            
+            layersList.innerHTML = polygonLayers.map((layer, index) => `
+                <div class="layer-item" data-layer-id="${layer.id}">
+                    <div class="layer-header">
+                        <div class="layer-color" style="background-color: ${layer.color};"></div>
+                        <span class="layer-name">${layer.name}</span>
+                        <div class="layer-actions">
+                            <button class="layer-action-btn" onclick="toggleLayer(${index})" title="${layer.visible ? 'Ocultar' : 'Mostrar'}">
+                                ${layer.visible ? '👁️' : '👁️‍🗨️'}
+                            </button>
+                            <button class="layer-action-btn" onclick="exportLayerToKML(${index})" title="Exportar KML">
+                                📥
+                            </button>
+                            <button class="layer-action-btn" onclick="deleteLayer(${index})" title="Eliminar">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                    <div class="layer-info">
+                        <small>📐 ${layer.area.ha} ha | 🗺️ ${layer.area.km2} km²</small>
+                    </div>
+                </div>
+            `).join('');
+            
+            console.log('Panel HTML updated');
+        }
+
+        function toggleLayer(index) {
+            if (index < 0 || index >= polygonLayers.length) return;
+            
+            const layer = polygonLayers[index];
+            layer.visible = !layer.visible;
+            
+            if (layer.visible) {
+                layer.polygon.addTo(map);
+                // Mostrar marcadores de vértices
+                layer.vertexMarkers.forEach(marker => marker.addTo(map));
+                showToast(`✓ ${layer.name} visible`);
+            } else {
+                map.removeLayer(layer.polygon);
+                // Ocultar marcadores de vértices
+                layer.vertexMarkers.forEach(marker => map.removeLayer(marker));
+                showToast(`✓ ${layer.name} oculto`);
+            }
+            
+            updatePolygonLayersPanel();
+        }
+
+        function deleteLayer(index) {
+            if (index < 0 || index >= polygonLayers.length) return;
+            
+            const layer = polygonLayers[index];
+            
+            if (confirm(`¿Eliminar ${layer.name}?`)) {
+                // Remover polígono del mapa
+                map.removeLayer(layer.polygon);
+                
+                // Remover marcadores de vértices del mapa
+                layer.vertexMarkers.forEach(marker => {
+                    map.removeLayer(marker);
+                });
+                
+                // Remover coordenadas de vértices de la tabla
+                coordinates = coordinates.filter(coord => coord.polygonId !== layer.id);
+                markers = markers.filter(marker => !layer.vertexMarkers.includes(marker));
+                
+                // Remover capa del array
+                polygonLayers.splice(index, 1);
+                
+                // Actualizar interfaces
+                updateCoordinatesList();
+                updatePolygonLayersPanel();
+                
+                showToast(`✓ ${layer.name} eliminado`);
+            }
+        }
+
+        function exportLayerToKML(index) {
+            if (index < 0 || index >= polygonLayers.length) return;
+            
+            const layer = polygonLayers[index];
+            const kml = generateKML(layer);
+            
+            const blob = new Blob([kml], { type: 'application/vnd.google-earth.kml+xml' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${layer.name.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.kml`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            showToast(`✓ ${layer.name} exportado a KML`, 'success');
+        }
+
+        function generateKML(layer) {
+            const coords = layer.coordinates.map(c => `${c.lng},${c.lat},0`).join(' ');
+            
+            const kml = `<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>${layer.name}</name>
+    <description>Polígono generado por Herramienta Geográfica ORE Durango</description>
+    <Style id="polyStyle">
+      <LineStyle>
+        <color>ff${layer.color.substring(5, 7)}${layer.color.substring(3, 5)}${layer.color.substring(1, 3)}</color>
+        <width>3</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>4d${layer.color.substring(5, 7)}${layer.color.substring(3, 5)}${layer.color.substring(1, 3)}</color>
+      </PolyStyle>
+    </Style>
+    <Placemark>
+      <name>${layer.name}</name>
+      <description>
+        <![CDATA[
+          <b>Información del Polígono</b><br/>
+          <hr/>
+          <b>Área:</b><br/>
+          • ${layer.area.m2} m²<br/>
+          • ${layer.area.ha} hectáreas<br/>
+          • ${layer.area.km2} km²<br/>
+          <hr/>
+          <b>Puntos:</b> ${layer.coordinates.length}<br/>
+          <b>Fecha de creación:</b> ${new Date(layer.createdAt).toLocaleString()}<br/>
+        ]]>
+      </description>
+      <styleUrl>#polyStyle</styleUrl>
+      <Polygon>
+        <extrude>1</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              ${coords}
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>`;
+            
+            return kml;
+        }
+
+        function updatePolygon() {
+            if (!polygonActive) return;
+            
+            // Obtener solo puntos temporales (no vértices de polígonos guardados)
+            const tempPoints = coordinates.filter(c => c.type !== 'polygon-vertex' && c.type !== 'polygon');
+            
+            if (tempPoints.length < 3) return;
+            
+            if (polygon) {
+                map.removeLayer(polygon);
+            }
+            
+            const latlngs = tempPoints.map(coord => [parseFloat(coord.lat), parseFloat(coord.lng)]);
+            
+            polygon = L.polygon(latlngs, {
+                color: '#667eea',
+                fillColor: '#667eea',
+                fillOpacity: 0.2,
+                weight: 3
+            }).addTo(map);
+            
+            const area = calculateGeodesicArea(polygon.getLatLngs()[0]);
+            const areaHa = (area / 10000).toFixed(2);
+            
+            polygon.bindPopup(`
+                <b>Área del Polígono</b><br>
+                ${area.toFixed(2)} m²<br>
+                ${areaHa} hectáreas<br>
+                <small>Puntos: ${tempPoints.length}</small>
+            `);
+        }
+
+        function clearAll() {
+            // Verificar si hay puntos temporales para limpiar (excluyendo vértices de polígonos guardados)
+            const tempCoordinates = coordinates.filter(coord => coord.type !== 'polygon-vertex');
+            
+            if (tempCoordinates.length === 0 && !polygon) {
+                showToast('⚠️ No hay puntos temporales para limpiar', 'warning');
+                return;
+            }
+            
+            if (confirm('¿Eliminar puntos capturados? (Los polígonos guardados NO se eliminarán)')) {
+                // Solo remover marcadores temporales (no vértices de polígonos guardados)
+                markers.forEach((marker, index) => {
+                    const coord = coordinates[index];
+                    if (coord && coord.type !== 'polygon-vertex') {
+                        map.removeLayer(marker);
+                    }
+                });
+                
+                // Remover polígono temporal si existe
+                if (polygon) {
+                    map.removeLayer(polygon);
+                    polygon = null;
+                }
+                
+                // Remover polígonos capturados de tabla manual (si existen)
+                capturedPolygons.forEach(p => map.removeLayer(p.polygon));
+                
+                // Mantener solo coordenadas de polígonos guardados
+                coordinates = coordinates.filter(coord => coord.type === 'polygon-vertex');
+                
+                // Mantener solo marcadores de polígonos guardados
+                markers = markers.filter((marker, index) => {
+                    const coord = coordinates.find(c => c.marker === marker);
+                    return coord && coord.type === 'polygon-vertex';
+                });
+                
+                // Limpiar polígonos capturados de tabla manual
+                capturedPolygons = [];
+                
+                // Resetear contador de marcadores temporales
+                markerCounter = 1;
+                polygonActive = false;
+                
+                const btn = document.getElementById('polygonBtn');
+                btn.textContent = '🔷 Crear Polígono';
+                btn.classList.remove('btn-secondary', 'btn-success');
+                btn.classList.add('btn-primary');
+                
+                updateCoordinatesList();
+                showToast('✓ Puntos temporales eliminados - Polígonos guardados conservados', 'success');
+            }
+        }
+
+        // ========================================
+        // FUNCIONES DE CAPA DE SUPABASE
+        // ========================================
+        
+        let supabaseLayer = null;
+        let supabaseFeatureGroup = null;
+        let supabaseData = [];
+        
+        const SUPABASE_URL = 'https://tcejcwfocunsozsnahge.supabase.co';
+        const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjZWpjd2ZvY3Vuc296c25haGdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4MTg1NDIsImV4cCI6MjA4MDM5NDU0Mn0.XhgwFT0_HCqm2dCq6_Bedmx-JAQFfzOdQfAGfap5IBk';
+
+        async function loadSupabaseLayer() {
+            if (supabaseLayer) {
+                showToast('⚠️ La capa ya está cargada', 'warning');
+                return;
+            }
+
+            const btn = document.getElementById('supabaseBtn');
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Cargando...';
+            
+            const statusElement = document.getElementById('supabaseStatus');
+            statusElement.textContent = 'Conectando...';
+            
+            // Lista de posibles nombres de tabla a intentar (AGREGADA LA TABLA CORRECTA AL INICIO)
+            const possibleTables = [
+                'SNGF_Dgo_validate',  // ← Tu tabla
+                'poligonos',
+                'polygons', 
+                'geometrias',
+                'geometries',
+                'capas',
+                'layers',
+                'areas',
+                'zonas',
+                'predios',
+                'parcelas'
+            ];
+            
+            let tableFound = null;
+            let data = null;
+            
+            try {
+                console.log('🔗 Conectando a Supabase...');
+                console.log('🔍 Buscando tablas disponibles...');
+                
+                // Intentar cada tabla posible
+                for (const tableName of possibleTables) {
+                    try {
+                        console.log(`Probando tabla: ${tableName}`);
+                        
+                        const response = await fetch(`${SUPABASE_URL}/rest/v1/${tableName}?select=*&limit=1`, {
+                            headers: {
+                                'apikey': SUPABASE_API_KEY,
+                                'Authorization': `Bearer ${SUPABASE_API_KEY}`,
+                                'Content-Type': 'application/json',
+                                'Prefer': 'return=representation'
+                            }
+                        });
+
+                        if (response.ok) {
+                            const testData = await response.json();
+                            console.log(`✓ Tabla encontrada: ${tableName}`, testData);
+                            
+                            // Verificar que tenga al menos un registro para analizar estructura
+                            if (testData && testData.length > 0) {
+                                console.log('📋 Estructura de la primera fila:', Object.keys(testData[0]));
+                            }
+                            
+                            tableFound = tableName;
+                            break;
+                        } else {
+                            console.log(`✗ Tabla ${tableName} no existe (${response.status})`);
+                        }
+                    } catch (err) {
+                        console.log(`✗ Error probando tabla ${tableName}:`, err.message);
+                    }
+                }
+
+                if (!tableFound) {
+                    // No se encontró ninguna tabla, mostrar diálogo para ingresar nombre
+                    const tableName = prompt(
+                        '❌ No se encontraron tablas predefinidas.\n\n' +
+                        'Tablas buscadas:\n' + possibleTables.join(', ') + '\n\n' +
+                        'Por favor, ingresa el nombre EXACTO de tu tabla con geometrías:'
+                    );
+                    
+                    if (!tableName) {
+                        throw new Error('Operación cancelada por el usuario');
+                    }
+                    
+                    tableFound = tableName.trim();
+                    console.log(`📝 Intentando con tabla ingresada: ${tableFound}`);
+                }
+
+                // Cargar datos de la tabla encontrada
+                console.log(`📊 Cargando datos de tabla: ${tableFound}`);
+                
+                // PAGINACIÓN: Cargar TODOS los registros
+                let allData = [];
+                let offset = 0;
+                const limit = 1000; // Supabase permite hasta 1000 por página
+                let hasMore = true;
+                
+                console.log('🔄 Iniciando carga paginada...');
+                
+                while (hasMore) {
+                    const response = await fetch(`${SUPABASE_URL}/rest/v1/${tableFound}?select=*&limit=${limit}&offset=${offset}`, {
+                        headers: {
+                            'apikey': SUPABASE_API_KEY,
+                            'Authorization': `Bearer ${SUPABASE_API_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Prefer': 'return=representation,count=exact'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error('Error response:', errorText);
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}\n\nTabla: ${tableFound}`);
+                    }
+
+                    const pageData = await response.json();
+                    
+                    // Obtener el total de registros del header (si está disponible)
+                    const contentRange = response.headers.get('content-range');
+                    let totalRecords = null;
+                    if (contentRange) {
+                        const match = contentRange.match(/\/(\d+)/);
+                        if (match) {
+                            totalRecords = parseInt(match[1]);
+                            console.log(`📊 Total de registros en la tabla: ${totalRecords}`);
+                        }
+                    }
+                    
+                    if (pageData && pageData.length > 0) {
+                        allData = allData.concat(pageData);
+                        console.log(`📥 Página ${Math.floor(offset / limit) + 1}: ${pageData.length} registros (Total acumulado: ${allData.length})`);
+                        
+                        offset += limit;
+                        
+                        // Si obtuvimos menos registros que el límite, ya no hay más
+                        if (pageData.length < limit) {
+                            hasMore = false;
+                            console.log('✓ Última página cargada');
+                        }
+                        
+                        // Si conocemos el total y ya lo tenemos todo
+                        if (totalRecords && allData.length >= totalRecords) {
+                            hasMore = false;
+                            console.log('✓ Todos los registros cargados');
+                        }
+                        
+                    } else {
+                        hasMore = false;
+                        console.log('✓ No hay más registros');
+                    }
+                    
+                    // Actualizar UI durante la carga
+                    document.getElementById('supabaseStatus').textContent = `Cargando... ${allData.length} registros`;
+                }
+
+                data = allData;
+                console.log(`✅ Carga completa: ${data.length} registros totales`);
+                console.log('📋 Primera fila:', data[0]);
+                
+                if (!data || data.length === 0) {
+                    showToast(`⚠️ La tabla "${tableFound}" está vacía`, 'warning');
+                    document.getElementById('supabaseStatus').textContent = 'Sin datos';
+                    btn.disabled = false;
+                    btn.innerHTML = '📊 Reporte de Sobreposición';
+                    return;
+                }
+
+                supabaseData = data;
+                
+                // Crear grupo de features
+                supabaseFeatureGroup = L.featureGroup();
+                
+                let loadedCount = 0;
+                let errors = [];
+                
+                console.log(`🔄 Procesando ${data.length} geometrías...`);
+                statusElement.textContent = `Procesando geometrías...`;
+                btn.innerHTML = `⏳ Procesando ${data.length} registros...`;
+                
+                // Procesar cada feature
+                data.forEach((feature, index) => {
+                    try {
+                        // Actualizar progreso cada 100 registros
+                        if ((index + 1) % 100 === 0) {
+                            console.log(`📊 Progreso: ${index + 1}/${data.length} (${Math.round((index + 1) / data.length * 100)}%)`);
+                            statusElement.textContent = `Procesando: ${index + 1}/${data.length}`;
+                            btn.innerHTML = `⏳ ${Math.round((index + 1) / data.length * 100)}%`;
+                        }
+                        
+                        // Buscar campo de geometría (puede tener diferentes nombres)
+                        let geometry = null;
+                        const geomFields = ['geometry', 'geom', 'geometria', 'coordinates', 'shape', 'wkt', 'the_geom', 'geojson', 'geo'];
+                        
+                        for (const field of geomFields) {
+                            if (feature[field]) {
+                                geometry = feature[field];
+                                console.log(`Feature ${index}: Geometría encontrada en campo "${field}"`);
+                                break;
+                            }
+                        }
+                        
+                        if (!geometry) {
+                            const availableFields = Object.keys(feature).join(', ');
+                            errors.push(`Feature ${index}: No se encontró campo de geometría. Campos: ${availableFields}`);
+                            
+                            // Solo mostrar el primer error de este tipo
+                            if (errors.length === 1) {
+                                console.error(`⚠️ No se encontró geometría. Campos disponibles:`, Object.keys(feature));
+                            }
+                            return;
+                        }
+
+                        // Si la geometría es string (WKT o GeoJSON string), parsear
+                        if (typeof geometry === 'string') {
+                            try {
+                                geometry = JSON.parse(geometry);
+                                console.log(`Feature ${index}: Geometría parseada desde string`);
+                            } catch (e) {
+                                // Puede ser WKT, intentar convertir
+                                console.warn(`Feature ${index}: Geometría en formato WKT o string no soportado`);
+                                errors.push(`Feature ${index}: Formato WKT no soportado`);
+                                return;
+                            }
+                        }
+
+                        // Convertir geometría a Leaflet
+                        const leafletLayer = convertGeometryToLeaflet(geometry, feature, index);
+                        
+                        if (leafletLayer) {
+                            supabaseFeatureGroup.addLayer(leafletLayer);
+                            loadedCount++;
+                            
+                            if (loadedCount === 1) {
+                                console.log('✓ Primera geometría cargada exitosamente');
+                            }
+                        } else {
+                            errors.push(`Feature ${index}: No se pudo convertir geometría`);
+                        }
+                        
+                    } catch (err) {
+                        console.error(`Error procesando feature ${index}:`, err);
+                        errors.push(`Feature ${index}: ${err.message}`);
+                    }
+                });
+
+                console.log(`📊 Resultado: ${loadedCount} de ${data.length} features cargados`);
+                
+                // Mostrar errores si los hay
+                if (errors.length > 0) {
+                    console.warn(`⚠️ ${errors.length} errores durante la carga:`, errors.slice(0, 10));
+                    
+                    if (loadedCount === 0) {
+                        alert(
+                            `❌ No se pudo cargar ninguna geometría.\n\n` +
+                            `Total de registros: ${data.length}\n` +
+                            `Errores: ${errors.length}\n\n` +
+                            `Primeros errores:\n${errors.slice(0, 3).join('\n')}\n\n` +
+                            `Revisa la consola (F12) para ver todos los errores.`
+                        );
+                        throw new Error('No se pudo cargar ninguna geometría válida');
+                    }
+                }
+
+                // Agregar el grupo al mapa
+                supabaseLayer = supabaseFeatureGroup;
+                supabaseLayer.addTo(map);
+                
+                // Ajustar vista
+                if (loadedCount > 0) {
+                    try {
+                        const bounds = supabaseFeatureGroup.getBounds();
+                        if (bounds.isValid()) {
+                            console.log('📍 Bounds de la capa:', bounds);
+                            
+                            // Preguntar si quiere hacer zoom a la capa
+                            const zoomMsg = `✓ ${loadedCount} elementos cargados desde "${tableFound}"`;
+                            const fullMsg = errors.length > 0 
+                                ? `${zoomMsg}\n⚠️ ${errors.length} elementos con errores\n\n¿Hacer zoom a la capa?`
+                                : `${zoomMsg}\n\n¿Hacer zoom a la capa?`;
+                                
+                            if (confirm(fullMsg)) {
+                                map.fitBounds(bounds, { padding: [50, 50] });
+                            }
+                        }
+                    } catch (e) {
+                        console.log('No se pudo calcular bounds:', e);
+                    }
+                }
+
+                // Actualizar UI
+                document.getElementById('supabaseLayerPanel').style.display = 'block';
+                document.getElementById('supabaseStatus').textContent = `Cargada ✓ (${tableFound})`;
+                document.getElementById('supabaseCount').textContent = `${loadedCount} de ${data.length}`;
+                
+                btn.innerHTML = '✓ Capa Cargada';
+                btn.style.background = '#10b981';
+                
+                let msg = `✓ ${loadedCount} elementos cargados desde "${tableFound}"`;
+                if (errors.length > 0) {
+                    msg += ` (${errors.length} errores)`;
+                }
+                showToast(msg, 'success');
+                
+            } catch (error) {
+                console.error('❌ Error cargando capa de Supabase:', error);
+                
+                document.getElementById('supabaseStatus').textContent = 'Error';
+                
+                btn.disabled = false;
+                btn.innerHTML = '📊 Reporte de Sobreposición';
+                
+                let errorMsg = `❌ Error al cargar la capa:\n${error.message}\n\n`;
+                errorMsg += 'Verifica:\n';
+                errorMsg += '✓ Conexión a internet\n';
+                errorMsg += '✓ URL de Supabase correcta\n';
+                errorMsg += '✓ API Key válida\n';
+                errorMsg += '✓ Nombre de tabla: "SNGF_Dgo_validate"\n';
+                errorMsg += '✓ Tabla tiene columna de geometría\n';
+                errorMsg += '✓ Permisos de lectura en la tabla\n\n';
+                errorMsg += 'Tablas buscadas:\n' + possibleTables.join(', ');
+                
+                alert(errorMsg);
+            }
+        }
+
+        function convertGeometryToLeaflet(geometry, feature, index) {
+            try {
+                let leafletLayer = null;
+                const geomType = geometry.type || 'Polygon';
+                
+                // Preparar propiedades para el popup
+                const props = feature.properties || feature;
+                const name = props.name || props.nombre || props.id || `Feature ${index + 1}`;
+                
+                // Color aleatorio para cada feature
+                const colors = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
+                const color = colors[index % colors.length];
+                
+                const style = {
+                    color: color,
+                    fillColor: color,
+                    fillOpacity: 0.2,
+                    weight: 2
+                };
+
+                if (geomType === 'Polygon' || geomType === 'MultiPolygon') {
+                    // Convertir coordenadas
+                    let coords = geometry.coordinates;
+                    
+                    if (geomType === 'Polygon') {
+                        // Polygon: [[[lng, lat], [lng, lat], ...]]
+                        const latLngs = coords[0].map(coord => [coord[1], coord[0]]);
+                        leafletLayer = L.polygon(latLngs, style);
+                    } else {
+                        // MultiPolygon: [[[[lng, lat], ...]], [[[lng, lat], ...]]]
+                        const multiLatLngs = coords.map(polygon => 
+                            polygon[0].map(coord => [coord[1], coord[0]])
+                        );
+                        leafletLayer = L.polygon(multiLatLngs, style);
+                    }
+                    
+                } else if (geomType === 'Point') {
+                    const latLng = [geometry.coordinates[1], geometry.coordinates[0]];
+                    leafletLayer = L.circleMarker(latLng, {
+                        radius: 8,
+                        fillColor: color,
+                        color: '#fff',
+                        weight: 2,
+                        fillOpacity: 0.8
+                    });
+                    
+                } else if (geomType === 'LineString') {
+                    const latLngs = geometry.coordinates.map(coord => [coord[1], coord[0]]);
+                    leafletLayer = L.polyline(latLngs, style);
+                }
+
+                if (leafletLayer) {
+                    // Crear popup con información
+                    let popupContent = `<div style="min-width: 200px;">
+                        <h4 style="margin: 0 0 10px 0; color: ${color};">${name}</h4>
+                        <hr style="margin: 10px 0;">`;
+                    
+                    // Agregar propiedades al popup
+                    Object.keys(props).forEach(key => {
+                        if (key !== 'geometry' && key !== 'geom' && key !== 'coordinates') {
+                            popupContent += `<p style="margin: 5px 0;"><strong>${key}:</strong> ${props[key]}</p>`;
+                        }
+                    });
+                    
+                    popupContent += `<small style="color: #6b7280; margin-top: 10px; display: block;">Capa de Supabase</small>
+                    </div>`;
+                    
+                    leafletLayer.bindPopup(popupContent);
+                }
+
+                return leafletLayer;
+                
+            } catch (err) {
+                console.error('Error convirtiendo geometría:', err);
+                return null;
+            }
+        }
+
+        function toggleSupabaseLayer() {
+            const checkbox = document.getElementById('supabaseLayerToggle');
+            
+            if (checkbox.checked) {
+                if (supabaseLayer) {
+                    supabaseLayer.addTo(map);
+                    showToast('✓ Capa visible', 'success');
+                }
+            } else {
+                if (supabaseLayer) {
+                    map.removeLayer(supabaseLayer);
+                    showToast('✓ Capa oculta', 'success');
+                }
+            }
+        }
+
+        function removeSupabaseLayer() {
+            if (!supabaseLayer) return;
+            
+            if (confirm('¿Remover la capa de Supabase del mapa?')) {
+                map.removeLayer(supabaseLayer);
+                supabaseLayer = null;
+                supabaseFeatureGroup = null;
+                supabaseData = [];
+                
+                document.getElementById('supabaseLayerPanel').style.display = 'none';
+                document.getElementById('supabaseLayerToggle').checked = true;
+                
+                const btn = document.getElementById('supabaseBtn');
+                btn.disabled = false;
+                btn.innerHTML = '📊 Reporte de Sobreposición';
+                btn.style.background = '';
+                
+                showToast('✓ Capa de Supabase removida', 'success');
+            }
+        }
+
+        // ========================================
+        // FIN FUNCIONES DE SUPABASE
+        // ========================================
+
+        function exportCoordinates() {
+            if (coordinates.length === 0) {
+                showToast('⚠️ No hay datos', 'warning');
+                return;
+            }
+
+            let content = 'Coordenadas Capturadas\n=====================\n\n';
+            
+            coordinates.forEach((coord, index) => {
+                content += `${coord.name || `Punto ${index + 1}`}\n`;
+                content += `Lat: ${coord.lat}, Lng: ${coord.lng}\n---\n`;
+            });
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `coordenadas_${new Date().toISOString().split('T')[0]}.txt`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            showToast('✓ Exportado');
+        }
+
+        function importCoordinates(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            console.log('📂 Archivo seleccionado:', file.name);
+            showToast('📂 Procesando archivo...', 'success');
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    console.log('📖 Leyendo archivo...');
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    
+                    console.log('📊 Hojas encontradas:', workbook.SheetNames);
+                    
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+                    
+                    console.log('📋 Total de filas:', jsonData.length);
+                    console.log('📋 Encabezados:', jsonData[0]);
+                    
+                    if (jsonData.length < 2) {
+                        alert('⚠️ El archivo está vacío o solo tiene encabezados.\n\nAsegúrate de tener al menos una fila con datos.');
+                        return;
+                    }
+                    
+                    const headers = jsonData[0];
+                    
+                    // Detectar tipo de coordenadas y columnas
+                    const coordInfo = detectCoordinateType(headers, jsonData);
+                    
+                    if (!coordInfo) {
+                        let msg = '❌ No se encontraron columnas de coordenadas válidas.\n\n';
+                        msg += 'Columnas encontradas:\n';
+                        headers.forEach((h, i) => msg += `${i + 1}. ${h}\n`);
+                        msg += '\n📍 Formatos soportados:\n\n';
+                        msg += '1. GEOGRÁFICAS (Decimales):\n';
+                        msg += '   • Latitud, Longitud\n';
+                        msg += '   • Valores: Lat -90 a 90, Lng -180 a 180\n\n';
+                        msg += '2. UTM (Proyectadas):\n';
+                        msg += '   • Este/X, Norte/Y, Zona\n';
+                        msg += '   • Valores: Este ~200000-800000, Norte ~0-10000000';
+                        alert(msg);
+                        return;
+                    }
+                    
+                    console.log('✅ Tipo detectado:', coordInfo.type);
+                    console.log('📊 Configuración:', coordInfo);
+                    
+                    // Confirmar detección con el usuario
+                    let confirmMsg = `📍 Tipo de coordenadas detectado: ${coordInfo.type === 'geographic' ? 'GEOGRÁFICAS (Decimal)' : 'UTM (Proyectadas)'}\n\n`;
+                    if (coordInfo.type === 'geographic') {
+                        confirmMsg += `Columnas:\n• Latitud: ${headers[coordInfo.latIndex]}\n• Longitud: ${headers[coordInfo.lngIndex]}`;
+                    } else {
+                        confirmMsg += `Columnas:\n• Este/X: ${headers[coordInfo.xIndex]}\n• Norte/Y: ${headers[coordInfo.yIndex]}`;
+                        if (coordInfo.zoneIndex !== -1) confirmMsg += `\n• Zona: ${headers[coordInfo.zoneIndex]}`;
+                    }
+                    if (coordInfo.nameIndex !== -1) confirmMsg += `\n• Nombre: ${headers[coordInfo.nameIndex]}`;
+                    if (coordInfo.polyIndex !== -1) confirmMsg += `\n• Polígono: ${headers[coordInfo.polyIndex]}`;
+                    confirmMsg += `\n\n¿Continuar con la importación de ${jsonData.length - 1} filas?`;
+                    
+                    if (!confirm(confirmMsg)) {
+                        showToast('❌ Importación cancelada', 'warning');
+                        return;
+                    }
+                    
+                    // Procesar filas según el tipo
+                    let imported = 0;
+                    let errors = 0;
+                    
+                    for (let i = 1; i < jsonData.length; i++) {
+                        const row = jsonData[i];
+                        if (!row || row.length === 0) continue;
+                        
+                        try {
+                            let lat, lng;
+                            
+                            if (coordInfo.type === 'geographic') {
+                                // Coordenadas geográficas
+                                lat = parseFloat(row[coordInfo.latIndex]);
+                                lng = parseFloat(row[coordInfo.lngIndex]);
+                                
+                                if (isNaN(lat) || isNaN(lng)) {
+                                    console.warn(`Fila ${i + 1}: Coordenadas inválidas`);
+                                    errors++;
+                                    continue;
+                                }
+                                
+                                if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+                                    console.warn(`Fila ${i + 1}: Coordenadas fuera de rango`);
+                                    errors++;
+                                    continue;
+                                }
+                                
+                            } else {
+                                // Coordenadas UTM
+                                const x = parseFloat(row[coordInfo.xIndex]);
+                                const y = parseFloat(row[coordInfo.yIndex]);
+                                let zone = coordInfo.defaultZone || 13; // Zona por defecto para Durango
+                                
+                                if (coordInfo.zoneIndex !== -1) {
+                                    zone = parseInt(row[coordInfo.zoneIndex]) || zone;
+                                }
+                                
+                                if (isNaN(x) || isNaN(y)) {
+                                    console.warn(`Fila ${i + 1}: Coordenadas UTM inválidas`);
+                                    errors++;
+                                    continue;
+                                }
+                                
+                                // Convertir UTM a geográficas
+                                const hemisphere = y < 0 ? 'S' : 'N';
+                                const converted = utmToLatLng(zone, hemisphere, x, Math.abs(y));
+                                lat = converted.lat;
+                                lng = converted.lng;
+                                
+                                console.log(`Fila ${i + 1}: UTM (${x}, ${y}, Z${zone}) → Geo (${lat.toFixed(6)}, ${lng.toFixed(6)})`);
+                            }
+                            
+                            const name = coordInfo.nameIndex !== -1 ? (row[coordInfo.nameIndex] || `Punto ${imported + 1}`) : `Punto ${imported + 1}`;
+                            const poly = coordInfo.polyIndex !== -1 ? parseInt(row[coordInfo.polyIndex]) || 0 : 0;
+                            
+                            // Crear marcador
+                            const color = poly > 0 ? getPolygonColor(poly - 1) : '#667eea';
+                            
+                            const marker = L.circleMarker([lat, lng], {
+                                radius: 6,
+                                fillColor: color,
+                                color: '#fff',
+                                weight: 2,
+                                fillOpacity: 0.9,
+                                draggable: true
+                            }).addTo(map);
+                            
+                            const popupContent = coordInfo.type === 'geographic' 
+                                ? `<b>${name}</b><br>Lat: ${lat.toFixed(6)}<br>Lng: ${lng.toFixed(6)}`
+                                : `<b>${name}</b><br>Lat: ${lat.toFixed(6)}<br>Lng: ${lng.toFixed(6)}<br><small>Convertido desde UTM</small>`;
+                            
+                            marker.bindPopup(popupContent);
+                            
+                            const coordIndex = coordinates.length;
+                            coordinates.push({
+                                id: Date.now() + Math.random(),
+                                lat: lat.toFixed(6),
+                                lng: lng.toFixed(6),
+                                marker: marker,
+                                name: name,
+                                type: poly > 0 ? 'imported-polygon' : 'imported',
+                                polygon: poly,
+                                sourceType: coordInfo.type
+                            });
+                            markers.push(marker);
+                            
+                            setupMarkerDrag(marker, coordIndex);
+                            imported++;
+                            
+                            console.log(`✅ Fila ${i + 1}: ${name} - Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}, Pol: ${poly}`);
+                            
+                        } catch (err) {
+                            console.error(`Error en fila ${i + 1}:`, err);
+                            errors++;
+                        }
+                    }
+                    
+                    if (imported === 0) {
+                        alert('❌ No se pudo importar ninguna coordenada.\n\nRevisa el formato del archivo y los valores.');
+                        return;
+                    }
+                    
+                    // Actualizar tabla
+                    updateCoordinatesList();
+                    
+                    // Expandir footer
+                    const footer = document.getElementById('coordinatesFooter');
+                    if (footer && footer.classList.contains('collapsed')) {
+                        footer.classList.remove('collapsed');
+                        footer.classList.add('expanded');
+                        document.getElementById('footerToggle').innerHTML = '▼ Contraer';
+                    }
+                    
+                    // Ajustar vista
+                    if (markers.length > 0) {
+                        setTimeout(() => {
+                            const group = L.featureGroup(markers);
+                            map.fitBounds(group.getBounds().pad(0.1));
+                        }, 100);
+                    }
+                    
+                    // Agrupar por polígonos si los hay
+                    const withPolygon = coordinates.filter(c => c.polygon > 0);
+                    const polygonGroups = {};
+                    
+                    withPolygon.forEach(c => {
+                        if (!polygonGroups[c.polygon]) {
+                            polygonGroups[c.polygon] = [];
+                        }
+                        polygonGroups[c.polygon].push(c);
+                    });
+                    
+                    const polyCount = Object.keys(polygonGroups).length;
+                    
+                    let msg = `✅ ${imported} coordenadas importadas`;
+                    msg += `\n📍 Tipo: ${coordInfo.type === 'geographic' ? 'Geográficas' : 'UTM (convertidas)'}`;
+                    if (polyCount > 0) {
+                        msg += `\n\n📊 ${polyCount} polígono(s) detectado(s)`;
+                        msg += `\n\n¿Deseas crear los polígonos ahora?`;
+                        
+                        if (confirm(msg)) {
+                            createPolygonsFromImported(polygonGroups);
+                        }
+                    } else {
+                        if (errors > 0) msg += `\n⚠️ ${errors} filas con errores`;
+                        alert(msg);
+                    }
+                    
+                    showToast(`✓ ${imported} coordenadas importadas (${coordInfo.type === 'geographic' ? 'Geo' : 'UTM'})`, 'success');
+                    
+                } catch (error) {
+                    console.error('❌ Error:', error);
+                    alert(`❌ Error al procesar el archivo:\n${error.message}\n\nAsegúrate de que sea un archivo Excel válido.`);
+                }
+            };
+            
+            reader.onerror = function() {
+                alert('❌ Error al leer el archivo');
+            };
+            
+            reader.readAsArrayBuffer(file);
+            event.target.value = '';
+        }
+
+        function detectCoordinateType(headers, jsonData) {
+            if (!headers || headers.length === 0) return null;
+            
+            // Normalizar encabezados
+            const headerStr = headers.map(h => String(h).toLowerCase().trim().replace(/[_\s]/g, ''));
+            
+            console.log('🔍 Encabezados normalizados:', headerStr);
+            
+            // 1. BUSCAR COORDENADAS GEOGRÁFICAS (Latitud/Longitud)
+            let latIndex = -1;
+            let lngIndex = -1;
+            
+            headerStr.forEach((h, i) => {
+                if ((h.includes('lat') || h === 'y' || h.includes('latitud')) && latIndex === -1) {
+                    latIndex = i;
+                }
+                if ((h.includes('lon') || h.includes('lng') || h === 'x' || h.includes('longitud')) && lngIndex === -1) {
+                    lngIndex = i;
+                }
+            });
+            
+            // Verificar si son realmente geográficas analizando valores
+            if (latIndex !== -1 && lngIndex !== -1) {
+                // Tomar algunas muestras para validar
+                let isGeographic = true;
+                
+                for (let i = 1; i < Math.min(5, jsonData.length); i++) {
+                    const row = jsonData[i];
+                    if (!row) continue;
+                    
+                    const lat = parseFloat(row[latIndex]);
+                    const lng = parseFloat(row[lngIndex]);
+                    
+                    if (!isNaN(lat) && !isNaN(lng)) {
+                        // Si los valores están fuera del rango geográfico, probablemente son UTM
+                        if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+                            console.log(`Valores fuera de rango geográfico: Lat=${lat}, Lng=${lng}`);
+                            isGeographic = false;
+                            break;
+                        }
+                        
+                        // Si los valores son muy grandes, probablemente son UTM
+                        if (Math.abs(lat) > 200 || Math.abs(lng) > 200) {
+                            console.log(`Valores muy grandes para ser geográficas: ${lat}, ${lng}`);
+                            isGeographic = false;
+                            break;
+                        }
+                    }
+                }
+                
+                if (isGeographic) {
+                    console.log('✅ Detectadas coordenadas GEOGRÁFICAS');
+                    
+                    // Buscar columnas opcionales
+                    const nameIndex = headerStr.findIndex(h => 
+                        h.includes('nombre') || h.includes('name') || h.includes('id') || h.includes('punto')
+                    );
+                    const polyIndex = headerStr.findIndex(h => 
+                        h.includes('poligono') || h.includes('polygon') || h.includes('pol') || 
+                        h.includes('grupo') || h.includes('group')
+                    );
+                    
+                    return {
+                        type: 'geographic',
+                        latIndex: latIndex,
+                        lngIndex: lngIndex,
+                        nameIndex: nameIndex,
+                        polyIndex: polyIndex
+                    };
+                }
+            }
+            
+            // 2. BUSCAR COORDENADAS UTM (Este/X, Norte/Y, Zona opcional)
+            let xIndex = -1;
+            let yIndex = -1;
+            let zoneIndex = -1;
+            
+            headerStr.forEach((h, i) => {
+                // Buscar Este/X
+                if ((h.includes('este') || h === 'x' || h.includes('east') || h.includes('easting')) && xIndex === -1) {
+                    xIndex = i;
+                }
+                // Buscar Norte/Y
+                if ((h.includes('norte') || h === 'y' || h.includes('north') || h.includes('northing')) && yIndex === -1) {
+                    yIndex = i;
+                }
+                // Buscar Zona
+                if ((h.includes('zona') || h.includes('zone') || h.includes('huso')) && zoneIndex === -1) {
+                    zoneIndex = i;
+                }
+            });
+            
+            // Si encontramos X e Y, verificar si son UTM
+            if (xIndex !== -1 && yIndex !== -1) {
+                // Verificar valores típicos de UTM
+                let isUTM = false;
+                
+                for (let i = 1; i < Math.min(5, jsonData.length); i++) {
+                    const row = jsonData[i];
+                    if (!row) continue;
+                    
+                    const x = parseFloat(row[xIndex]);
+                    const y = parseFloat(row[yIndex]);
+                    
+                    if (!isNaN(x) && !isNaN(y)) {
+                        // Valores típicos de UTM: Este 160000-834000, Norte 0-10000000
+                        if ((x > 100000 && x < 900000) && (y > 0 && y < 10000000)) {
+                            console.log(`Valores típicos de UTM: X=${x}, Y=${y}`);
+                            isUTM = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (isUTM) {
+                    console.log('✅ Detectadas coordenadas UTM');
+                    
+                    // Determinar zona por defecto si no está en el archivo
+                    let defaultZone = 13; // Durango está en zona 13N
+                    
+                    if (zoneIndex !== -1) {
+                        // Intentar obtener la zona de la primera fila con datos
+                        for (let i = 1; i < jsonData.length; i++) {
+                            const zone = parseInt(jsonData[i][zoneIndex]);
+                            if (!isNaN(zone)) {
+                                defaultZone = zone;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Buscar columnas opcionales
+                    const nameIndex = headerStr.findIndex(h => 
+                        h.includes('nombre') || h.includes('name') || h.includes('id') || h.includes('punto')
+                    );
+                    const polyIndex = headerStr.findIndex(h => 
+                        h.includes('poligono') || h.includes('polygon') || h.includes('pol') || 
+                        h.includes('grupo') || h.includes('group')
+                    );
+                    
+                    return {
+                        type: 'utm',
+                        xIndex: xIndex,
+                        yIndex: yIndex,
+                        zoneIndex: zoneIndex,
+                        defaultZone: defaultZone,
+                        nameIndex: nameIndex,
+                        polyIndex: polyIndex
+                    };
+                }
+            }
+            
+            console.log('❌ No se pudo detectar el tipo de coordenadas');
+            return null;
+        }
+
+        function createPolygonsFromImported(polygonGroups) {
+            let created = 0;
+            
+            Object.keys(polygonGroups).sort((a, b) => a - b).forEach(polyNum => {
+                const coords = polygonGroups[polyNum];
+                
+                if (coords.length < 3) {
+                    console.warn(`Polígono ${polyNum}: Solo ${coords.length} puntos, se necesitan al menos 3`);
+                    return;
+                }
+                
+                const latlngs = coords.map(c => [parseFloat(c.lat), parseFloat(c.lng)]);
+                
+                // Calcular área
+                const area = calculateGeodesicArea(latlngs);
+                const areaHa = (area / 10000).toFixed(2);
+                const areaKm2 = (area / 1000000).toFixed(4);
+                
+                const index = polygonLayers.length;
+                const color = getPolygonColor(index);
+                
+                // Crear polígono
+                const polygon = L.polygon(latlngs, {
+                    color: color,
+                    fillColor: color,
+                    fillOpacity: 0.3,
+                    weight: 3
+                });
+                
+                const name = `Polígono ${polygonLayerCounter} (Importado)`;
+                const id = Date.now() + parseInt(polyNum);
+                polygonLayerCounter++;
+                
+                const layerData = {
+                    id: id,
+                    name: name,
+                    polygon: polygon,
+                    coordinates: latlngs.map(ll => ({lat: ll[0], lng: ll[1]})),
+                    area: { m2: area.toFixed(2), ha: areaHa, km2: areaKm2 },
+                    visible: true,
+                    color: color,
+                    createdAt: new Date().toISOString(),
+                    vertexMarkers: []
+                };
+                
+                polygon.bindPopup(`
+                    <div style="min-width: 200px;">
+                        <b>${name}</b><br>
+                        <hr style="margin: 5px 0;">
+                        📏 Área: ${area.toFixed(2)} m²<br>
+                        📐 Área: ${areaHa} ha<br>
+                        🗺️ Área: ${areaKm2} km²<br>
+                        <hr style="margin: 5px 0;">
+                        <small>Puntos: ${latlngs.length}</small><br>
+                        <small>${new Date().toLocaleString()}</small>
+                    </div>
+                `);
+                
+                polygon.addTo(map);
+                
+                // Actualizar marcadores existentes a vértices
+                coords.forEach((coord, vIdx) => {
+                    // Actualizar el marcador existente
+                    coord.marker.setStyle({
+                        radius: 5,
+                        fillColor: color,
+                        color: '#fff',
+                        weight: 2,
+                        fillOpacity: 0.8
+                    });
+                    
+                    coord.marker.setPopupContent(`
+                        <b>${name}</b><br>
+                        ${coord.name}<br>
+                        Vértice ${vIdx + 1}<br>
+                        Lat: ${coord.lat}<br>
+                        Lng: ${coord.lng}
+                    `);
+                    
+                    layerData.vertexMarkers.push(coord.marker);
+                    
+                    // Actualizar tipo
+                    coord.type = 'polygon-vertex';
+                    coord.polygonId = id;
+                    coord.polygonName = name;
+                    coord.polygonColor = color;
+                    coord.vertexIndex = vIdx;
+                });
+                
+                polygonLayers.push(layerData);
+                created++;
+            });
+            
+            updateCoordinatesList();
+            updatePolygonLayersPanel();
+            
+            showToast(`✓ ${created} polígono(s) creado(s)`, 'success');
+        }
+
+        function detectCoordinateColumns(headers) {
+            if (!headers) return null;
+            
+            const headerStr = headers.map(h => String(h).toLowerCase().trim().replace(/[_\s]/g, ''));
+            
+            console.log('🔍 Encabezados normalizados:', headerStr);
+            
+            // Buscar columnas de coordenadas decimales con más variantes
+            const latIndex = headerStr.findIndex(h => 
+                h.includes('lat') || 
+                h === 'y' || 
+                h.includes('latitud') || 
+                h.includes('latitude') ||
+                h === 'lat.' ||
+                h === 'coordy' ||
+                h === 'coordenaday'
+            );
+            
+            const lngIndex = headerStr.findIndex(h => 
+                h.includes('lon') || 
+                h.includes('lng') ||
+                h === 'x' || 
+                h.includes('longitud') || 
+                h.includes('longitude') ||
+                h === 'long' ||
+                h === 'long.' ||
+                h === 'coordx' ||
+                h === 'coordenadax'
+            );
+            
+            console.log(`Índice Latitud: ${latIndex}, Índice Longitud: ${lngIndex}`);
+            
+            if (latIndex !== -1 && lngIndex !== -1) {
+                const nameIndex = headerStr.findIndex(h => 
+                    h.includes('nombre') || 
+                    h.includes('name') || 
+                    h.includes('id') || 
+                    h.includes('punto') ||
+                    h.includes('etiqueta') ||
+                    h.includes('label') ||
+                    h.includes('descripcion') ||
+                    h.includes('description')
+                );
+                
+                const polygonIndex = headerStr.findIndex(h => 
+                    h.includes('poligono') || 
+                    h.includes('polygon') || 
+                    h.includes('pol') ||
+                    h.includes('grupo') ||
+                    h.includes('group') ||
+                    h.includes('capa') ||
+                    h.includes('layer')
+                );
+                
+                console.log(`✅ Configuración decimal detectada - Name: ${nameIndex}, Polygon: ${polygonIndex}`);
+                
+                return {
+                    type: 'decimal',
+                    latIndex,
+                    lngIndex,
+                    nameIndex: nameIndex !== -1 ? nameIndex : null,
+                    polygonIndex: polygonIndex !== -1 ? polygonIndex : null
+                };
+            }
+            
+            // Buscar columnas en formato GMS
+            const latDegIndex = headerStr.findIndex(h => 
+                (h.includes('lat') && (h.includes('deg') || h.includes('grado') || h.includes('°'))) ||
+                h === 'latdeg' || h === 'latitud°' || h === 'lat°'
+            );
+            
+            const latMinIndex = headerStr.findIndex(h => 
+                (h.includes('lat') && (h.includes('min') || h.includes('minuto') || h.includes("'"))) ||
+                h === 'latmin' || h === "latitud'" || h === "lat'"
+            );
+            
+            const latSecIndex = headerStr.findIndex(h => 
+                (h.includes('lat') && (h.includes('sec') || h.includes('segundo') || h.includes('"'))) ||
+                h === 'latsec' || h === 'latitud"' || h === 'lat"'
+            );
+            
+            const lngDegIndex = headerStr.findIndex(h => 
+                (h.includes('lon') && (h.includes('deg') || h.includes('grado') || h.includes('°'))) ||
+                (h.includes('lng') && (h.includes('deg') || h.includes('grado') || h.includes('°'))) ||
+                h === 'londeg' || h === 'lngdeg' || h === 'longitud°' || h === 'lon°' || h === 'lng°'
+            );
+            
+            const lngMinIndex = headerStr.findIndex(h => 
+                (h.includes('lon') && (h.includes('min') || h.includes('minuto') || h.includes("'"))) ||
+                (h.includes('lng') && (h.includes('min') || h.includes('minuto') || h.includes("'"))) ||
+                h === 'lonmin' || h === 'lngmin' || h === "longitud'" || h === "lon'" || h === "lng'"
+            );
+            
+            const lngSecIndex = headerStr.findIndex(h => 
+                (h.includes('lon') && (h.includes('sec') || h.includes('segundo') || h.includes('"'))) ||
+                (h.includes('lng') && (h.includes('sec') || h.includes('segundo') || h.includes('"'))) ||
+                h === 'lonsec' || h === 'lngsec' || h === 'longitud"' || h === 'lon"' || h === 'lng"'
+            );
+            
+            console.log(`Índices GMS - LatDeg: ${latDegIndex}, LonDeg: ${lngDegIndex}`);
+            
+            if (latDegIndex !== -1 && lngDegIndex !== -1) {
+                console.log('✅ Configuración GMS detectada');
+                return {
+                    type: 'gms',
+                    latDegIndex, latMinIndex, latSecIndex,
+                    lngDegIndex, lngMinIndex, lngSecIndex
+                };
+            }
+            
+            console.log('❌ No se detectó ninguna configuración válida');
+            return null;
+        }
+
+        function extractCoordinates(row, config) {
+            if (!config || !row) return null;
+            
+            try {
+                let lat, lng;
+                
+                if (config.type === 'decimal') {
+                    lat = parseFloat(row[config.latIndex]);
+                    lng = parseFloat(row[config.lngIndex]);
+                    
+                    if (isNaN(lat) || isNaN(lng)) return null;
+                    
+                    const name = config.nameIndex !== null ? row[config.nameIndex] : null;
+                    const polygon = config.polygonIndex !== null ? parseInt(row[config.polygonIndex]) : 0;
+                    
+                    return { lat, lng, name, polygon: isNaN(polygon) ? 0 : polygon };
+                    
+                } else if (config.type === 'gms') {
+                    const latDeg = parseFloat(row[config.latDegIndex]) || 0;
+                    const latMin = parseFloat(row[config.latMinIndex]) || 0;
+                    const latSec = parseFloat(row[config.latSecIndex]) || 0;
+                    const lngDeg = parseFloat(row[config.lngDegIndex]) || 0;
+                    const lngMin = parseFloat(row[config.lngMinIndex]) || 0;
+                    const lngSec = parseFloat(row[config.lngSecIndex]) || 0;
+                    
+                    lat = latDeg + (latMin / 60) + (latSec / 3600);
+                    lng = lngDeg + (lngMin / 60) + (lngSec / 3600);
+                    
+                    return { lat, lng, name: null, polygon: 0 };
+                }
+                
+            } catch (err) {
+                console.error('Error extrayendo coordenadas:', err);
+                return null;
+            }
+        }
+
+        function showImportHelp() {
+            const helpMsg = `
+Formato esperado del Excel:
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Opción 1 - Coordenadas Decimales:
+Columnas: Latitud, Longitud, Nombre (opcional), Poligono (opcional)
+
+Ejemplo:
+| Latitud  | Longitud   | Nombre    | Poligono |
+|----------|------------|-----------|----------|
+| 24.0277  | -104.6532  | Punto 1   | 1        |
+| 24.0300  | -104.6500  | Punto 2   | 1        |
+
+Opción 2 - Coordenadas GMS:
+Columnas: LatDeg, LatMin, LatSec, LonDeg, LonMin, LonSec
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Notas:
+- La primera fila debe contener los encabezados
+- Latitud: -90 a 90, Longitud: -180 a 180
+- Si incluyes columna "Poligono", se agruparán automáticamente
+            `.trim();
+            
+            console.log(helpMsg);
+            alert('Formato de archivo Excel:\n\n' + helpMsg);
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            
+            if (type === 'warning') {
+                toast.style.background = '#ffc107';
+                toast.style.color = '#000';
+            } else if (type === 'error') {
+                toast.style.background = '#dc3545';
+            }
+            
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        // Geolocalización - Usar Durango como centro predeterminado
+        // Si el usuario permite, se puede ajustar a su ubicación
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    // Si el usuario está cerca de Durango, usar su ubicación
+                    const userLat = position.coords.latitude;
+                    const userLng = position.coords.longitude;
+                    
+                    // Verificar si está en Durango (aproximadamente entre lat 22-26, lng -107 a -102)
+                    if (userLat >= 22 && userLat <= 26 && userLng >= -107 && userLng <= -102) {
+                        map.setView([userLat, userLng], 13);
+                    }
+                    // Si no, mantener la vista de Durango
+                },
+                function(error) {
+                    // Si hay error o el usuario rechaza, mantener vista de Durango
+                    console.log('Usando vista predeterminada de Durango');
+                }
+            );
+        }
+
+        // Redimensionamiento sidebar
+        (function() {
+            const sidebar = document.querySelector('.sidebar');
+            const resizeHandle = document.getElementById('resizeHandle');
+            let isResizing = false;
+            let lastX = 0;
+
+            resizeHandle.addEventListener('mousedown', function(e) {
+                isResizing = true;
+                lastX = e.clientX;
+                document.body.classList.add('resizing');
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isResizing) return;
+
+                const deltaX = e.clientX - lastX;
+                const newWidth = sidebar.offsetWidth + deltaX;
+                
+                if (newWidth >= 350 && newWidth <= 800) {
+                    sidebar.style.width = newWidth + 'px';
+                    lastX = e.clientX;
+                    setTimeout(() => map.invalidateSize(), 0);
+                }
+            });
+
+            function stopResizing() {
+                if (isResizing) {
+                    isResizing = false;
+                    document.body.classList.remove('resizing');
+                }
+            }
+
+            document.addEventListener('mouseup', stopResizing);
+            document.addEventListener('mouseleave', stopResizing);
+        })();
+    </script>
+</body>
+</html>
