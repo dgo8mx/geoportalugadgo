@@ -1,0 +1,3456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SisGeo Dictámenes Pro - Sistema de Validación de Coordenadas</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Login */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-box h2 {
+            margin: 0 0 30px 0;
+            color: #0f2027;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c5364;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            text-decoration: underline;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0,0,0,0.3);
+            padding: 20px 40px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-title h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .header-title p {
+            font-size: 12px;
+            color: #a0aec0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,100,100,0.3);
+            border-color: #ff6666;
+        }
+
+        /* Tabs */
+        .tabs {
+            padding: 20px 40px;
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.05);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            font-weight: 600;
+        }
+
+        /* Content */
+        .content {
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .section {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            margin-top: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card input, .card select, .card textarea {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: white;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .card input:focus, .card select:focus, .card textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255,255,255,0.15);
+        }
+
+        .card textarea {
+            height: 300px;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+        }
+
+        .card input::placeholder, .card textarea::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .card option {
+            background: #2c5364;
+            color: white;
+        }
+
+        .catalog-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .catalog-input-group input, .catalog-input-group select {
+            flex: 1;
+        }
+
+        .btn-add-catalog {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 500px; }
+        }
+
+        .alert-error {
+            background: rgba(255,0,0,0.1);
+            border: 2px solid #ff4444;
+            color: #ff6666;
+        }
+
+        .alert-success {
+            background: rgba(0,255,0,0.1);
+            border: 2px solid #44ff44;
+            color: #88ff88;
+        }
+
+        .alert-info {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #ffd700;
+            border-left: 4px solid #ffd700;
+        }
+
+        .alert-warning {
+            background: rgba(255,200,0,0.1);
+            border: 2px solid #ffcc00;
+            color: #ffd700;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-validate {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .btn-validate:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
+        }
+
+        .btn-validate:disabled {
+            background: rgba(100,100,100,0.3);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .btn-draw {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .btn-draw:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(240, 147, 251, 0.4);
+        }
+
+        .btn-draw:disabled {
+            background: rgba(100,100,100,0.3);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .btn-points {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .btn-points:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-points:disabled {
+            background: rgba(100,100,100,0.3);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .btn-save {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: auto;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .btn-save:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-save:disabled {
+            background: rgba(100,100,100,0.3);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .btn-export {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-word {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .btn-word:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(43, 88, 118, 0.4);
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+            margin: 2px;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .btn-view:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(17, 153, 142, 0.4);
+        }
+
+        .btn-report {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-report:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Grupos de polígonos */
+        .polygon-groups {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .group-card {
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .group-card:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .group-card.active {
+            background: rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .group-card h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .group-card p {
+            font-size: 12px;
+            color: #a0aec0;
+        }
+
+        /* Tabla de coordenadas */
+        .coord-table-container {
+            margin-top: 30px;
+            overflow-x: auto;
+        }
+
+        .coord-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .coord-table th {
+            background: rgba(102, 126, 234, 0.3);
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .coord-table td {
+            padding: 10px 8px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .coord-table tbody tr:hover {
+            background: rgba(102, 126, 234, 0.2);
+            cursor: pointer;
+        }
+
+        .zoom-btn {
+            padding: 4px 8px;
+            background: rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(102, 126, 234, 0.5);
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .zoom-btn:hover {
+            background: rgba(102, 126, 234, 0.5);
+        }
+
+        /* Tabla general */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead tr {
+            background: rgba(102, 126, 234, 0.2);
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        tbody tr {
+            background: rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+
+        tbody tr:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .estado-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .estado-espera {
+            background: rgba(255,100,100,0.3);
+            border: 1px solid #ff6666;
+        }
+
+        .estado-proceso {
+            background: rgba(255,200,100,0.3);
+            border: 1px solid #ffcc66;
+        }
+
+        .estado-completado {
+            background: rgba(100,255,100,0.3);
+            border: 1px solid #66ff66;
+        }
+
+        .editing-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+            background: rgba(255,200,100,0.3);
+            border: 1px solid #ffcc66;
+            color: #ffd700;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Mapa */
+        #map, #mapReporte {
+            height: 600px;
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .map-controls {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .layer-buttons {
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+
+        .layer-btn {
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .layer-btn:hover {
+            background: rgba(102, 126, 234, 0.3);
+        }
+
+        .layer-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 20px;
+            color: #a0aec0;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        /* Radio buttons */
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .radio-label:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .radio-label input[type="radio"] {
+            cursor: pointer;
+            width: auto;
+        }
+
+        .comparativo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-panel {
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .info-panel h4 {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .info-panel p {
+            margin: 8px 0;
+            font-size: 13px;
+        }
+
+        /* File upload para KML */
+        .file-upload-kml {
+            border: 2px dashed rgba(102, 126, 234, 0.5);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 0;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .file-upload-kml:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .file-upload-kml input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-kml.loaded {
+            border-color: #44ff44;
+            background: rgba(0,255,0,0.05);
+        }
+
+        /* Resumen de intersección */
+        .intersection-summary {
+            background: rgba(255,200,0,0.1);
+            border: 2px solid #ffcc00;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .intersection-summary h3 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .intersection-item {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ff6666;
+            transition: all 0.3s;
+        }
+
+        .intersection-item:hover {
+            background: rgba(0,0,0,0.5);
+            transform: translateX(5px);
+        }
+
+        .intersection-item h4 {
+            color: #ff6666;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .intersection-item p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #e0e0e0;
+        }
+
+        .intersection-item strong {
+            color: #ffd700;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #a0aec0;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        /* Observaciones */
+        .observaciones-section {
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .observaciones-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .observaciones-section textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .observaciones-section textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(0,0,0,0.4);
+        }
+
+        footer {
+            padding: 20px 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #a0aec0;
+            font-size: 12px;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .tabs {
+                padding: 15px 20px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn-save {
+                margin-left: 0;
+            }
+
+            .layer-buttons {
+                width: 100%;
+            }
+
+            .comparativo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PANTALLA DE LOGIN -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-box">
+            <h2>🗺️ SisGeo Dictámenes Pro</h2>
+            
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="loginEmail" placeholder="usuario@ejemplo.com" onkeypress="if(event.key === 'Enter') handleLogin()">
+            </div>
+
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="loginPassword" placeholder="••••••••" onkeypress="if(event.key === 'Enter') handleLogin()">
+            </div>
+
+            <button class="btn btn-primary" onclick="handleLogin()">Iniciar Sesión</button>
+            <button class="btn btn-secondary" onclick="alert('Ingrese cualquier email y contraseña para acceder al sistema de demostración.')">
+                ¿Cómo usar el sistema?
+            </button>
+        </div>
+    </div>
+
+    <!-- APLICACIÓN PRINCIPAL -->
+    <div id="appScreen" class="hidden">
+        <header>
+            <div class="header-title">
+                <span style="font-size: 32px;">🗺️</span>
+                <div>
+                    <h1>SisGeo Dictámenes Pro</h1>
+                    <p>Sistema Profesional de Validación de Coordenadas Geográficas</p>
+                </div>
+            </div>
+            <div class="user-info">
+                <span id="userName">👤 Usuario</span>
+                <span id="editingIndicator" class="editing-badge hidden">✏️ Editando Dictamen</span>
+                <button class="logout-btn" onclick="handleLogout()">
+                    Cerrar Sesión
+                </button>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('captura')">📝 Captura de Dictamen</button>
+            <button class="tab" onclick="switchTab('visualizacion')">🗺️ Visualización</button>
+            <button class="tab" onclick="switchTab('reporte')">📄 Reporte de Dictamen</button>
+            <button class="tab" onclick="switchTab('lista')">📊 Lista de Dictámenes</button>
+        </div>
+
+        <div class="content">
+            <!-- TAB 1: CAPTURA DE DICTAMEN (FUSIONA DICTÁMENES + CAPTURA) -->
+            <div id="tabCaptura" class="section">
+                <!-- Información del Dictamen -->
+                <div class="card">
+                    <h2>📍 Información del Dictamen</h2>
+                    
+                    <div class="form-grid">
+                        <div>
+                            <label>Tipo de Proyecto *</label>
+                            <div class="catalog-input-group">
+                                <select id="tipoProyecto">
+                                    <option value="">Seleccione...</option>
+                                    <option value="PMF">PMF</option>
+                                    <option value="OTROS">OTROS</option>
+                                </select>
+                                <button class="btn-add-catalog" onclick="agregarAlCatalogo('tipoProyecto')">+ Agregar</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label>Clave Bitácora *</label>
+                            <input type="text" id="claveBitacora" placeholder="Ej: 2026001" maxlength="20">
+                        </div>
+                        <div>
+                            <label>Número Bitácora *</label>
+                            <input type="text" id="numeroBitacora" placeholder="Ej: 001" maxlength="10">
+                        </div>
+                        <div>
+                            <label>Fecha Bitácora</label>
+                            <input type="date" id="fechaBitacora">
+                        </div>
+                    </div>
+
+                    <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <label>Nombre del Proyecto/Predio *</label>
+                            <input type="text" id="nombreProyecto" placeholder="Nombre descriptivo del proyecto">
+                        </div>
+                        <div>
+                            <label>Nombre del Dictaminador *</label>
+                            <div class="catalog-input-group">
+                                <select id="nombreDictaminador">
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <button class="btn-add-catalog" onclick="agregarAlCatalogo('nombreDictaminador')">+ Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Captura de Coordenadas -->
+                <div class="card">
+                    <h2>📐 Captura de Coordenadas</h2>
+
+                    <div class="radio-group">
+                        <label style="color: #a0aec0; font-weight: 600;">Tipo de Coordenadas:</label>
+                        <label class="radio-label">
+                            <input type="radio" name="coordType" value="geograficas" checked onchange="updateCoordType()">
+                            <span>🌐 Geográficas (GMS)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="coordType" value="utm" onchange="updateCoordType()">
+                            <span>📍 UTM</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group" style="max-width: 300px;">
+                        <label>Número de Grupos/Polígonos *</label>
+                        <input type="number" id="numGrupos" value="1" min="1" max="20" 
+                               onchange="actualizarGrupos()" 
+                               placeholder="¿Cuántos polígonos capturará?">
+                        <small style="color: #a0aec0; font-size: 12px;">
+                            Para predios con múltiples polígonos
+                        </small>
+                    </div>
+
+                    <div id="gruposContainer"></div>
+
+                    <div class="alert-info">
+                        <strong>📋 Instrucciones Rápidas:</strong><br>
+                        1. Complete la información del dictamen arriba<br>
+                        2. Defina cuántos grupos/polígonos va a capturar<br>
+                        3. Seleccione el grupo activo<br>
+                        4. Copie las coordenadas desde Excel (sin cabeceras) con Ctrl+C<br>
+                        5. Pegue en el área de texto con Ctrl+V<br>
+                        6. <span id="formatoInstruccion">Formato: Vértice | Lat_Grados | Lat_Min | Lat_Seg | Lon_Grados | Lon_Min | Lon_Seg</span><br>
+                        7. Los valores deben ser números POSITIVOS sin símbolos (°, ', ")
+                    </div>
+
+                    <textarea id="coordenadas" placeholder="Pegue aquí las coordenadas del grupo seleccionado...&#10;&#10;Ejemplo:&#10;V1&#9;19&#9;30&#9;45.5&#9;99&#9;12&#9;30.2&#10;V2&#9;19&#9;31&#9;10.3&#9;99&#9;13&#9;15.8"></textarea>
+
+                    <div id="alertContainer"></div>
+
+                    <div class="button-group">
+                        <button class="btn-validate" onclick="validarCoordenadas()">
+                            ✓ Validar Coordenadas
+                        </button>
+                        <button class="btn-draw" id="btnDibujarPoligonos" onclick="dibujarPoligonos()" disabled>
+                            🔶 Dibujar Polígonos
+                        </button>
+                        <button class="btn-points" id="btnVerPuntos" onclick="dibujarPuntos()" disabled>
+                            📍 Ver Todos los Puntos
+                        </button>
+                        <button class="btn-save" id="btnRegistrar" onclick="registrarDictamen()" disabled>
+                            💾 Registrar Dictamen
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabla de Coordenadas por Grupo -->
+                <div id="coordTableContainer" class="hidden">
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h2>📋 Tabla de Coordenadas Procesadas</h2>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn-export" onclick="exportarTablaExcel()">
+                                    📥 Exportar Excel
+                                </button>
+                                <button class="btn-export" onclick="exportarTablaCSV()">
+                                    📄 Exportar CSV
+                                </button>
+                            </div>
+                        </div>
+                        <div class="coord-table-container">
+                            <table class="coord-table" id="coordTable">
+                                <!-- Tabla se llenará dinámicamente -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: VISUALIZACIÓN -->
+            <div id="tabVisualizacion" class="section hidden">
+                <div class="card">
+                    <h2>🗺️ Visualización de Coordenadas en Mapa Interactivo</h2>
+                    
+                    <div class="map-controls">
+                        <div class="layer-buttons">
+                            <button class="layer-btn active" onclick="cambiarCapa('osm')" id="layerOSM">🗺️ OSM</button>
+                            <button class="layer-btn" onclick="cambiarCapa('topo')" id="layerTopo">⛰️ Topográfico</button>
+                            <button class="layer-btn" onclick="cambiarCapa('satellite')" id="layerSatellite">🛰️ Satélite</button>
+                            <button class="layer-btn" onclick="cambiarCapa('street')" id="layerStreet">🏙️ Calles</button>
+                        </div>
+                        <button class="btn-validate" onclick="centrarMapa()">
+                            🎯 Centrar Mapa
+                        </button>
+                        <button class="btn-draw" onclick="limpiarMapa()">
+                            🗑️ Limpiar Mapa
+                        </button>
+                        <button class="btn-export" onclick="exportarKML()">
+                            📥 Exportar KML
+                        </button>
+                        <button class="btn-export" onclick="exportarGeoJSON()">
+                            📥 Exportar GeoJSON
+                        </button>
+                    </div>
+
+                    <div id="map"></div>
+
+                    <!-- Tabla de coordenadas interactiva -->
+                    <div id="mapCoordTable" class="hidden" style="margin-top: 20px;">
+                        <h3 style="margin-bottom: 15px;">📍 Vértices de los Polígonos</h3>
+                        <div class="coord-table-container">
+                            <table class="coord-table" id="mapCoordTableContent">
+                                <!-- Se llenará dinámicamente -->
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Botón de validar y generar reporte en la parte inferior -->
+                    <div style="margin-top: 30px; text-align: center;">
+                        <button class="btn-save" onclick="validarYGenerarReporte()" style="font-size: 16px; padding: 15px 30px;">
+                            📄 Validar y Generar Reporte Completo
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: REPORTE DE DICTAMEN -->
+            <div id="tabReporte" class="section hidden">
+                <div class="card">
+                    <h2>📄 Análisis de Dictamen vs Predios Autorizados</h2>
+
+                    <div style="margin-bottom: 30px;">
+                        <h3>📂 Cargar Archivo KML de Predios Autorizados</h3>
+                        <div class="file-upload-kml" id="kmlUploadArea" onclick="document.getElementById('kmlFileInput').click()">
+                            <input type="file" id="kmlFileInput" accept=".kml" onchange="cargarArchivoKML(event)">
+                            <div style="font-size: 48px; margin-bottom: 10px;">📁</div>
+                            <p id="kmlUploadText">Haga clic para cargar el archivo <strong>Autorizado.kml</strong></p>
+                            <p style="font-size: 12px; color: #a0aec0; margin-top: 10px;">
+                                Archivo con 1,562 predios autorizados
+                            </p>
+                        </div>
+                        <div id="kmlProgressContainer" class="hidden">
+                            <p style="margin-bottom: 10px; color: #a0aec0;">Procesando archivo KML...</p>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" id="kmlProgressBar" style="width: 0%"></div>
+                            </div>
+                            <p id="kmlProgressText" style="font-size: 12px; color: #a0aec0; margin-top: 5px;">0%</p>
+                        </div>
+                    </div>
+
+                    <div id="kmlLoadedInfo" class="hidden" style="margin-bottom: 30px;">
+                        <div class="alert-success">
+                            ✅ <strong>Capa base cargada:</strong> <span id="kmlStats"></span>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <h3>📋 Seleccionar Dictamen para Analizar</h3>
+                        <select id="dictamenSelector" onchange="cargarDictamenParaAnalisis()" style="width: 100%; padding: 12px;">
+                            <option value="">Seleccione un dictamen...</option>
+                        </select>
+                    </div>
+
+                    <div id="reporteComparativo" class="hidden">
+                        <h3 style="margin-bottom: 20px;">📊 Comparativo Visual</h3>
+                        <div class="comparativo-grid">
+                            <div class="info-panel" style="background: rgba(102, 126, 234, 0.1);">
+                                <h4>🗺️ Polígono Dictamen</h4>
+                                <div id="infoDictamen"></div>
+                            </div>
+                            <div class="info-panel" style="background: rgba(255, 100, 100, 0.1);">
+                                <h4>📍 Capa Predios Autorizados</h4>
+                                <div id="infoOficial"></div>
+                            </div>
+                        </div>
+
+                        <div id="mapReporte"></div>
+
+                        <!-- Observaciones -->
+                        <div class="observaciones-section">
+                            <h3>📝 Observaciones del Análisis</h3>
+                            <textarea id="observacionesAnalisis" placeholder="Ingrese aquí sus observaciones sobre el análisis comparativo...&#10;&#10;Ejemplo:&#10;- Se detectó intersección con predio 10/AS-0253/09/08&#10;- Es necesario realizar ajustes en el polígono norte&#10;- Se recomienda revisión con el titular del predio"></textarea>
+                        </div>
+
+                        <!-- Resumen de Intersecciones -->
+                        <div id="intersectionSummary" class="hidden intersection-summary">
+                            <h3>⚠️ Análisis de Intersección</h3>
+                            <div id="intersectionResults"></div>
+                        </div>
+
+                        <!-- Botón de exportar a Word -->
+                        <div style="margin-top: 30px; text-align: center;">
+                            <button class="btn-word" onclick="exportarReporteWord()" style="font-size: 16px; padding: 15px 40px;">
+                                📄 Exportar Reporte Completo a Word
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="reportePlaceholder" class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>Cargue el archivo KML y seleccione un dictamen para generar el análisis comparativo</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: LISTA DE DICTÁMENES -->
+            <div id="tabLista" class="section hidden">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                        <h2 style="margin: 0;">📊 Lista de Dictámenes</h2>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn-export" onclick="exportarExcel()">
+                                📥 Exportar Excel
+                            </button>
+                            <button class="logout-btn" onclick="cargarDictamenes()">
+                                🔄 Actualizar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-container" id="tablaDictamenes"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            SisGeo Dictámenes Pro v5.0 | Sistema Mejorado con Flujo de Trabajo Validado | 
+            Datos guardados localmente | <span id="dataInfo"></span>
+        </footer>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Turf.js para análisis geoespacial -->
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+    <!-- html2canvas para captura de mapa -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+    <script>
+        // ===== VARIABLES GLOBALES =====
+        let currentUser = null;
+        let coordenadasPorGrupo = {};
+        let erroresPorGrupo = {};
+        let grupoActual = 1;
+        let numeroGrupos = 1;
+        let map = null;
+        let mapReporte = null;
+        let mapLayers = [];
+        let dictamenes = [];
+        let currentLayer = 'osm';
+        let baseLayers = {};
+        let prediosAutorizados = [];
+        let kmlAutorizadoLayers = [];
+        let kmlCargado = false;
+        let dictamenActual = null;
+        let interseccionesActuales = [];
+        let dictamenEnEdicion = null;
+        let coordenadasValidadas = false;
+        let poligonosDibujados = false;
+
+        // Catálogos
+        let catalogoTiposProyecto = ['PMF', 'OTROS'];
+        let catalogoDictaminadores = [];
+
+        const LIMITES = {
+            latMin: 14.5,
+            latMax: 32.7,
+            lonMin: -118.4,
+            lonMax: -86.7,
+            utmXMin: 200000,
+            utmXMax: 1000000,
+            utmYMin: 1600000,
+            utmYMax: 3700000
+        };
+
+        // ===== INICIALIZACIÓN =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('fechaBitacora').value = today;
+            
+            const savedUser = localStorage.getItem('geoUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showApp();
+            }
+
+            cargarCatalogos();
+            actualizarGrupos();
+            actualizarInfoDatos();
+        });
+
+        // ===== CATÁLOGOS =====
+        function cargarCatalogos() {
+            catalogoTiposProyecto = JSON.parse(localStorage.getItem('catalogoTipos') || '["PMF", "OTROS"]');
+            catalogoDictaminadores = JSON.parse(localStorage.getItem('catalogoDictaminadores') || '[]');
+            
+            actualizarSelectCatalogo('tipoProyecto', catalogoTiposProyecto);
+            actualizarSelectCatalogo('nombreDictaminador', catalogoDictaminadores);
+        }
+
+        function actualizarSelectCatalogo(selectId, catalogo) {
+            const select = document.getElementById(selectId);
+            const currentValue = select.value;
+            
+            select.innerHTML = '<option value="">Seleccione...</option>';
+            catalogo.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item;
+                option.textContent = item;
+                select.appendChild(option);
+            });
+            
+            if (currentValue && catalogo.includes(currentValue)) {
+                select.value = currentValue;
+            }
+        }
+
+        function agregarAlCatalogo(tipo) {
+            const mensaje = tipo === 'tipoProyecto' 
+                ? 'Ingrese el nuevo tipo de proyecto:' 
+                : 'Ingrese el nombre del dictaminador:';
+            
+            const valor = prompt(mensaje);
+            
+            if (valor && valor.trim()) {
+                const valorTrim = valor.trim();
+                
+                if (tipo === 'tipoProyecto') {
+                    if (!catalogoTiposProyecto.includes(valorTrim)) {
+                        catalogoTiposProyecto.push(valorTrim);
+                        localStorage.setItem('catalogoTipos', JSON.stringify(catalogoTiposProyecto));
+                        actualizarSelectCatalogo('tipoProyecto', catalogoTiposProyecto);
+                        document.getElementById('tipoProyecto').value = valorTrim;
+                        alert('✅ Tipo de proyecto agregado correctamente');
+                    } else {
+                        alert('⚠️ Este tipo ya existe en el catálogo');
+                    }
+                } else {
+                    if (!catalogoDictaminadores.includes(valorTrim)) {
+                        catalogoDictaminadores.push(valorTrim);
+                        localStorage.setItem('catalogoDictaminadores', JSON.stringify(catalogoDictaminadores));
+                        actualizarSelectCatalogo('nombreDictaminador', catalogoDictaminadores);
+                        document.getElementById('nombreDictaminador').value = valorTrim;
+                        alert('✅ Dictaminador agregado correctamente');
+                    } else {
+                        alert('⚠️ Este dictaminador ya existe en el catálogo');
+                    }
+                }
+            }
+        }
+
+        // ===== GESTIÓN DE GRUPOS =====
+        function actualizarGrupos() {
+            const num = parseInt(document.getElementById('numGrupos').value) || 1;
+            numeroGrupos = Math.max(1, Math.min(20, num));
+            document.getElementById('numGrupos').value = numeroGrupos;
+
+            const container = document.getElementById('gruposContainer');
+            
+            if (numeroGrupos === 1) {
+                container.innerHTML = '';
+                grupoActual = 1;
+                return;
+            }
+
+            let html = '<h3 style="margin: 20px 0 15px 0;">Seleccione el Grupo Activo para Captura:</h3>';
+            html += '<div class="polygon-groups">';
+            
+            for (let i = 1; i <= numeroGrupos; i++) {
+                const vertices = coordenadasPorGrupo[i] ? coordenadasPorGrupo[i].length : 0;
+                const activeClass = i === grupoActual ? 'active' : '';
+                html += `
+                    <div class="group-card ${activeClass}" onclick="seleccionarGrupo(${i})">
+                        <h4>Grupo ${i}</h4>
+                        <p>${vertices} vértices</p>
+                    </div>
+                `;
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function seleccionarGrupo(num) {
+            grupoActual = num;
+            actualizarGrupos();
+            
+            if (coordenadasPorGrupo[num]) {
+                let texto = '';
+                const tipo = document.querySelector('input[name="coordType"]:checked').value;
+                
+                coordenadasPorGrupo[num].forEach(coord => {
+                    if (tipo === 'geograficas') {
+                        texto += `${coord.vertice}\t${coord.latGrados}\t${coord.latMinutos}\t${coord.latSegundos}\t`;
+                        texto += `${coord.lonGrados}\t${coord.lonMinutos}\t${coord.lonSegundos}\n`;
+                    } else {
+                        texto += `${coord.vertice}\t${coord.utmX}\t${coord.utmY}\n`;
+                    }
+                });
+                
+                document.getElementById('coordenadas').value = texto;
+            } else {
+                document.getElementById('coordenadas').value = '';
+            }
+            
+            mostrarTablaCoordenadas();
+        }
+
+        // ===== AUTENTICACIÓN =====
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('⚠️ Por favor ingrese email y contraseña');
+                return;
+            }
+
+            currentUser = {
+                id: Date.now(),
+                email: email,
+                nombre: email.split('@')[0],
+                fechaRegistro: new Date().toISOString()
+            };
+
+            localStorage.setItem('geoUser', JSON.stringify(currentUser));
+            showApp();
+        }
+
+        function handleLogout() {
+            if (confirm('¿Está seguro que desea cerrar sesión?')) {
+                currentUser = null;
+                localStorage.removeItem('geoUser');
+                document.getElementById('appScreen').classList.add('hidden');
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+            }
+        }
+
+        function showApp() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('appScreen').classList.remove('hidden');
+            document.getElementById('userName').textContent = '👤 ' + currentUser.nombre;
+            
+            if (!catalogoDictaminadores.includes(currentUser.nombre)) {
+                catalogoDictaminadores.push(currentUser.nombre);
+                localStorage.setItem('catalogoDictaminadores', JSON.stringify(catalogoDictaminadores));
+                actualizarSelectCatalogo('nombreDictaminador', catalogoDictaminadores);
+            }
+            
+            document.getElementById('nombreDictaminador').value = currentUser.nombre;
+            
+            cargarDictamenes();
+            initMap();
+            cargarDictamenesEnSelector();
+        }
+
+        // ===== NAVEGACIÓN =====
+        function switchTab(tabName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            const tabId = 'tab' + tabName.charAt(0).toUpperCase() + tabName.slice(1);
+            document.getElementById(tabId).classList.remove('hidden');
+            
+            event.target.classList.add('active');
+
+            if (tabName === 'visualizacion' && map) {
+                setTimeout(() => {
+                    map.invalidateSize();
+                }, 100);
+            }
+
+            if (tabName === 'reporte') {
+                if (!mapReporte) {
+                    initMapReporte();
+                }
+            }
+        }
+
+        function updateCoordType() {
+            const tipo = document.querySelector('input[name="coordType"]:checked').value;
+            const instruccion = document.getElementById('formatoInstruccion');
+            const placeholder = document.getElementById('coordenadas');
+
+            if (tipo === 'geograficas') {
+                instruccion.innerHTML = 'Formato: <strong>Vértice | Lat_Grados | Lat_Min | Lat_Seg | Lon_Grados | Lon_Min | Lon_Seg</strong>';
+                placeholder.placeholder = 'Ejemplo:\nV1\t19\t30\t45.5\t99\t12\t30.2\nV2\t19\t31\t10.3\t99\t13\t15.8';
+            } else {
+                instruccion.innerHTML = 'Formato: <strong>Vértice | X (Este) | Y (Norte)</strong>';
+                placeholder.placeholder = 'Ejemplo:\nV1\t485000\t2150000\nV2\t486000\t2151000';
+            }
+
+            document.getElementById('alertContainer').innerHTML = '';
+            document.getElementById('coordTableContainer').classList.add('hidden');
+        }
+
+        // ===== ACTUALIZACIÓN DE ESTADO DE BOTONES =====
+        function actualizarEstadoBotones() {
+            const btnDibujar = document.getElementById('btnDibujarPoligonos');
+            const btnPuntos = document.getElementById('btnVerPuntos');
+            const btnRegistrar = document.getElementById('btnRegistrar');
+
+            // Botones de dibujo solo se activan si hay coordenadas validadas
+            btnDibujar.disabled = !coordenadasValidadas;
+            btnPuntos.disabled = !coordenadasValidadas;
+
+            // Botón registrar solo se activa si hay coordenadas validadas Y polígonos dibujados
+            btnRegistrar.disabled = !(coordenadasValidadas && poligonosDibujados);
+        }
+
+        // ===== PROCESAMIENTO DE COORDENADAS =====
+        function procesarCoordenadas() {
+            const texto = document.getElementById('coordenadas').value;
+            const tipo = document.querySelector('input[name="coordType"]:checked').value;
+
+            let coordenadas = [];
+            let errores = [];
+
+            if (!texto.trim()) {
+                return { coordenadas: [], errores: [] };
+            }
+
+            const lineas = texto.trim().split('\n');
+
+            lineas.forEach((linea, index) => {
+                const partes = linea.trim().split(/\s+|\t/);
+
+                if (tipo === 'geograficas' && partes.length >= 7) {
+                    const coord = {
+                        vertice: partes[0],
+                        latGrados: parseFloat(partes[1]),
+                        latMinutos: parseFloat(partes[2]),
+                        latSegundos: parseFloat(partes[3]),
+                        lonGrados: parseFloat(partes[4]),
+                        lonMinutos: parseFloat(partes[5]),
+                        lonSegundos: parseFloat(partes[6]),
+                        grupo: grupoActual,
+                        linea: index + 1
+                    };
+
+                    coord.latDecimal = coord.latGrados + (coord.latMinutos / 60) + (coord.latSegundos / 3600);
+                    coord.lonDecimal = -(coord.lonGrados + (coord.lonMinutos / 60) + (coord.lonSegundos / 3600));
+
+                    const utmCoords = convertirGeograficasAUTM(coord.latDecimal, coord.lonDecimal);
+                    coord.utmX = utmCoords.x;
+                    coord.utmY = utmCoords.y;
+                    coord.zona = utmCoords.zona;
+
+                    const error = validarCoordenadaGeografica(coord);
+                    if (error) {
+                        errores.push({ linea: index + 1, vertice: coord.vertice, error: error });
+                    }
+
+                    coordenadas.push(coord);
+                } else if (tipo === 'utm' && partes.length >= 3) {
+                    const coord = {
+                        vertice: partes[0],
+                        utmX: parseFloat(partes[1]),
+                        utmY: parseFloat(partes[2]),
+                        grupo: grupoActual,
+                        linea: index + 1
+                    };
+
+                    const geoCoords = convertirUTMAGeograficas(coord.utmX, coord.utmY);
+                    coord.latDecimal = geoCoords.lat;
+                    coord.lonDecimal = geoCoords.lon;
+
+                    const gmsLat = convertirDecimalAGMS(coord.latDecimal);
+                    const gmsLon = convertirDecimalAGMS(Math.abs(coord.lonDecimal));
+                    
+                    coord.latGrados = gmsLat.grados;
+                    coord.latMinutos = gmsLat.minutos;
+                    coord.latSegundos = gmsLat.segundos;
+                    coord.lonGrados = gmsLon.grados;
+                    coord.lonMinutos = gmsLon.minutos;
+                    coord.lonSegundos = gmsLon.segundos;
+                    coord.zona = '14N';
+
+                    const error = validarCoordenadaUTM(coord);
+                    if (error) {
+                        errores.push({ linea: index + 1, vertice: coord.vertice, error: error });
+                    }
+
+                    coordenadas.push(coord);
+                } else if (linea.trim()) {
+                    errores.push({ 
+                        linea: index + 1, 
+                        vertice: partes[0] || 'N/A',
+                        error: `Formato incorrecto` 
+                    });
+                }
+            });
+
+            return { coordenadas, errores };
+        }
+
+        function convertirGeograficasAUTM(lat, lon) {
+            const zonaUTM = Math.floor((lon + 180) / 6) + 1;
+            const lonCentral = (zonaUTM - 1) * 6 - 180 + 3;
+            
+            const a = 6378137;
+            const e = 0.081819191;
+            
+            const latRad = lat * Math.PI / 180;
+            const lonRad = (lon - lonCentral) * Math.PI / 180;
+            
+            const N = a / Math.sqrt(1 - e * e * Math.sin(latRad) * Math.sin(latRad));
+            const T = Math.tan(latRad) * Math.tan(latRad);
+            const C = e * e * Math.cos(latRad) * Math.cos(latRad) / (1 - e * e);
+            const A = Math.cos(latRad) * lonRad;
+            
+            const M = a * ((1 - e * e / 4 - 3 * e * e * e * e / 64) * latRad);
+            
+            const x = 0.9996 * N * (A + (1 - T + C) * A * A * A / 6) + 500000;
+            const y = 0.9996 * (M + N * Math.tan(latRad) * (A * A / 2));
+            
+            return {
+                x: Math.round(x),
+                y: Math.round(y),
+                zona: zonaUTM + (lat >= 0 ? 'N' : 'S')
+            };
+        }
+
+        function convertirUTMAGeograficas(x, y, zona = 14) {
+            const k0 = 0.9996;
+            const a = 6378137;
+            const e = 0.081819191;
+            
+            const x0 = x - 500000;
+            const y0 = y;
+            
+            const M = y0 / k0;
+            const mu = M / (a * (1 - e * e / 4));
+            
+            const lat = mu + (3 * e / 2 - 27 * e * e * e / 32) * Math.sin(2 * mu);
+            const lonCentral = (zona - 1) * 6 - 180 + 3;
+            const lon = lonCentral + (x0 / (k0 * a * Math.cos(lat))) * 180 / Math.PI;
+            
+            return {
+                lat: lat * 180 / Math.PI,
+                lon: lon
+            };
+        }
+
+        function convertirDecimalAGMS(decimal) {
+            const grados = Math.floor(Math.abs(decimal));
+            const minutoDecimal = (Math.abs(decimal) - grados) * 60;
+            const minutos = Math.floor(minutoDecimal);
+            const segundos = (minutoDecimal - minutos) * 60;
+            
+            return {
+                grados: grados,
+                minutos: minutos,
+                segundos: parseFloat(segundos.toFixed(4))
+            };
+        }
+
+        function validarCoordenadaGeografica(coord) {
+            if (isNaN(coord.latGrados) || isNaN(coord.latMinutos) || isNaN(coord.latSegundos) ||
+                isNaN(coord.lonGrados) || isNaN(coord.lonMinutos) || isNaN(coord.lonSegundos)) {
+                return 'Valores no numéricos';
+            }
+
+            if (coord.latGrados < 0 || coord.latMinutos < 0 || coord.latSegundos < 0 ||
+                coord.lonGrados < 0 || coord.lonMinutos < 0 || coord.lonSegundos < 0) {
+                return 'Valores negativos no permitidos';
+            }
+
+            if (coord.latMinutos >= 60 || coord.lonMinutos >= 60 || coord.latSegundos >= 60 || coord.lonSegundos >= 60) {
+                return 'Minutos/segundos deben ser < 60';
+            }
+
+            if (coord.latDecimal < LIMITES.latMin || coord.latDecimal > LIMITES.latMax ||
+                coord.lonDecimal < LIMITES.lonMin || coord.lonDecimal > LIMITES.lonMax) {
+                return 'Coordenadas fuera del área válida';
+            }
+
+            return null;
+        }
+
+        function validarCoordenadaUTM(coord) {
+            if (isNaN(coord.utmX) || isNaN(coord.utmY)) {
+                return 'Valores no numéricos';
+            }
+
+            if (coord.utmX < 0 || coord.utmY < 0) {
+                return 'Valores negativos no permitidos';
+            }
+
+            if (coord.utmX < LIMITES.utmXMin || coord.utmX > LIMITES.utmXMax ||
+                coord.utmY < LIMITES.utmYMin || coord.utmY > LIMITES.utmYMax) {
+                return 'Coordenadas UTM fuera del rango';
+            }
+
+            return null;
+        }
+
+        function validarCoordenadas() {
+            const resultado = procesarCoordenadas();
+            
+            coordenadasPorGrupo[grupoActual] = resultado.coordenadas;
+            erroresPorGrupo[grupoActual] = resultado.errores;
+
+            mostrarAlertas(resultado.errores);
+            mostrarTablaCoordenadas();
+            actualizarGrupos();
+
+            if (resultado.coordenadas.length === 0) {
+                alert('⚠️ No hay coordenadas para validar');
+                coordenadasValidadas = false;
+                actualizarEstadoBotones();
+                return;
+            }
+
+            if (resultado.errores.length > 0) {
+                alert(`❌ Se encontraron ${resultado.errores.length} errores en Grupo ${grupoActual}`);
+                coordenadasValidadas = false;
+                actualizarEstadoBotones();
+            } else {
+                alert(`✅ Grupo ${grupoActual} validado!\n${resultado.coordenadas.length} coordenadas correctas`);
+                verificarSiTodoValidado();
+            }
+        }
+
+        function verificarSiTodoValidado() {
+            let todosValidados = true;
+            let totalCoords = 0;
+
+            for (let i = 1; i <= numeroGrupos; i++) {
+                if (!coordenadasPorGrupo[i] || coordenadasPorGrupo[i].length === 0) {
+                    todosValidados = false;
+                    break;
+                }
+                if (erroresPorGrupo[i] && erroresPorGrupo[i].length > 0) {
+                    todosValidados = false;
+                    break;
+                }
+                totalCoords += coordenadasPorGrupo[i].length;
+            }
+
+            coordenadasValidadas = todosValidados && totalCoords > 0;
+            actualizarEstadoBotones();
+        }
+
+        function mostrarAlertas(errores) {
+            const container = document.getElementById('alertContainer');
+            
+            if (errores.length > 0) {
+                let errorHtml = `
+                    <div class="alert alert-error">
+                        <strong>⚠️ Grupo ${grupoActual}: ${errores.length} errores</strong>
+                        <ul style="margin: 10px 0 0 20px; padding: 0; max-height: 200px; overflow-y: auto;">
+                `;
+                errores.forEach(e => {
+                    errorHtml += `<li><strong>Línea ${e.linea} (${e.vertice}):</strong> ${e.error}</li>`;
+                });
+                errorHtml += `</ul></div>`;
+                container.innerHTML = errorHtml;
+            } else if (coordenadasPorGrupo[grupoActual] && coordenadasPorGrupo[grupoActual].length > 0) {
+                container.innerHTML = `
+                    <div class="alert alert-success">
+                        ✓ <strong>Grupo ${grupoActual}: ${coordenadasPorGrupo[grupoActual].length} coordenadas validadas</strong>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = '';
+            }
+        }
+
+        function mostrarTablaCoordenadas() {
+            let todasCoords = [];
+            for (let i = 1; i <= numeroGrupos; i++) {
+                if (coordenadasPorGrupo[i]) {
+                    todasCoords = todasCoords.concat(coordenadasPorGrupo[i]);
+                }
+            }
+
+            if (todasCoords.length === 0) {
+                document.getElementById('coordTableContainer').classList.add('hidden');
+                return;
+            }
+
+            const container = document.getElementById('coordTableContainer');
+            container.classList.remove('hidden');
+
+            let html = `
+                <thead>
+                    <tr>
+                        <th rowspan="2">Vértice</th>
+                        <th rowspan="2">Grupo</th>
+                        <th colspan="4">Coordenadas Geográficas</th>
+                        <th colspan="3">Coordenadas UTM</th>
+                    </tr>
+                    <tr>
+                        <th>Lat (GMS)</th>
+                        <th>Lon (GMS)</th>
+                        <th>Lat Decimal</th>
+                        <th>Lon Decimal</th>
+                        <th>X (Este)</th>
+                        <th>Y (Norte)</th>
+                        <th>Zona</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+
+            todasCoords.forEach(coord => {
+                const latGMS = `${coord.latGrados}° ${coord.latMinutos}' ${coord.latSegundos.toFixed(2)}"`;
+                const lonGMS = `${coord.lonGrados}° ${coord.lonMinutos}' ${coord.lonSegundos.toFixed(2)}"`;
+
+                html += `
+                    <tr>
+                        <td><strong>${coord.vertice}</strong></td>
+                        <td>${coord.grupo}</td>
+                        <td>${latGMS}</td>
+                        <td>${lonGMS}</td>
+                        <td>${coord.latDecimal.toFixed(6)}</td>
+                        <td>${coord.lonDecimal.toFixed(6)}</td>
+                        <td>${Math.round(coord.utmX)}</td>
+                        <td>${Math.round(coord.utmY)}</td>
+                        <td>${coord.zona || '14N'}</td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody>';
+            document.getElementById('coordTable').innerHTML = html;
+        }
+
+        // ===== EXPORTACIÓN DE TABLA =====
+        function exportarTablaExcel() {
+            let todasCoords = [];
+            for (let i = 1; i <= numeroGrupos; i++) {
+                if (coordenadasPorGrupo[i]) {
+                    todasCoords = todasCoords.concat(coordenadasPorGrupo[i]);
+                }
+            }
+
+            if (todasCoords.length === 0) {
+                alert('⚠️ No hay coordenadas para exportar');
+                return;
+            }
+
+            let csv = 'Vértice,Grupo,Lat GMS,Lon GMS,Lat Decimal,Lon Decimal,UTM X,UTM Y,Zona\n';
+            
+            todasCoords.forEach(coord => {
+                const latGMS = `${coord.latGrados}° ${coord.latMinutos}' ${coord.latSegundos.toFixed(2)}"`;
+                const lonGMS = `${coord.lonGrados}° ${coord.lonMinutos}' ${coord.lonSegundos.toFixed(2)}"`;
+                
+                csv += `"${coord.vertice}","${coord.grupo}","${latGMS}","${lonGMS}",`;
+                csv += `"${coord.latDecimal.toFixed(6)}","${coord.lonDecimal.toFixed(6)}",`;
+                csv += `"${Math.round(coord.utmX)}","${Math.round(coord.utmY)}","${coord.zona || '14N'}"\n`;
+            });
+
+            descargarArchivo(csv, `coordenadas_${Date.now()}.csv`, 'text/csv;charset=utf-8;');
+            alert('✅ Tabla exportada correctamente');
+        }
+
+        function exportarTablaCSV() {
+            exportarTablaExcel();
+        }
+
+        // ===== MAPAS =====
+        function initMap() {
+            if (map) return;
+
+            map = L.map('map').setView([23.6345, -102.5528], 5);
+
+            baseLayers.osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap',
+                maxZoom: 19
+            });
+
+            baseLayers.topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                attribution: 'OpenTopoMap',
+                maxZoom: 17
+            });
+
+            baseLayers.satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Esri',
+                maxZoom: 19
+            });
+
+            baseLayers.street = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Esri',
+                maxZoom: 19
+            });
+
+            baseLayers.osm.addTo(map);
+        }
+
+        function cambiarCapa(capa) {
+            if (currentLayer && baseLayers[currentLayer]) {
+                map.removeLayer(baseLayers[currentLayer]);
+            }
+
+            if (baseLayers[capa]) {
+                baseLayers[capa].addTo(map);
+                currentLayer = capa;
+            }
+
+            document.querySelectorAll('.layer-btn').forEach(btn => btn.classList.remove('active'));
+            const btnMap = {
+                'osm': 'layerOSM',
+                'topo': 'layerTopo',
+                'satellite': 'layerSatellite',
+                'street': 'layerStreet'
+            };
+            if (btnMap[capa]) {
+                document.getElementById(btnMap[capa]).classList.add('active');
+            }
+        }
+
+        function limpiarMapa() {
+            if (!map) initMap();
+            mapLayers.forEach(layer => map.removeLayer(layer));
+            mapLayers = [];
+            document.getElementById('mapCoordTable').classList.add('hidden');
+        }
+
+        function centrarMapa() {
+            if (map && mapLayers.length > 0) {
+                const group = new L.featureGroup(mapLayers);
+                map.fitBounds(group.getBounds());
+            } else {
+                map.setView([23.6345, -102.5528], 5);
+            }
+        }
+
+        function dibujarPoligonos() {
+            let todasCoords = [];
+            for (let i = 1; i <= numeroGrupos; i++) {
+                if (coordenadasPorGrupo[i]) {
+                    todasCoords = todasCoords.concat(coordenadasPorGrupo[i]);
+                }
+            }
+
+            if (todasCoords.length === 0) {
+                alert('⚠️ No hay coordenadas para dibujar');
+                return;
+            }
+
+            limpiarMapa();
+
+            const grupos = {};
+            todasCoords.forEach(coord => {
+                if (!grupos[coord.grupo]) grupos[coord.grupo] = [];
+                grupos[coord.grupo].push([coord.latDecimal, coord.lonDecimal]);
+            });
+
+            const colores = ['#FF5733', '#33FF57', '#3357FF', '#FF33F5', '#F5FF33', '#33FFFF', '#FF8C33'];
+            let idx = 0;
+
+            for (let grupo in grupos) {
+                const polygon = L.polygon(grupos[grupo], {
+                    color: colores[idx % colores.length],
+                    fillOpacity: 0.3,
+                    weight: 3
+                }).addTo(map);
+
+                polygon.bindPopup(`<strong>Grupo ${grupo}</strong><br>Vértices: ${grupos[grupo].length}`);
+                mapLayers.push(polygon);
+                idx++;
+            }
+
+            if (todasCoords.length > 0) {
+                const bounds = L.latLngBounds(todasCoords.map(c => [c.latDecimal, c.lonDecimal]));
+                map.fitBounds(bounds);
+            }
+
+            mostrarTablaCoordenadasMapa();
+            
+            // Marcar que los polígonos han sido dibujados
+            poligonosDibujados = true;
+            actualizarEstadoBotones();
+            
+            // Cambiar a la pestaña de visualización
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.getElementById('tabVisualizacion').classList.remove('hidden');
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab')[1].classList.add('active');
+            
+            setTimeout(() => {
+                map.invalidateSize();
+                centrarMapa();
+            }, 100);
+        }
+
+        function dibujarPuntos() {
+            let todasCoords = [];
+            for (let i = 1; i <= numeroGrupos; i++) {
+                if (coordenadasPorGrupo[i]) {
+                    todasCoords = todasCoords.concat(coordenadasPorGrupo[i]);
+                }
+            }
+
+            if (todasCoords.length === 0) {
+                alert('⚠️ No hay coordenadas para dibujar');
+                return;
+            }
+
+            limpiarMapa();
+
+            todasCoords.forEach(coord => {
+                const marker = L.circleMarker([coord.latDecimal, coord.lonDecimal], {
+                    radius: 6,
+                    color: '#FF5733',
+                    fillColor: '#FF5733',
+                    fillOpacity: 0.8,
+                    weight: 2
+                }).addTo(map);
+
+                marker.bindPopup(`<strong>${coord.vertice}</strong><br>Grupo: ${coord.grupo}`);
+                mapLayers.push(marker);
+            });
+
+            if (todasCoords.length > 0) {
+                const bounds = L.latLngBounds(todasCoords.map(c => [c.latDecimal, c.lonDecimal]));
+                map.fitBounds(bounds);
+            }
+
+            mostrarTablaCoordenadasMapa();
+
+            // Marcar que los puntos han sido dibujados (equivalente a polígonos)
+            poligonosDibujados = true;
+            actualizarEstadoBotones();
+
+            // Cambiar a la pestaña de visualización
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.getElementById('tabVisualizacion').classList.remove('hidden');
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab')[1].classList.add('active');
+            
+            setTimeout(() => {
+                map.invalidateSize();
+                centrarMapa();
+            }, 100);
+        }
+
+        function mostrarTablaCoordenadasMapa() {
+            let todasCoords = [];
+            for (let i = 1; i <= numeroGrupos; i++) {
+                if (coordenadasPorGrupo[i]) {
+                    todasCoords = todasCoords.concat(coordenadasPorGrupo[i]);
+                }
+            }
+
+            if (todasCoords.length === 0) {
+                document.getElementById('mapCoordTable').classList.add('hidden');
+                return;
+            }
+
+            document.getElementById('mapCoordTable').classList.remove('hidden');
+
+            let html = `
+                <thead>
+                    <tr>
+                        <th>Vértice</th>
+                        <th>Grupo</th>
+                        <th>Latitud</th>
+                        <th>Longitud</th>
+                        <th>UTM X</th>
+                        <th>UTM Y</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+
+            todasCoords.forEach((coord, index) => {
+                html += `
+                    <tr>
+                        <td><strong>${coord.vertice}</strong></td>
+                        <td>${coord.grupo}</td>
+                        <td>${coord.latDecimal.toFixed(6)}</td>
+                        <td>${coord.lonDecimal.toFixed(6)}</td>
+                        <td>${Math.round(coord.utmX)}</td>
+                        <td>${Math.round(coord.utmY)}</td>
+                        <td>
+                            <button class="zoom-btn" onclick="zoomAVertice(${coord.latDecimal}, ${coord.lonDecimal}, '${coord.vertice}')">
+                                🔍 Zoom
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody>';
+            document.getElementById('mapCoordTableContent').innerHTML = html;
+        }
+
+        function zoomAVertice(lat, lon, vertice) {
+            if (map) {
+                map.setView([lat, lon], 18);
+                
+                const tempMarker = L.marker([lat, lon], {
+                    icon: L.divIcon({
+                        className: 'temp-marker',
+                        html: `<div style="background: #FF5733; color: white; padding: 5px 10px; border-radius: 50%; font-weight: bold;">${vertice}</div>`
+                    })
+                }).addTo(map);
+
+                setTimeout(() => map.removeLayer(tempMarker), 3000);
+            }
+        }
+
+        // ===== EXPORTACIÓN KML/GeoJSON =====
+        function exportarKML() {
+            let todasCoords = [];
+            for (let i = 1; i <= numeroGrupos; i++) {
+                if (coordenadasPorGrupo[i]) {
+                    todasCoords = todasCoords.concat(coordenadasPorGrupo[i]);
+                }
+            }
+
+            if (todasCoords.length === 0) {
+                alert('⚠️ No hay coordenadas para exportar');
+                return;
+            }
+
+            let kml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+            kml += '<kml xmlns="http://www.opengis.net/kml/2.2">\n';
+            kml += '  <Document>\n';
+            kml += `    <name>Dictamen ${document.getElementById('claveBitacora').value}${document.getElementById('numeroBitacora').value}</name>\n`;
+            
+            const grupos = {};
+            todasCoords.forEach(coord => {
+                if (!grupos[coord.grupo]) grupos[coord.grupo] = [];
+                grupos[coord.grupo].push(coord);
+            });
+
+            for (let grupo in grupos) {
+                kml += '    <Placemark>\n';
+                kml += `      <name>Grupo ${grupo}</name>\n`;
+                kml += '      <Polygon>\n';
+                kml += '        <outerBoundaryIs>\n';
+                kml += '          <LinearRing>\n';
+                kml += '            <coordinates>\n';
+
+                grupos[grupo].forEach(coord => {
+                    kml += `              ${coord.lonDecimal},${coord.latDecimal},0\n`;
+                });
+
+                if (grupos[grupo].length > 0) {
+                    const first = grupos[grupo][0];
+                    kml += `              ${first.lonDecimal},${first.latDecimal},0\n`;
+                }
+
+                kml += '            </coordinates>\n';
+                kml += '          </LinearRing>\n';
+                kml += '        </outerBoundaryIs>\n';
+                kml += '      </Polygon>\n';
+                kml += '    </Placemark>\n';
+            }
+
+            kml += '  </Document>\n';
+            kml += '</kml>';
+
+            descargarArchivo(kml, `dictamen_${Date.now()}.kml`, 'application/vnd.google-earth.kml+xml');
+            alert('✅ Archivo KML exportado correctamente');
+        }
+
+        function exportarGeoJSON() {
+            let todasCoords = [];
+            for (let i = 1; i <= numeroGrupos; i++) {
+                if (coordenadasPorGrupo[i]) {
+                    todasCoords = todasCoords.concat(coordenadasPorGrupo[i]);
+                }
+            }
+
+            if (todasCoords.length === 0) {
+                alert('⚠️ No hay coordenadas para exportar');
+                return;
+            }
+
+            const grupos = {};
+            todasCoords.forEach(coord => {
+                if (!grupos[coord.grupo]) grupos[coord.grupo] = [];
+                grupos[coord.grupo].push([coord.lonDecimal, coord.latDecimal]);
+            });
+
+            const features = [];
+            for (let grupo in grupos) {
+                const coordinates = grupos[grupo];
+                coordinates.push(grupos[grupo][0]);
+
+                features.push({
+                    type: "Feature",
+                    properties: {
+                        grupo: grupo,
+                        vertices: grupos[grupo].length
+                    },
+                    geometry: {
+                        type: "Polygon",
+                        coordinates: [coordinates]
+                    }
+                });
+            }
+
+            const geojson = {
+                type: "FeatureCollection",
+                features: features
+            };
+
+            descargarArchivo(JSON.stringify(geojson, null, 2), `dictamen_${Date.now()}.geojson`, 'application/json');
+            alert('✅ Archivo GeoJSON exportado correctamente');
+        }
+
+        function validarYGenerarReporte() {
+            let todasCoords = [];
+            let todosErrores = [];
+            
+            for (let i = 1; i <= numeroGrupos; i++) {
+                if (coordenadasPorGrupo[i]) {
+                    todasCoords = todasCoords.concat(coordenadasPorGrupo[i]);
+                }
+                if (erroresPorGrupo[i]) {
+                    todosErrores = todosErrores.concat(erroresPorGrupo[i]);
+                }
+            }
+
+            if (todasCoords.length === 0) {
+                alert('⚠️ No hay coordenadas para validar');
+                return;
+            }
+
+            if (todosErrores.length > 0) {
+                alert('❌ Hay errores en las coordenadas. Por favor corrija antes de generar el reporte.');
+                return;
+            }
+
+            let reporte = '📄 REPORTE DE VALIDACIÓN COMPLETO\n';
+            reporte += '═══════════════════════════════════════\n\n';
+            reporte += `📋 Bitácora: ${document.getElementById('claveBitacora').value}${document.getElementById('numeroBitacora').value}\n`;
+            reporte += `📁 Proyecto: ${document.getElementById('nombreProyecto').value}\n`;
+            reporte += `👤 Dictaminador: ${document.getElementById('nombreDictaminador').value}\n`;
+            reporte += `📅 Fecha: ${document.getElementById('fechaBitacora').value}\n\n`;
+            reporte += '───────────────────────────────────────\n';
+            reporte += '📊 ESTADÍSTICAS GENERALES\n';
+            reporte += '───────────────────────────────────────\n';
+            reporte += `Total de vértices: ${todasCoords.length}\n`;
+            reporte += `Número de polígonos: ${numeroGrupos}\n`;
+            reporte += `Errores encontrados: 0\n`;
+            reporte += `Estado: ✅ VALIDADO\n\n`;
+            
+            reporte += '───────────────────────────────────────\n';
+            reporte += '📍 DETALLE POR GRUPO\n';
+            reporte += '───────────────────────────────────────\n';
+            for (let i = 1; i <= numeroGrupos; i++) {
+                if (coordenadasPorGrupo[i]) {
+                    reporte += `Grupo ${i}: ${coordenadasPorGrupo[i].length} vértices\n`;
+                }
+            }
+            
+            reporte += '\n✓ Todas las coordenadas validadas\n';
+            reporte += '✓ Conversión GMS ↔ UTM completada\n';
+            reporte += '✓ Polígonos cerrados correctamente\n';
+            reporte += '✓ Coordenadas dentro del área válida\n';
+
+            alert(reporte);
+        }
+
+        // ===== GESTIÓN DE DICTÁMENES =====
+        function registrarDictamen() {
+            let todasCoords = [];
+            for (let i = 1; i <= numeroGrupos; i++) {
+                if (coordenadasPorGrupo[i]) {
+                    todasCoords = todasCoords.concat(coordenadasPorGrupo[i]);
+                }
+            }
+
+            if (todasCoords.length === 0) {
+                alert('❌ No hay coordenadas para registrar');
+                return;
+            }
+
+            const clave = document.getElementById('claveBitacora').value.trim();
+            const numero = document.getElementById('numeroBitacora').value.trim();
+            const proyecto = document.getElementById('nombreProyecto').value.trim();
+            const tipo = document.getElementById('tipoProyecto').value;
+            const dictaminador = document.getElementById('nombreDictaminador').value;
+
+            if (!clave || !numero || !proyecto || !tipo || !dictaminador) {
+                alert('⚠️ Complete todos los campos requeridos');
+                return;
+            }
+
+            const bitacora = clave + numero;
+            const tipoCoord = document.querySelector('input[name="coordType"]:checked').value;
+            const tipoArchivo = tipoCoord === 'geograficas' ? 'G' : 'U';
+            const nombreArchivo = `${bitacora}_${tipoArchivo}_POL_${Date.now()}`;
+
+            const dictamen = {
+                id: dictamenEnEdicion ? dictamenEnEdicion.id : Date.now(),
+                bitacora: bitacora,
+                tipoProyecto: tipo,
+                nombreProyecto: proyecto,
+                dictaminador: dictaminador,
+                fecha: document.getElementById('fechaBitacora').value,
+                estado: dictamenEnEdicion ? dictamenEnEdicion.estado : 'EN ESPERA',
+                coordenadas: todasCoords,
+                tipoCoord: tipoCoord,
+                nombreArchivo: nombreArchivo,
+                usuarioId: currentUser.id,
+                fechaRegistro: dictamenEnEdicion ? dictamenEnEdicion.fechaRegistro : new Date().toISOString(),
+                fechaModificacion: dictamenEnEdicion ? new Date().toISOString() : null,
+                totalVertices: todasCoords.length,
+                numeroGrupos: numeroGrupos
+            };
+
+            const dictamenesGuardados = JSON.parse(localStorage.getItem('dictamenes') || '[]');
+            
+            if (dictamenEnEdicion) {
+                // Actualizar dictamen existente
+                const index = dictamenesGuardados.findIndex(d => d.id === dictamenEnEdicion.id);
+                if (index !== -1) {
+                    dictamenesGuardados[index] = dictamen;
+                }
+                alert(`✅ Dictamen actualizado!\n\nArchivo: ${nombreArchivo}.dbf\nVértices: ${todasCoords.length}\nGrupos: ${numeroGrupos}`);
+            } else {
+                // Nuevo dictamen
+                dictamenesGuardados.push(dictamen);
+                alert(`✅ Dictamen registrado!\n\nArchivo: ${nombreArchivo}.dbf\nVértices: ${todasCoords.length}\nGrupos: ${numeroGrupos}`);
+            }
+            
+            localStorage.setItem('dictamenes', JSON.stringify(dictamenesGuardados));
+
+            // Limpiar formulario
+            limpiarFormularioDictamen();
+
+            cargarDictamenes();
+            cargarDictamenesEnSelector();
+            actualizarInfoDatos();
+            switchTab('lista');
+        }
+
+        function limpiarFormularioDictamen() {
+            document.getElementById('coordenadas').value = '';
+            document.getElementById('nombreProyecto').value = '';
+            document.getElementById('claveBitacora').value = '';
+            document.getElementById('numeroBitacora').value = '';
+            document.getElementById('numGrupos').value = '1';
+            document.getElementById('tipoProyecto').value = '';
+            coordenadasPorGrupo = {};
+            erroresPorGrupo = {};
+            numeroGrupos = 1;
+            grupoActual = 1;
+            coordenadasValidadas = false;
+            poligonosDibujados = false;
+            dictamenEnEdicion = null;
+            document.getElementById('alertContainer').innerHTML = '';
+            document.getElementById('coordTableContainer').classList.add('hidden');
+            document.getElementById('editingIndicator').classList.add('hidden');
+            actualizarEstadoBotones();
+            actualizarGrupos();
+        }
+
+        function cargarDictamenes() {
+            dictamenes = JSON.parse(localStorage.getItem('dictamenes') || '[]');
+            mostrarTablaDictamenes();
+        }
+
+        function mostrarTablaDictamenes() {
+            const container = document.getElementById('tablaDictamenes');
+
+            if (dictamenes.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <p>No hay dictámenes registrados</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bitácora</th>
+                            <th>Proyecto</th>
+                            <th>Tipo</th>
+                            <th>Dictaminador</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Vértices</th>
+                            <th>Grupos</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            dictamenes.forEach(dict => {
+                const estadoMap = {
+                    'EN ESPERA': 'estado-espera',
+                    'EN PROCESO': 'estado-proceso',
+                    'COMPLETADO': 'estado-completado'
+                };
+
+                html += `
+                    <tr>
+                        <td><strong>${dict.bitacora}</strong></td>
+                        <td>${dict.nombreProyecto}</td>
+                        <td>${dict.tipoProyecto}</td>
+                        <td>${dict.dictaminador}</td>
+                        <td>${new Date(dict.fecha).toLocaleDateString('es-MX')}</td>
+                        <td>
+                            <select onchange="actualizarEstado(${dict.id}, this.value)" 
+                                    style="padding: 6px 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); 
+                                           border-radius: 4px; color: white; font-size: 12px; cursor: pointer;">
+                                <option value="EN ESPERA" ${dict.estado === 'EN ESPERA' ? 'selected' : ''}>EN ESPERA</option>
+                                <option value="EN PROCESO" ${dict.estado === 'EN PROCESO' ? 'selected' : ''}>EN PROCESO</option>
+                                <option value="COMPLETADO" ${dict.estado === 'COMPLETADO' ? 'selected' : ''}>COMPLETADO</option>
+                            </select>
+                        </td>
+                        <td style="text-align: center;"><strong>${dict.coordenadas ? dict.coordenadas.length : 0}</strong></td>
+                        <td style="text-align: center;">${dict.numeroGrupos || 1}</td>
+                        <td style="white-space: nowrap;">
+                            <button class="btn-action btn-edit" onclick="editarDictamen(${dict.id})" title="Editar">
+                                ✏️ Editar
+                            </button>
+                            <button class="btn-action btn-view" onclick="verDictamenEnMapa(${dict.id})" title="Ver en mapa">
+                                🗺️ Ver
+                            </button>
+                            <button class="btn-action btn-report" onclick="verDictamenEnReporte(${dict.id})" title="Ver reporte">
+                                📄 Reporte
+                            </button>
+                            <button class="btn-action btn-delete" onclick="eliminarDictamen(${dict.id})" title="Eliminar">
+                                🗑️ Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        function actualizarEstado(id, nuevoEstado) {
+            dictamenes = dictamenes.map(d => 
+                d.id === id ? { ...d, estado: nuevoEstado } : d
+            );
+            localStorage.setItem('dictamenes', JSON.stringify(dictamenes));
+            mostrarTablaDictamenes();
+        }
+
+        function editarDictamen(id) {
+            const dictamen = dictamenes.find(d => d.id === id);
+            if (!dictamen) return;
+
+            if (confirm(`¿Desea editar el dictamen ${dictamen.bitacora}?\n\nSe cargará la información en el formulario de captura.`)) {
+                dictamenEnEdicion = dictamen;
+                
+                // Mostrar indicador de edición
+                document.getElementById('editingIndicator').classList.remove('hidden');
+                
+                // Cargar información básica
+                document.getElementById('tipoProyecto').value = dictamen.tipoProyecto;
+                const bitacoraMatch = dictamen.bitacora.match(/^(.+?)(\d+)$/);
+                if (bitacoraMatch) {
+                    document.getElementById('claveBitacora').value = bitacoraMatch[1];
+                    document.getElementById('numeroBitacora').value = bitacoraMatch[2];
+                } else {
+                    document.getElementById('claveBitacora').value = dictamen.bitacora;
+                    document.getElementById('numeroBitacora').value = '';
+                }
+                document.getElementById('fechaBitacora').value = dictamen.fecha;
+                document.getElementById('nombreProyecto').value = dictamen.nombreProyecto;
+                document.getElementById('nombreDictaminador').value = dictamen.dictaminador;
+                
+                // Cargar número de grupos
+                document.getElementById('numGrupos').value = dictamen.numeroGrupos || 1;
+                numeroGrupos = dictamen.numeroGrupos || 1;
+                
+                // Cargar tipo de coordenadas
+                const radioCoord = document.querySelector(`input[name="coordType"][value="${dictamen.tipoCoord}"]`);
+                if (radioCoord) radioCoord.checked = true;
+                
+                // Reorganizar coordenadas por grupo
+                coordenadasPorGrupo = {};
+                erroresPorGrupo = {};
+                if (dictamen.coordenadas) {
+                    dictamen.coordenadas.forEach(coord => {
+                        const grupo = coord.grupo || 1;
+                        if (!coordenadasPorGrupo[grupo]) {
+                            coordenadasPorGrupo[grupo] = [];
+                        }
+                        coordenadasPorGrupo[grupo].push(coord);
+                    });
+                }
+                
+                // Marcar como validado
+                coordenadasValidadas = true;
+                poligonosDibujados = false;
+                
+                actualizarGrupos();
+                mostrarTablaCoordenadas();
+                actualizarEstadoBotones();
+                
+                // Cambiar a pestaña de captura
+                switchTab('captura');
+                
+                alert(`✅ Dictamen cargado para edición\n\nPuede modificar las coordenadas y volver a registrar.`);
+            }
+        }
+
+        function eliminarDictamen(id) {
+            const dictamen = dictamenes.find(d => d.id === id);
+            if (!dictamen) return;
+
+            if (confirm(`¿Está seguro que desea eliminar el dictamen ${dictamen.bitacora}?\n\n${dictamen.nombreProyecto}\n\nEsta acción no se puede deshacer.`)) {
+                dictamenes = dictamenes.filter(d => d.id !== id);
+                localStorage.setItem('dictamenes', JSON.stringify(dictamenes));
+                cargarDictamenes();
+                cargarDictamenesEnSelector();
+                actualizarInfoDatos();
+                alert('✅ Dictamen eliminado correctamente');
+            }
+        }
+
+        function verDictamenEnMapa(id) {
+            const dictamen = dictamenes.find(d => d.id === id);
+            if (!dictamen) return;
+
+            // Cargar coordenadas en el sistema
+            coordenadasPorGrupo = {};
+            erroresPorGrupo = {};
+            if (dictamen.coordenadas) {
+                dictamen.coordenadas.forEach(coord => {
+                    const grupo = coord.grupo || 1;
+                    if (!coordenadasPorGrupo[grupo]) {
+                        coordenadasPorGrupo[grupo] = [];
+                    }
+                    coordenadasPorGrupo[grupo].push(coord);
+                });
+            }
+            
+            numeroGrupos = dictamen.numeroGrupos || 1;
+            coordenadasValidadas = true;
+            
+            // Dibujar en mapa
+            dibujarPoligonos();
+        }
+
+        function verDictamenEnReporte(id) {
+            const dictamen = dictamenes.find(d => d.id === id);
+            if (!dictamen) return;
+
+            // Cambiar a pestaña de reporte
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.getElementById('tabReporte').classList.remove('hidden');
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab')[2].classList.add('active');
+            
+            // Seleccionar el dictamen en el dropdown
+            document.getElementById('dictamenSelector').value = id;
+            
+            // Cargar el dictamen si el KML está cargado
+            if (kmlCargado) {
+                cargarDictamenParaAnalisis();
+            } else {
+                alert('⚠️ Por favor cargue primero el archivo KML de predios autorizados');
+            }
+        }
+
+        function exportarExcel() {
+            if (dictamenes.length === 0) {
+                alert('⚠️ No hay dictámenes para exportar');
+                return;
+            }
+
+            let csv = 'Bitácora,Proyecto,Tipo,Dictaminador,Fecha,Estado,Vértices,Grupos,Archivo\n';
+            
+            dictamenes.forEach(dict => {
+                csv += `"${dict.bitacora}","${dict.nombreProyecto}","${dict.tipoProyecto}","${dict.dictaminador}",`;
+                csv += `"${dict.fecha}","${dict.estado}","${dict.coordenadas ? dict.coordenadas.length : 0}","${dict.numeroGrupos || 1}","${dict.nombreArchivo}"\n`;
+            });
+
+            descargarArchivo(csv, 'dictamenes_' + Date.now() + '.csv', 'text/csv;charset=utf-8;');
+            alert('✅ Archivo exportado correctamente');
+        }
+
+        // ===== CARGA DEL KML AUTORIZADO =====
+        function cargarArchivoKML(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!file.name.endsWith('.kml')) {
+                alert('⚠️ Por favor seleccione un archivo KML válido');
+                return;
+            }
+
+            document.getElementById('kmlProgressContainer').classList.remove('hidden');
+            document.getElementById('kmlUploadText').textContent = `Cargando ${file.name}...`;
+            
+            const reader = new FileReader();
+            
+            reader.onprogress = function(e) {
+                if (e.lengthComputable) {
+                    const progress = (e.loaded / e.total) * 100;
+                    document.getElementById('kmlProgressBar').style.width = progress + '%';
+                    document.getElementById('kmlProgressText').textContent = Math.round(progress) + '%';
+                }
+            };
+
+            reader.onload = function(e) {
+                const kmlText = e.target.result;
+                
+                try {
+                    parsearKMLAutorizado(kmlText);
+                    
+                    document.getElementById('kmlProgressContainer').classList.add('hidden');
+                    document.getElementById('kmlUploadArea').classList.add('loaded');
+                    document.getElementById('kmlUploadText').innerHTML = `✅ <strong>${file.name}</strong> cargado correctamente`;
+                    
+                    document.getElementById('kmlLoadedInfo').classList.remove('hidden');
+                    document.getElementById('kmlStats').textContent = `${prediosAutorizados.length} predios autorizados (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                    
+                    kmlCargado = true;
+                    
+                    if (mapReporte) {
+                        mostrarCapaAutorizada();
+                    }
+                    
+                    alert(`✅ KML cargado correctamente\n${prediosAutorizados.length} predios autorizados procesados`);
+                    
+                } catch (error) {
+                    console.error('Error al parsear KML:', error);
+                    alert('❌ Error al procesar el archivo KML: ' + error.message);
+                    document.getElementById('kmlProgressContainer').classList.add('hidden');
+                }
+            };
+
+            reader.onerror = function() {
+                alert('❌ Error al leer el archivo KML');
+                document.getElementById('kmlProgressContainer').classList.add('hidden');
+            };
+
+            reader.readAsText(file);
+        }
+
+        function parsearKMLAutorizado(kmlString) {
+            try {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(kmlString, "text/xml");
+                
+                const parserError = xmlDoc.querySelector('parsererror');
+                if (parserError) {
+                    throw new Error('Error al parsear XML');
+                }
+                
+                prediosAutorizados = [];
+                const placemarks = xmlDoc.getElementsByTagName('Placemark');
+                
+                console.log(`Encontrados ${placemarks.length} Placemarks`);
+                
+                for (let i = 0; i < placemarks.length; i++) {
+                    const placemark = placemarks[i];
+                    
+                    const nameElem = placemark.getElementsByTagName('name')[0];
+                    const nombre = nameElem ? nameElem.textContent.trim() : `Predio ${i+1}`;
+                    
+                    const coordsElem = placemark.getElementsByTagName('coordinates')[0];
+                    if (!coordsElem) continue;
+                    
+                    const coordText = coordsElem.textContent.trim();
+                    const pairs = coordText.split(/\s+/);
+                    
+                    const coords = [];
+                    pairs.forEach(pair => {
+                        if (!pair.trim()) return;
+                        const parts = pair.split(',');
+                        if (parts.length >= 2) {
+                            const lon = parseFloat(parts[0]);
+                            const lat = parseFloat(parts[1]);
+                            if (!isNaN(lon) && !isNaN(lat)) {
+                                coords.push({ lat: lat, lon: lon });
+                            }
+                        }
+                    });
+                    
+                    const extendedData = {};
+                    const dataElements = placemark.getElementsByTagName('Data');
+                    for (let j = 0; j < dataElements.length; j++) {
+                        const data = dataElements[j];
+                        const name = data.getAttribute('name');
+                        const valueElem = data.getElementsByTagName('value')[0];
+                        if (name && valueElem) {
+                            extendedData[name] = valueElem.textContent.trim();
+                        }
+                    }
+                    
+                    if (coords.length > 0) {
+                        prediosAutorizados.push({
+                            nombre: nombre,
+                            coordenadas: coords,
+                            datos: extendedData
+                        });
+                    }
+                }
+                
+                console.log(`Procesados ${prediosAutorizados.length} predios`);
+                
+                if (prediosAutorizados.length === 0) {
+                    throw new Error('No se encontraron predios en el archivo KML');
+                }
+                
+            } catch (error) {
+                console.error('Error en parsearKMLAutorizado:', error);
+                throw error;
+            }
+        }
+
+        // ===== REPORTE Y ANÁLISIS =====
+        function initMapReporte() {
+            if (mapReporte) return;
+
+            mapReporte = L.map('mapReporte').setView([23.6345, -102.5528], 5);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap',
+                maxZoom: 19
+            }).addTo(mapReporte);
+            
+            if (kmlCargado) {
+                mostrarCapaAutorizada();
+            }
+        }
+
+        function cargarDictamenesEnSelector() {
+            const selector = document.getElementById('dictamenSelector');
+            selector.innerHTML = '<option value="">Seleccione un dictamen...</option>';
+            
+            dictamenes.forEach(dict => {
+                const option = document.createElement('option');
+                option.value = dict.id;
+                option.textContent = `${dict.bitacora} - ${dict.nombreProyecto}`;
+                selector.appendChild(option);
+            });
+        }
+
+        function mostrarCapaAutorizada() {
+            if (!mapReporte || prediosAutorizados.length === 0) return;
+            
+            console.log('Mostrando capa autorizada con', prediosAutorizados.length, 'predios');
+            
+            kmlAutorizadoLayers.forEach(layer => mapReporte.removeLayer(layer));
+            kmlAutorizadoLayers = [];
+            
+            let prediosDibujados = 0;
+            prediosAutorizados.forEach((predio, index) => {
+                try {
+                    const coords = predio.coordenadas.map(c => [c.lat, c.lon]);
+                    
+                    if (coords.length < 3) return;
+                    
+                    const polygon = L.polygon(coords, {
+                        color: '#ff0000',
+                        fillColor: '#ff0000',
+                        fillOpacity: 0.1,
+                        weight: 1,
+                        dashArray: '5, 5'
+                    }).addTo(mapReporte);
+                    
+                    let popupContent = `<div style="color: #000; min-width: 200px;">`;
+                    popupContent += `<strong>${predio.nombre}</strong><br>`;
+                    if (predio.datos) {
+                        if (predio.datos['Entidad Federativa']) {
+                            popupContent += `Estado: ${predio.datos['Entidad Federativa']}<br>`;
+                        }
+                        if (predio.datos['Municipio']) {
+                            popupContent += `Municipio: ${predio.datos['Municipio']}<br>`;
+                        }
+                        if (predio.datos['Nombre del Predio']) {
+                            popupContent += `Predio: ${predio.datos['Nombre del Predio']}<br>`;
+                        }
+                        if (predio.datos['Nombre del titular']) {
+                            popupContent += `Titular: ${predio.datos['Nombre del titular']}<br>`;
+                        }
+                        if (predio.datos['Fecha de autorización']) {
+                            popupContent += `Fecha: ${predio.datos['Fecha de autorización']}<br>`;
+                        }
+                    }
+                    popupContent += `</div>`;
+                    
+                    polygon.bindPopup(popupContent);
+                    kmlAutorizadoLayers.push(polygon);
+                    prediosDibujados++;
+                } catch (error) {
+                    console.error(`Error dibujando predio ${index}:`, error);
+                }
+            });
+            
+            console.log(`Dibujados ${prediosDibujados} predios en el mapa`);
+            
+            document.getElementById('infoOficial').innerHTML = `
+                <p><strong>Total predios:</strong> ${prediosAutorizados.length}</p>
+                <p><strong>Dibujados:</strong> ${prediosDibujados}</p>
+                <p><strong>Visualización:</strong> Polígonos en rojo (línea punteada)</p>
+                <p style="color: #88ff88;">✅ Capa cargada correctamente</p>
+            `;
+        }
+
+        function cargarDictamenParaAnalisis() {
+            const dictamenId = parseInt(document.getElementById('dictamenSelector').value);
+            if (!dictamenId) {
+                document.getElementById('reporteComparativo').classList.add('hidden');
+                document.getElementById('reportePlaceholder').classList.remove('hidden');
+                return;
+            }
+
+            if (!kmlCargado) {
+                alert('⚠️ Por favor cargue primero el archivo KML de predios autorizados');
+                return;
+            }
+
+            const dictamen = dictamenes.find(d => d.id === dictamenId);
+            if (!dictamen) return;
+
+            dictamenActual = dictamen;
+
+            document.getElementById('reportePlaceholder').classList.add('hidden');
+            document.getElementById('reporteComparativo').classList.remove('hidden');
+
+            document.getElementById('infoDictamen').innerHTML = `
+                <p><strong>Bitácora:</strong> ${dictamen.bitacora}</p>
+                <p><strong>Proyecto:</strong> ${dictamen.nombreProyecto}</p>
+                <p><strong>Vértices:</strong> ${dictamen.coordenadas ? dictamen.coordenadas.length : 0}</p>
+                <p><strong>Grupos:</strong> ${dictamen.numeroGrupos || 1}</p>
+                <p><strong>Tipo:</strong> ${dictamen.tipoCoord}</p>
+            `;
+
+            if (!mapReporte) {
+                initMapReporte();
+            }
+
+            setTimeout(() => {
+                mapReporte.invalidateSize();
+                
+                mapReporte.eachLayer(layer => {
+                    if (layer instanceof L.Polygon && !kmlAutorizadoLayers.includes(layer)) {
+                        mapReporte.removeLayer(layer);
+                    }
+                });
+                
+                if (dictamen.coordenadas) {
+                    const coords = dictamen.coordenadas.map(c => [c.latDecimal, c.lonDecimal]);
+                    const polygon = L.polygon(coords, {
+                        color: '#667eea',
+                        fillColor: '#667eea',
+                        fillOpacity: 0.3,
+                        weight: 3
+                    }).addTo(mapReporte);
+
+                    polygon.bindPopup(`<div style="color: #000;"><strong>Dictamen:</strong> ${dictamen.bitacora}</div>`);
+                    
+                    mapReporte.fitBounds(polygon.getBounds());
+                    
+                    analizarIntersecciones(dictamen);
+                }
+            }, 100);
+        }
+
+        function analizarIntersecciones(dictamen) {
+            if (!dictamen.coordenadas || dictamen.coordenadas.length === 0) {
+                return;
+            }
+            
+            const coords = dictamen.coordenadas.map(c => [c.lonDecimal, c.latDecimal]);
+            coords.push(coords[0]);
+            
+            const dictamenPolygon = turf.polygon([coords]);
+            interseccionesActuales = [];
+            
+            prediosAutorizados.forEach(predio => {
+                try {
+                    const predioCoords = predio.coordenadas.map(c => [c.lon, c.lat]);
+                    
+                    if (predioCoords.length < 3) return;
+                    
+                    predioCoords.push(predioCoords[0]);
+                    
+                    const predioPolygon = turf.polygon([predioCoords]);
+                    
+                    const intersection = turf.intersect(dictamenPolygon, predioPolygon);
+                    
+                    if (intersection) {
+                        const area = turf.area(intersection);
+                        
+                        if (area > 0) {
+                            interseccionesActuales.push({
+                                predio: predio,
+                                area: area,
+                                intersection: intersection
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error calculando intersección con predio:', predio.nombre, error);
+                }
+            });
+            
+            console.log(`Encontradas ${interseccionesActuales.length} intersecciones`);
+            mostrarResultadosInterseccion(interseccionesActuales);
+        }
+
+        function mostrarResultadosInterseccion(intersecciones) {
+            const container = document.getElementById('intersectionResults');
+            
+            if (intersecciones.length === 0) {
+                document.getElementById('intersectionSummary').classList.remove('hidden');
+                container.innerHTML = `
+                    <div class="alert-success">
+                        ✅ <strong>Sin conflictos:</strong> El polígono del dictamen NO intersecta con ningún predio autorizado.
+                    </div>
+                `;
+                return;
+            }
+            
+            document.getElementById('intersectionSummary').classList.remove('hidden');
+            
+            let html = `
+                <div class="alert-warning" style="margin-bottom: 20px;">
+                    ⚠️ <strong>Se encontraron ${intersecciones.length} intersecciones con predios autorizados</strong>
+                </div>
+            `;
+            
+            intersecciones.sort((a, b) => b.area - a.area);
+            
+            intersecciones.forEach((item, index) => {
+                const areaHectareas = (item.area / 10000).toFixed(4);
+                
+                html += `
+                    <div class="intersection-item">
+                        <h4>📍 Intersección ${index + 1}: ${item.predio.nombre}</h4>
+                        <p><strong>Área de sobreposición:</strong> ${areaHectareas} hectáreas (${item.area.toFixed(2)} m²)</p>
+                `;
+                
+                if (item.predio.datos) {
+                    if (item.predio.datos['Entidad Federativa']) {
+                        html += `<p><strong>Estado:</strong> ${item.predio.datos['Entidad Federativa']}</p>`;
+                    }
+                    if (item.predio.datos['Municipio']) {
+                        html += `<p><strong>Municipio:</strong> ${item.predio.datos['Municipio']}</p>`;
+                    }
+                    if (item.predio.datos['Nombre del Predio']) {
+                        html += `<p><strong>Predio:</strong> ${item.predio.datos['Nombre del Predio']}</p>`;
+                    }
+                    if (item.predio.datos['Nombre del titular']) {
+                        html += `<p><strong>Titular:</strong> ${item.predio.datos['Nombre del titular']}</p>`;
+                    }
+                    if (item.predio.datos['Fecha de autorización']) {
+                        html += `<p><strong>Fecha autorización:</strong> ${item.predio.datos['Fecha de autorización']}</p>`;
+                    }
+                    if (item.predio.datos['Vigencia Fecha']) {
+                        html += `<p><strong>Vigencia:</strong> ${item.predio.datos['Vigencia Fecha']}</p>`;
+                    }
+                }
+                
+                html += `</div>`;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // ===== EXPORTACIÓN A WORD =====
+        async function exportarReporteWord() {
+            if (!dictamenActual) {
+                alert('⚠️ Por favor seleccione un dictamen primero');
+                return;
+            }
+
+            if (!kmlCargado) {
+                alert('⚠️ Asegúrese de haber cargado el KML de predios autorizados');
+                return;
+            }
+
+            alert('🔄 Generando reporte... Por favor espere.');
+
+            try {
+                const mapElement = document.getElementById('mapReporte');
+                const canvas = await html2canvas(mapElement, {
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff'
+                });
+                
+                const mapImage = canvas.toDataURL('image/png');
+                const observaciones = document.getElementById('observacionesAnalisis').value || 'Sin observaciones registradas';
+                const docHtml = generarDocumentoHTML(mapImage, observaciones);
+                
+                const blob = new Blob(['\ufeff', docHtml], {
+                    type: 'application/msword'
+                });
+                
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `Reporte_Comparativo_${dictamenActual.bitacora}_${Date.now()}.doc`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                
+                alert('✅ Reporte exportado correctamente');
+                
+            } catch (error) {
+                console.error('Error generando reporte:', error);
+                alert('❌ Error al generar el reporte: ' + error.message);
+            }
+        }
+
+        function generarDocumentoHTML(mapImage, observaciones) {
+            const fecha = new Date().toLocaleDateString('es-MX', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            let interseccionesHTML = '';
+            if (interseccionesActuales.length === 0) {
+                interseccionesHTML = `
+                    <div style="background-color: #d4edda; border: 2px solid #28a745; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                        <p style="color: #155724; margin: 0; font-weight: bold;">
+                            ✅ SIN CONFLICTOS: El polígono del dictamen NO intersecta con ningún predio autorizado.
+                        </p>
+                    </div>
+                `;
+            } else {
+                interseccionesHTML = `
+                    <div style="background-color: #fff3cd; border: 2px solid #ffc107; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                        <p style="color: #856404; margin: 0 0 10px 0; font-weight: bold;">
+                            ⚠️ SE ENCONTRARON ${interseccionesActuales.length} INTERSECCIONES CON PREDIOS AUTORIZADOS
+                        </p>
+                    </div>
+                    
+                    <h3 style="color: #856404; margin-top: 30px;">Detalle de Intersecciones:</h3>
+                `;
+                
+                interseccionesActuales.forEach((item, index) => {
+                    const areaHectareas = (item.area / 10000).toFixed(4);
+                    
+                    interseccionesHTML += `
+                        <div style="background-color: #f8f9fa; border-left: 4px solid #dc3545; padding: 15px; margin: 15px 0;">
+                            <h4 style="color: #dc3545; margin-top: 0;">Intersección ${index + 1}: ${item.predio.nombre}</h4>
+                            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                                <tr>
+                                    <td style="padding: 5px; width: 40%; font-weight: bold;">Área de sobreposición:</td>
+                                    <td style="padding: 5px;">${areaHectareas} hectáreas (${item.area.toFixed(2)} m²)</td>
+                                </tr>
+                    `;
+                    
+                    if (item.predio.datos) {
+                        if (item.predio.datos['Entidad Federativa']) {
+                            interseccionesHTML += `
+                                <tr>
+                                    <td style="padding: 5px; font-weight: bold;">Estado:</td>
+                                    <td style="padding: 5px;">${item.predio.datos['Entidad Federativa']}</td>
+                                </tr>
+                            `;
+                        }
+                        if (item.predio.datos['Municipio']) {
+                            interseccionesHTML += `
+                                <tr>
+                                    <td style="padding: 5px; font-weight: bold;">Municipio:</td>
+                                    <td style="padding: 5px;">${item.predio.datos['Municipio']}</td>
+                                </tr>
+                            `;
+                        }
+                        if (item.predio.datos['Nombre del Predio']) {
+                            interseccionesHTML += `
+                                <tr>
+                                    <td style="padding: 5px; font-weight: bold;">Predio:</td>
+                                    <td style="padding: 5px;">${item.predio.datos['Nombre del Predio']}</td>
+                                </tr>
+                            `;
+                        }
+                        if (item.predio.datos['Nombre del titular']) {
+                            interseccionesHTML += `
+                                <tr>
+                                    <td style="padding: 5px; font-weight: bold;">Titular:</td>
+                                    <td style="padding: 5px;">${item.predio.datos['Nombre del titular']}</td>
+                                </tr>
+                            `;
+                        }
+                        if (item.predio.datos['Fecha de autorización']) {
+                            interseccionesHTML += `
+                                <tr>
+                                    <td style="padding: 5px; font-weight: bold;">Fecha autorización:</td>
+                                    <td style="padding: 5px;">${item.predio.datos['Fecha de autorización']}</td>
+                                </tr>
+                            `;
+                        }
+                        if (item.predio.datos['Vigencia Fecha']) {
+                            interseccionesHTML += `
+                                <tr>
+                                    <td style="padding: 5px; font-weight: bold;">Vigencia:</td>
+                                    <td style="padding: 5px;">${item.predio.datos['Vigencia Fecha']}</td>
+                                </tr>
+                            `;
+                        }
+                    }
+                    
+                    interseccionesHTML += `
+                            </table>
+                        </div>
+                    `;
+                });
+            }
+            
+            const html = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                <head>
+                    <meta charset='utf-8'>
+                    <title>Reporte Comparativo - ${dictamenActual.bitacora}</title>
+                    <style>
+                        @page {
+                            size: letter;
+                            margin: 2cm;
+                        }
+                        body {
+                            font-family: Arial, sans-serif;
+                            font-size: 11pt;
+                            line-height: 1.6;
+                            color: #000000;
+                        }
+                        h1 {
+                            color: #2c5364;
+                            text-align: center;
+                            font-size: 18pt;
+                            margin-bottom: 10px;
+                            border-bottom: 3px solid #667eea;
+                            padding-bottom: 10px;
+                        }
+                        h2 {
+                            color: #667eea;
+                            font-size: 14pt;
+                            margin-top: 25px;
+                            margin-bottom: 15px;
+                            border-bottom: 2px solid #e0e0e0;
+                            padding-bottom: 5px;
+                        }
+                        h3 {
+                            color: #2c5364;
+                            font-size: 12pt;
+                            margin-top: 20px;
+                            margin-bottom: 10px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 15px 0;
+                        }
+                        th {
+                            background-color: #667eea;
+                            color: white;
+                            padding: 10px;
+                            text-align: left;
+                            font-weight: bold;
+                        }
+                        td {
+                            padding: 8px;
+                            border: 1px solid #e0e0e0;
+                        }
+                        .comparativo-table td {
+                            width: 50%;
+                            vertical-align: top;
+                        }
+                        .header-info {
+                            text-align: center;
+                            color: #666;
+                            margin-bottom: 30px;
+                        }
+                        .map-image {
+                            width: 100%;
+                            max-width: 700px;
+                            display: block;
+                            margin: 20px auto;
+                            border: 2px solid #e0e0e0;
+                            border-radius: 5px;
+                        }
+                        .observaciones-box {
+                            background-color: #f8f9fa;
+                            border: 2px solid #667eea;
+                            padding: 15px;
+                            border-radius: 5px;
+                            margin: 20px 0;
+                        }
+                        .firma-section {
+                            margin-top: 60px;
+                            text-align: center;
+                        }
+                        .firma-line {
+                            width: 300px;
+                            border-top: 2px solid #000;
+                            margin: 40px auto 10px auto;
+                        }
+                        .page-break {
+                            page-break-after: always;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>📄 REPORTE COMPARATIVO DE DICTAMEN</h1>
+                    <div class="header-info">
+                        <p><strong>Sistema:</strong> SisGeo Dictámenes Pro v5.0</p>
+                        <p><strong>Fecha de generación:</strong> ${fecha}</p>
+                        <p><strong>Usuario:</strong> ${currentUser.nombre}</p>
+                    </div>
+                    
+                    <h2>1. INFORMACIÓN DEL DICTAMEN</h2>
+                    <table>
+                        <tr>
+                            <th style="width: 30%;">Campo</th>
+                            <th>Valor</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Número de Bitácora</strong></td>
+                            <td>${dictamenActual.bitacora}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nombre del Proyecto</strong></td>
+                            <td>${dictamenActual.nombreProyecto}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tipo de Proyecto</strong></td>
+                            <td>${dictamenActual.tipoProyecto}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dictaminador</strong></td>
+                            <td>${dictamenActual.dictaminador}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fecha del Dictamen</strong></td>
+                            <td>${new Date(dictamenActual.fecha).toLocaleDateString('es-MX')}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total de Vértices</strong></td>
+                            <td>${dictamenActual.totalVertices}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Número de Grupos</strong></td>
+                            <td>${dictamenActual.numeroGrupos || 1}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tipo de Coordenadas</strong></td>
+                            <td>${dictamenActual.tipoCoord === 'geograficas' ? 'Geográficas (GMS)' : 'UTM'}</td>
+                        </tr>
+                    </table>
+                    
+                    <h2>2. COMPARATIVO VISUAL</h2>
+                    <table class="comparativo-table">
+                        <tr>
+                            <th>🗺️ Polígono Dictamen</th>
+                            <th>📍 Capa Predios Autorizados</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p><strong>Bitácora:</strong> ${dictamenActual.bitacora}</p>
+                                <p><strong>Proyecto:</strong> ${dictamenActual.nombreProyecto}</p>
+                                <p><strong>Vértices:</strong> ${dictamenActual.totalVertices}</p>
+                                <p><strong>Grupos:</strong> ${dictamenActual.numeroGrupos || 1}</p>
+                                <p><strong>Color:</strong> Azul (línea sólida)</p>
+                                <p><strong>Opacidad:</strong> 30%</p>
+                            </td>
+                            <td>
+                                <p><strong>Total predios:</strong> ${prediosAutorizados.length}</p>
+                                <p><strong>Fuente:</strong> Autorizado.kml</p>
+                                <p><strong>Color:</strong> Rojo (línea punteada)</p>
+                                <p><strong>Opacidad:</strong> 10%</p>
+                                <p><strong>Estado:</strong> ✅ Cargado correctamente</p>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <h3>Mapa Comparativo:</h3>
+                    <img src="${mapImage}" class="map-image" alt="Mapa Comparativo">
+                    <p style="text-align: center; font-size: 9pt; color: #666;">
+                        <em>Figura 1: Visualización superpuesta del polígono del dictamen (azul) vs predios autorizados (rojo)</em>
+                    </p>
+                    
+                    <div class="page-break"></div>
+                    
+                    <h2>3. ANÁLISIS DE INTERSECCIÓN</h2>
+                    ${interseccionesHTML}
+                    
+                    <h2>4. OBSERVACIONES DEL ANÁLISIS</h2>
+                    <div class="observaciones-box">
+                        <p style="white-space: pre-wrap;">${observaciones}</p>
+                    </div>
+                    
+                    <h2>5. CONCLUSIÓN</h2>
+                    <p>
+                        ${interseccionesActuales.length === 0 ? 
+                            'El análisis comparativo indica que <strong>NO EXISTEN INTERSECCIONES</strong> entre el polígono del dictamen y los predios autorizados en la capa base. El proyecto puede proceder sin conflictos territoriales detectados.' :
+                            `El análisis comparativo detectó <strong>${interseccionesActuales.length} INTERSECCIONES</strong> entre el polígono del dictamen y predios autorizados. Se recomienda revisar en detalle cada caso de sobreposición antes de proceder con el proyecto. Es necesario realizar los ajustes correspondientes o gestionar los acuerdos necesarios con los titulares de los predios afectados.`
+                        }
+                    </p>
+                    
+                    <div class="firma-section">
+                        <div class="firma-line"></div>
+                        <p><strong>${dictamenActual.dictaminador}</strong></p>
+                        <p>Dictaminador</p>
+                        <p style="font-size: 9pt; color: #666;">${fecha}</p>
+                    </div>
+                    
+                    <div style="margin-top: 40px; padding: 15px; background-color: #f8f9fa; border-radius: 5px; font-size: 9pt; color: #666;">
+                        <p style="margin: 5px 0;"><strong>Información del Sistema:</strong></p>
+                        <p style="margin: 5px 0;">• Sistema: SisGeo Dictámenes Pro v5.0</p>
+                        <p style="margin: 5px 0;">• Archivo: ${dictamenActual.nombreArchivo}</p>
+                        <p style="margin: 5px 0;">• Fecha de registro: ${new Date(dictamenActual.fechaRegistro).toLocaleString('es-MX')}</p>
+                        <p style="margin: 5px 0;">• Usuario: ${currentUser.nombre} (${currentUser.email})</p>
+                        <p style="margin: 5px 0;">• Reporte generado: ${new Date().toLocaleString('es-MX')}</p>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            return html;
+        }
+
+        // ===== UTILIDADES =====
+        function descargarArchivo(contenido, nombreArchivo, tipo) {
+            const blob = new Blob([contenido], { type: tipo });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = nombreArchivo;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function actualizarInfoDatos() {
+            const size = new Blob([localStorage.getItem('dictamenes') || '[]']).size;
+            const sizeKB = (size / 1024).toFixed(2);
+            const dictamenesCount = dictamenes.length;
+            document.getElementById('dataInfo').textContent = `${dictamenesCount} registros (${sizeKB} KB)`;
+        }
+    </script>
+</body>
+</html>
